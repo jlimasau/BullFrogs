@@ -22,6 +22,8 @@ class Main : AppCompatActivity() {
     private var giggle1 = true
     private var twoggle = true
     private var threeggle = true
+
+    private var froggie = true
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -63,6 +65,7 @@ class Main : AppCompatActivity() {
         var pos = findViewById<TextView>(R.id.pos)
         var crit = findViewById<TextView>(R.id.critical)
         var noncrit = findViewById<TextView>(R.id.noncrit)
+        var caution = findViewById<ImageView>(R.id.caution)
 
         date.text = date1
 
@@ -125,6 +128,8 @@ class Main : AppCompatActivity() {
                 apple.visibility = View.VISIBLE
                 statusUpdate.visibility = View.VISIBLE
                 rest.visibility = View.VISIBLE
+                caution.visibility = View.VISIBLE
+
                 dogDays.visibility = View.INVISIBLE
             }
 
@@ -160,6 +165,8 @@ class Main : AppCompatActivity() {
                 apple.visibility = View.INVISIBLE
                 rest.visibility = View.INVISIBLE
                 statusUpdate.visibility = View.INVISIBLE
+                caution.visibility = View.INVISIBLE
+
 
 
             } else if (toggle == 4) {
@@ -233,6 +240,21 @@ class Main : AppCompatActivity() {
                 rest.animate().scaleX(1F)
                 rest.animate().scaleY(1F)
                 threeggle = true
+            }
+
+        }
+
+        caution.setOnClickListener {
+            if (froggie) {
+                //this means I'm eating
+                caution.animate().scaleX(2.3F)
+                caution.animate().scaleY(2.3F)
+                froggie = false
+            }
+            else if (!froggie){
+                caution.animate().scaleX(1F)
+                caution.animate().scaleY(1F)
+                froggie = true
             }
 
         }
