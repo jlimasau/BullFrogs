@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,294 +10,657 @@
     tools:context=".presentation.Main">
 
 
-        <!--      <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toTopOf="@+id/Bullfrog"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.116"
-            app:layout_constraintStart_toEndOf="@+id/time1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.901" />
--->
 
-        <ImageView
+ <!--       <RelativeLayout
+            android:id="@+id/logotoggle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+                >
+
+&lt;!&ndash;
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+
+
+                    app:srcCompat="@drawable/apple" />&ndash;&gt;
+
+        </RelativeLayout>-->
+
+<!--        <RelativeLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+
+
+
+        </RelativeLayout>-->
+
+
+    <!--todo leave visible-->
+    <ImageView
             android:id="@+id/Bullfrog"
             android:layout_width="52dp"
             android:layout_height="46dp"
             android:scaleX="2"
             android:scaleY="2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
 
+        android:visibility="visible"
+                 app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.502"
             app:srcCompat="@drawable/frog1" />
+
+
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/dateTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:visibility="invisible"
+            >
+                <TextClock
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+               />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/time"
+                    android:layout_alignParentRight="true"
+                    android:text="xx/yy/zz" />
+
+
+
+        </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/modeScreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <EditText
+                        android:id="@+id/statusUpdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginTop="27dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_marginBottom="145dp"
+                        android:ems="10"
+                        android:gravity="bottom"
+                        android:hint="Status: "
+                        android:inputType="textMultiLine" />
+
+
+                    <ImageView
+                        android:id="@+id/gear"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="26dp"
+                        android:layout_marginBottom="60dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/gear" />
+
+
+                    <ImageView
+                        android:id="@+id/starMode"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="35dp"
+                        android:layout_marginBottom="145dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/starmode" />
+
+                    <ImageView
+                        android:id="@+id/food"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginBottom="112dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/apple" />
+
+                    <ImageView
+                        android:id="@+id/rest"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="32dp"
+
+                        android:layout_marginBottom="79dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/rest" />
+
+                    <ImageView
+                        android:id="@+id/goSkate"
+                        android:layout_width="23dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="40dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/skateboard" />
+
+                    <ImageView
+                        android:id="@+id/caution"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="35dp"
+                        android:layout_marginBottom="55dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/caution" />
+
+
+                </RelativeLayout>
+
+
+
+
+
+
+<!--todo keep visible-->
+    <RelativeLayout
+        android:id="@+id/somethingElse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+
+
+        >
+
+
+<!--        <ImageButton
+            android:id="@+id/ticket"
+            android:layout_width="30dp"
+            android:layout_height="24dp"
+            android:layout_centerHorizontal="true"
+
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/caution" />-->
 
         <ImageView
             android:id="@+id/phone"
             android:layout_width="48dp"
             android:layout_height="53dp"
-
-
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.089"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
             app:srcCompat="@android:drawable/stat_sys_phone_call" />
+
+        <RatingBar
+            android:id="@+id/stars"
+            style="@android:style/Widget.Holo.RatingBar"
+            android:layout_width="231dp"
+            android:layout_height="43dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="25dp"
+            android:clickable="true"
+            android:maxWidth="2dp"
+            android:maxHeight="200dp"
+            android:minWidth="2dp"
+            android:minHeight="2000dp"
+            android:numStars="5"
+            android:scaleX=".5251"
+            android:scaleY=".51"
+            android:scrollbarSize="40dp"
+            android:stepSize="1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+        <SeekBar
+            android:id="@+id/volumeLever"
+            style="@android:style/Widget.Material.SeekBar.Discrete"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:rotation="90"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:overScrollMode="always"
+
+
+            />
+
 
         <TextView
             android:id="@+id/time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reset days"
-            android:visibility="invisible"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.808" />
-
-        <!--        <LinearLayout
-            android:layout_width="95dp"
-            android:layout_height="422dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Bullfrog"
-            app:layout_constraintTop_toTopOf="parent">-->
-
-
-
-        <RatingBar
-            android:id="@+id/stars"
-            style="@android:style/Widget.Holo.RatingBar"
-            android:layout_width="237dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:maxWidth="2dp"
-            android:maxHeight="200dp"
-            android:minWidth="2dp"
-            android:minHeight="2000dp"
-            android:numStars="5"
-            android:scaleX=".5251"
-            android:scaleY=".51"
-            android:scrollbarSize="40dp"
-            android:stepSize="1"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/Bullfrog"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageButton
-            android:id="@+id/ticket"
-            android:layout_width="44dp"
-            android:layout_height="40dp"
-            app:layout_constraintBottom_toTopOf="@+id/stars"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:visibility="invisible"
-            app:srcCompat="@android:drawable/stat_notify_error" />
-
-        <RatingBar
-            android:id="@+id/degree"
-            style="@android:style/Widget.Holo.RatingBar"
-            android:layout_width="244dp"
-            android:layout_height="42dp"
-            android:clickable="true"
-            android:maxWidth="2dp"
-            android:maxHeight="200dp"
-            android:minWidth="2dp"
-            android:minHeight="2000dp"
-            android:numStars="5"
-            android:scaleX=".5251"
-            android:scaleY=".51"
-            android:scrollbarSize="40dp"
-            android:stepSize="1"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Bullfrog"
-            app:layout_constraintVertical_bias="0.166"
-            tools:layout_editor_absoluteX="-55dp" />
-
-        <TextClock
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.977"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="xx/yy/zz"
-            app:layout_constraintBottom_toTopOf="@+id/time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.936"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <EditText
-            android:id="@+id/peaceTalks"
-            android:layout_width="166dp"
-            android:layout_height="49dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/stars"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ticket" />
-
-        <ImageView
-            android:id="@+id/starMode"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.151"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.274"
-            app:srcCompat="@drawable/starmode"
-            android:visibility="invisible"
-            />
-
-
-        <EditText
-            android:id="@+id/statusUpdate"
-            android:layout_width="130dp"
-            android:layout_height="42dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.608"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.086"
-
-
-            />
-
-        <SeekBar
-            android:id="@+id/volumeLever"
-            style="@android:style/Widget.Material.SeekBar.Discrete"
-            android:layout_width="83dp"
-            android:layout_height="140dp"
-            android:layout_marginStart="8dp"
-
-            android:fadingEdgeLength="100dp"
-            android:forceHasOverlappingRendering="true"
-            android:overScrollMode="always"
-            android:rotation="90"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarSize="4dp"
-            android:verticalScrollbarPosition="right"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Bullfrog"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.31" />
-
-
-        <ImageView
-            android:id="@+id/food"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.151"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.448"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/apple" />
-
-        <ImageView
-            android:id="@+id/rest"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.155"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"
-            app:layout_constraintVertical_bias="0.643"
-            app:srcCompat="@drawable/rest" />
+            android:text="Reset days" />
 
         <TextView
             android:id="@+id/pos"
             android:layout_width="34dp"
             android:layout_height="12dp"
-            android:layout_marginTop="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="40dp"
             android:text="Positivity"
             android:textSize="8sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.803"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/critical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
-            android:text="Critical"
-            android:textSize="8sp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.767"
-            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/noncrit"
-            android:layout_width="42dp"
-            android:layout_height="13dp"
-            android:layout_marginBottom="28dp"
-            android:text="nonCritical"
-            android:textSize="8sp"
-
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.205"
-            app:layout_constraintStart_toStartOf="parent" />
+            />
 
         <ImageView
-            android:id="@+id/caution"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.156"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/caution"
-            app:layout_constraintVertical_bias="0.823" />
+            android:id="@+id/ticket12"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:clickable="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/caution" />
 
+
+        </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/somethingElse1"
+        android:visibility="invisible"
+        >
+        <!--todo-->
+
+        <ImageView
+            android:id="@+id/phone1"
+            android:layout_width="48dp"
+            android:layout_height="53dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            app:srcCompat="@android:drawable/stat_sys_phone_call" />
+
+        <RatingBar
+            android:id="@+id/stars1"
+            style="@android:style/Widget.Material.Light.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="-76dp"
+            android:layout_marginTop="30dp"
+            android:clickable="true"
+            android:numStars="6"
+            android:rating="3"
+            android:scaleX=".4"
+            android:scaleY=".4"
+            android:scrollbarSize="70dp"
+            android:stepSize=".5"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+  <!--      <RatingBar
+            android:id="@+id/degree"
+            style="@android:style/Widget.Holo.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:layout_alignParentStart="true"
+
+            android:layout_marginTop="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-10dp"
+            android:clickable="true"
+            android:maxWidth="2dp"
+            android:maxHeight="200dp"
+            android:minWidth="2dp"
+            android:minHeight="2000dp"
+            android:numStars="5"
+            android:scaleX=".5251"
+            android:scaleY=".51"
+            android:scrollbarSize="40dp"
+            android:stepSize="1"
+            app:layout_constraintBottom_toBottomOf="parent" />-->
+
+
+
+
+        <SeekBar
+            android:id="@+id/volumeLever1"
+            style="@android:style/Widget.Material.SeekBar.Discrete"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:rotation="90"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:overScrollMode="always"
+
+
+            />
+
+
+        <TextView
+            android:id="@+id/time12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:text="Reset days" />
+
+        <TextView
+            android:id="@+id/pos1"
+            android:layout_width="34dp"
+            android:layout_height="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="40dp"
+            android:text="Positivity"
+            android:textSize="8sp"
+
+
+            />
+
+
+
+
+
+    </RelativeLayout>
+
+
+    <!--keep this icon-->
+    <ImageView
+        android:id="@+id/ticket1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="false"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/caution" />
+
+
+
+        <RelativeLayout
+            android:id="@+id/ticketTakeitnFixIt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
+            <ImageView
+                android:id="@+id/QT"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:clickable="true"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@id/hue"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentBottom="true"
+                app:srcCompat="@drawable/gear" />
+
+            <SeekBar
+                android:id="@+id/progress"
+                style="@android:style/Widget.Material.SeekBar.Discrete"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:overScrollMode="always"
+                android:layout_marginTop="5dp" />
+
+
+            <ImageView
+                android:id="@+id/hue"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                app:srcCompat="@drawable/good"/>
+
+
+
+
+
+
+                <EditText
+                    android:id="@+id/potentialSolutions"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:hint="Scenario: \n \nPotential Solutions:"
+                    android:layout_marginLeft="60dp"
+                    android:textSize="10dp"
+                    android:layout_centerVertical="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    />
+
+
+
+              <!--  <EditText
+                    android:id="@+id/peaceTalks"
+                    android:layout_width="166dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="Situation: "
+                    android:layout_marginTop="20dp"
+                    android:textSize="10dp"
+                    android:inputType="textMultiLine"
+                    android:layout_centerHorizontal="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />-->
+
+
+                <!--<RatingBar
+                    android:id="@+id/degree"
+                    style="@android:style/Widget.Holo.RatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="41dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginBottom="33dp"
+                    android:clickable="true"
+                    android:maxWidth="2dp"
+                    android:maxHeight="200dp"
+                    android:minWidth="2dp"
+                    android:minHeight="2000dp"
+                    android:numStars="5"
+                    android:scaleX=".5251"
+                    android:scaleY=".51"
+                    android:scrollbarSize="40dp"
+                    android:stepSize="1"
+                    app:layout_constraintBottom_toBottomOf="parent" />-->
+
+
+           <!--     <TextView
+                    android:id="@+id/critical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Critical"
+                    android:textSize="8sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="160dp"
+
+                    />
+
+
+                <TextView
+                    android:id="@+id/noncrit"
+                    android:layout_width="42dp"
+                    android:layout_height="13dp"
+
+                    android:text="nonCritical"
+                    android:textSize="8sp"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="40dp"
+
+                   />-->
+
+
+        </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/colorMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        >
+
+        <ImageView
+            android:id="@+id/yellowcard"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/yellowcard"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+
+            />
+        <ImageView
+            android:id="@+id/redcard"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/redcard"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/yellowcard"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+
+            />
+
+        <ImageView
+            android:id="@+id/good"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/good"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/yellowcard"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+
+            />
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/theBSLog"
+        android:visibility="invisible"
+        >
+
+
+
+
+            <ListView
+                android:id="@+id/bsl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="30dp"
+                android:overScrollMode="always"
+                android:layout_marginBottom="10dp"
+               />
+            <!--Recycler view is recommended instead of ListView-->
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/currentItemColor"
+            app:srcCompat="@drawable/good"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="10dp"
+
+            />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+    <!--   <ImageView
+           android:id="@+id/skateboard"
+           android:layout_width="23dp"
+           android:layout_height="23dp"
+           android:layout_marginBottom="36dp"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.48"
+           app:layout_constraintStart_toStartOf="parent"
+           app:srcCompat="@drawable/skateboard"
+           android:visibility="invisible"
+           />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
