@@ -55,27 +55,11 @@ class Main : AppCompatActivity() {
     var testerMode = true
     var pressesMinus = false
     var falseA = false
-
     var tgoal = 1000 *60 * 25
-    var reversed = true
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
-
-
-        //hour long goal
-        //check write safety's safety
-
-
-        //plus for phone only?
-        //added falseA
-
-        //todo test new colors
-        //todo fix write
         //make watchface
-        //todo add milisec
 
         super.onCreate(savedInstanceState)
 
@@ -106,7 +90,6 @@ class Main : AppCompatActivity() {
         var statusApprove = findViewById<TextView>(R.id.statusApprove)
         var caution = findViewById<ImageView>(R.id.caution)
         var goSkate = findViewById<ImageView>(R.id.goSkate)
-        var progress = findViewById<SeekBar>(R.id.progress)
         var hue = findViewById<ImageView>(R.id.hue)
         var colorMenu = findViewById<RelativeLayout>(R.id.colorMenu)
         var good = findViewById<ImageView>(R.id.good)
@@ -180,7 +163,7 @@ class Main : AppCompatActivity() {
             colorMenu.visibility = View.INVISIBLE
             color1 = 1
             logIt(potentialSolutions.text.toString(), color1)
-            //writeNewPost("jls", "jls", "lime", potentialSolutions.text.toString(),null)
+            writeNewPost("jls", "jls", "lime", potentialSolutions.text.toString(),null)
         }
 
         update1.setOnClickListener {
@@ -218,6 +201,8 @@ class Main : AppCompatActivity() {
             }
 
             starRating.rating = 3F
+
+
 
             clean()
 
@@ -272,10 +257,12 @@ class Main : AppCompatActivity() {
         }
 
         pos.setOnClickListener {
-            writeNewPost("jls", "Rating", "Stars: ",starRating.rating.toString() + " " + dateTime.toString(),starRating.toString().toInt())
+            logIt("Stars:" + starRating.rating.toString() + "/6 " + dateTime.toString(), 0)
+            writeNewPost("jls", "Rating", "Stars: ",starRating.rating.toString() + "/6 " + dateTime.toString(),starRating.toString().toInt())
         }
 
         statusApprove.setOnClickListener {
+            logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
             writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
         }
 
@@ -291,7 +278,8 @@ class Main : AppCompatActivity() {
                 Log.d("lily", "reset")
 
             }
-            writeNewPost("jls", "jls", "phone", "hang up",null)
+            logIt("Hang up " + dateTime.toString(), 0)
+            writeNewPost("jls", "jls", "phone", "Hang up " + dateTime.toString(),null)
         }
 
         starMode.setOnClickListener {
@@ -435,13 +423,15 @@ class Main : AppCompatActivity() {
                 caution.animate().scaleX(2.3F)
                 caution.animate().scaleY(2.3F)
                 froggie = false
-                writeNewPost("jls", "Mode", "cautionMode", "on, safety first",null)
+                writeNewPost("jls", "Mode", "cautionMode", "on, safety first" + dateTime,null)
+                logIt("cautionMode: on, safety first", 3)
             }
             else if (!froggie){
                 caution.animate().scaleX(1F)
                 caution.animate().scaleY(1F)
                 froggie = true
-                writeNewPost("jls", "Mode", "cautionMode", "off",null)
+                writeNewPost("jls", "Mode", "cautionMode", "off" + dateTime,null)
+                logIt("cautionMode: now off", 0)
             }
         }
 
@@ -478,6 +468,8 @@ class Main : AppCompatActivity() {
                 QTBtn.animate().scaleY(2F)
                 QT = 1
                 var theItem = potentialSolutions.text.toString() + "\n" + date1 + "\n" + time.text.toString() + " level: " + color1.toString() +  " "
+                logIt(potentialSolutions.text.toString(), color1)
+                writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
                 sharedPreferences.edit().putString("current", theItem).commit()
                 sharedPreferences.edit().putInt("QT", 1).commit()
 
@@ -616,7 +608,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
             potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
             logIt("overwrite last count(s)", 0)
-
+            writeNewPost("jls", date1, time.text.toString(), "overwrite last count(s)", null)
             pressesMinus = true
 
         }
@@ -635,7 +627,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
             potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
             logIt("Tick: " + QTCount + "\n", 0)
-
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -647,8 +639,14 @@ class Main : AppCompatActivity() {
 
         }
 
+        //use regular plus if switch is already on
+        //todo test in field
         plus2.setOnClickListener {
-            switch()
+            if(testerMode == true) {
+            }
+            else{
+                switch()
+            }
             QTCount = sharedPreferences.getInt("QTCount", 1)
 
             QTCount++
@@ -656,7 +654,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
             potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
             logIt("Tick: " + QTCount + "\n", 0)
-
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -666,7 +664,11 @@ class Main : AppCompatActivity() {
                 v.vibrate(250)
             }
 
-            switch()
+
+            if(testerMode == false){
+                switch()
+            }
+
         }
 
         var change = findViewById<TextView>(R.id.change)
@@ -676,7 +678,7 @@ class Main : AppCompatActivity() {
 
             testletters.toString().lowercase()
 
-            var abslist = arrayOf("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
+            var abslist = arrayOf(" ", "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
             var append1 = mutableListOf<Int>()
             for(i in 0..testletters.length-1){
                 for(j in 0 .. abslist.size-1)
