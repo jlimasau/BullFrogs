@@ -1,15 +1,15 @@
 package com.example.bullfrogs.presentation
-import android.content.Intent
+import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.GestureDetector
-import android.view.KeyEvent
-import android.view.MotionEvent
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.RatingBar
@@ -19,86 +19,82 @@ import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.set
-import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.bullfrogs.R
 import com.example.bullfrogs.databinding.ActivityMainBinding
-import com.google.android.gms.common.util.Strings
+import com.google.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.database.database
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalDate
-import kotlin.jvm.java
+import java.time.LocalDateTime
+import kotlin.concurrent.timerTask
+import kotlin.random.Random
 
 
 class Main : AppCompatActivity() {
+    private lateinit var database: DatabaseReference
     private lateinit var mDetector: GestureDetector
     private var toggle = 1
-
     private var giggle1 = true
     private var twoggle = true
     private var threeggle = true
-
     private var froggie = true
     private var toggle5 = true
-    private var toggle6 = true
-    private var sevenoggle = true
-
+    private var funnyvar3 = true
+    private var funnyvar2 = true
+    private var funnyvar = true
     var returnFrog = false
-
     var listnum = 0
     var bslist = mutableListOf<String>()
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
+    var testerMode = true
+    var pressesMinus = false
+    var falseA = false
+
+    var tgoal = 1000 *60 * 25
+    var reversed = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-//todo create log
 
 
-        //todo work on settings screen
-        // todo make sure retapping the ticket icon goes to the home screen
+
+        //hour long goal
+        //check write safety's safety
 
 
-        //todo finish skateboard
+        //plus for phone only?
+        //added falseA
 
-        //Todo make face
-        //todo broadcast signal
-
-        //todo lower rating sensitivity
-        //todo make text field larger
-        //
-
-        //todo submit button, save button for potential solutions
+        //todo test new colors
+        //todo fix write
+        //make watchface
         //todo add milisec
-        //todo quick ticket listen to button
-
-        // do not display overlay
-
-        //unlimit animations
 
         super.onCreate(savedInstanceState)
 
-        //set up binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setContentView(R.layout.activity_main)
 
-
         var modeScreen = findViewById<RelativeLayout>(R.id.modeScreen)
         var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
-      //  var somethingElse = findViewById<RelativeLayout>(R.id.somethingElse)
         var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
-
-        var volumeLever = findViewById<SeekBar>(R.id.volumeLever)
         val TheFrog = findViewById<ImageView>(R.id.Bullfrog)
-        val phone = findViewById<ImageView>(R.id.phone)
+        val fone = findViewById<ImageView>(R.id.phone1)
         var reset = false
-        var dogDays = findViewById<TextView>(R.id.time1)
-        var stars = findViewById<RatingBar>(R.id.stars)
+        var dogDays = findViewById<TextView>(R.id.time12)
+        var starRating = findViewById<RatingBar>(R.id.starRating)
         var statusUpdate = findViewById<EditText>(R.id.statusUpdate)
         var apple = findViewById<ImageView>(R.id.food)
         var rest = findViewById<ImageView>(R.id.rest)
         val ticket = findViewById<ImageView>(R.id.ticket1)
-        //val ticket1 = findViewById<ImageView>(R.id.dontTkit)
         var date = findViewById<TextView>(R.id.date)
         var time = findViewById<TextClock>(R.id.time)
         var starMode = findViewById<ImageView>(R.id.starMode)
@@ -107,64 +103,41 @@ class Main : AppCompatActivity() {
         var year = LocalDate.now().year.toString()
         var date1 = "$month/$day/$year"
         var pos = findViewById<TextView>(R.id.pos)
-       // var crit = findViewById<TextView>(R.id.critical)
-       // var noncrit = findViewById<TextView>(R.id.noncrit)
+        var statusApprove = findViewById<TextView>(R.id.statusApprove)
         var caution = findViewById<ImageView>(R.id.caution)
-        var settings = findViewById<ImageView>(R.id.gear)
-       // var skateboard = findViewById<ImageView>(R.id.skateboard)
-        var showSkateboard = 1
         var goSkate = findViewById<ImageView>(R.id.goSkate)
-
         var progress = findViewById<SeekBar>(R.id.progress)
-       // var logotoggle = findViewById<RelativeLayout>(R.id.logotoggle)
-        //var layout2 = findViewById<RelativeLayout>(R.id.layout2)
         var hue = findViewById<ImageView>(R.id.hue)
         var colorMenu = findViewById<RelativeLayout>(R.id.colorMenu)
-
-
-
         var good = findViewById<ImageView>(R.id.good)
         var yellowcard = findViewById<ImageView>(R.id.yellowcard)
         var redcard = findViewById<ImageView>(R.id.redcard)
+        var lime = findViewById<ImageView>(R.id.lime)
+        var update1 = findViewById<ImageView>(R.id.update)
+        var note2self = findViewById<ImageView>(R.id.appissue)
         var color1 = 1
-
         var theBSLog = findViewById<RelativeLayout>(R.id.theBSLog)
-
-        //var potsolution = potentialSolutions.text
-
         var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
         var bsl = findViewById<ListView>(R.id.bsl)
-       // var bslist = arrayOf("1","2","3")
-
         var currentItemColor = findViewById<ImageView>(R.id.currentItemColor)
-
-
-
-
         var QTBtn = findViewById<ImageView>(R.id.QT)
-
-
-        var boolean1 = true
-
+        var studyMode = findViewById<ImageView>(R.id.studyMode)
 
 
 
 
 
-
+        database = Firebase.database.reference
+       //writeNewUser("jls", "jls", "jls@firebase.com")
         date.text = date1
 
 
+        if(testerMode == true) {
+            Log.d("lily", "testerMode")
 
-
-
-        Log.d("lily2" , progress.toString())
-
+        }
 
         sharedPreferences = getSharedPreferences("daysSince", MODE_PRIVATE)
-
-
-
 
 
        hue.setOnClickListener {
@@ -173,105 +146,66 @@ class Main : AppCompatActivity() {
            colorMenu.bringToFront()
        }
 
-
         good.setOnClickListener {
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.good)
             colorMenu.visibility = View.INVISIBLE
             color1 = 1
             logIt(potentialSolutions.text.toString(), color1)
-
-
+            writeNewPost("jls", "jls", "green", potentialSolutions.text.toString(),null)
         }
+
         yellowcard.setOnClickListener {
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.yellowcard)
             colorMenu.visibility = View.INVISIBLE
             color1 = 2
             logIt(potentialSolutions.text.toString(), color1)
-
-
+            writeNewPost("jls", "jls", "yellow", potentialSolutions.text.toString(),null)
         }
+
         redcard.setOnClickListener {
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.redcard)
             colorMenu.visibility = View.INVISIBLE
             color1 = 3
             logIt(potentialSolutions.text.toString(), color1)
-
             Log.d("lily", potentialSolutions.text.toString() + color1)
-
+            writeNewPost("jls", "jls", "red", potentialSolutions.text.toString(),null)
         }
 
-        //logIt("This is a test", 3)
+        lime.setOnClickListener {
+            Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
+            hue.setImageResource(R.drawable.lime)
+            colorMenu.visibility = View.INVISIBLE
+            color1 = 1
+            logIt(potentialSolutions.text.toString(), color1)
+            //writeNewPost("jls", "jls", "lime", potentialSolutions.text.toString(),null)
+        }
 
-        // logotoggle.visibility = View.VISIBLE
+        update1.setOnClickListener {
+            Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
+            hue.setImageResource(R.drawable.updates)
+            colorMenu.visibility = View.INVISIBLE
+            color1 = 1
+            logIt(potentialSolutions.text.toString(), color1)
+            writeNewPost("jls", "jls", "update", potentialSolutions.text.toString(),null)
+        }
 
-       //todo controls should be visible
-       // ticket.visibility = View.VISIBLE
-       // ticket1.visibility = View.VISIBLE
+        note2self.setOnClickListener {
+            Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
+            hue.setImageResource(R.drawable.nonissue)
+            colorMenu.visibility = View.INVISIBLE
+            color1 = 1
+            logIt(potentialSolutions.text.toString(), color1)
+            writeNewPost("jls", "jls", "note2self", potentialSolutions.text.toString(),null)
+        }
 
         dateTime.visibility = View.VISIBLE
 
-        if (reset) {
-            var theMath = 360 - 132 + 180
-            phone.animate().rotation(theMath.toFloat())
-            reset = false
+        TheFrog.setOnLongClickListener {
+            switch2(true)
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //todo
-     /*   //
-        var QTBtn = findViewById<ImageView>(R.id.QT)
-
-        var QT = sharedPreferences.getInt("QT", 1)
-
-        var QTCount = 1
-
-        if(QT == 1){
-            QTCount++
-        }
-        QTBtn.setOnClickListener {
-            var boolean1 = true
-            if(boolean1){
-                QTBtn.animate().scaleX(2F)
-                QT = 1
-                var theItem = potentialSolutions.text.toString() + "\n\n" + date1 + "\n" + time.text.toString() + " " + color1.toString()
-                sharedPreferences.edit().putString("current", theItem).commit()
-                sharedPreferences.edit().putInt("QT", 1).commit()
-            }
-            else if(!boolean1){
-                QTBtn.animate().scaleX(1F)
-                QT = 0
-                QTCount -1
-
-                sharedPreferences.edit().putString(bsl.size.toString(),sharedPreferences.getString("current", "No Data") + QTCount)
-                sharedPreferences.edit().putInt("QT", 0).commit()
-            }
-        }*/
-
-
-
-
-
-
-
-
-
-
-
-
 
         TheFrog.setOnClickListener {
 
@@ -283,11 +217,9 @@ class Main : AppCompatActivity() {
 
             }
 
-            stars.rating = 0F
+            starRating.rating = 3F
 
             clean()
-
-
 
             toggle++
             if (toggle == 2) {
@@ -296,35 +228,22 @@ class Main : AppCompatActivity() {
                 clean()
                 modeScreen.visibility = View.VISIBLE
                 modeScreen.bringToFront()
-
-
-
-        /*
-               if(showSkateboard == 2){
-                    goSkate.visibility = View.VISIBLE
-                    goSkate.bringToFront()
-                }*/
-
-
-
-
-
+                goSkate.visibility = View.VISIBLE
+                goSkate.bringToFront()
+                fone.visibility = View.VISIBLE
+                fone.bringToFront()
 
 
 
             } else if (toggle == 3) {
+                fone.animate().rotation(0F)
                 Log.d("lily", "something else")
                 clean()
                 dateTime.visibility = View.INVISIBLE
                 var newlayout = findViewById<RelativeLayout>(R.id.somethingElse1)
                 newlayout.visibility = View.VISIBLE
                 newlayout.bringToFront()
-                //var ticket3 = findViewById<ImageView>(R.id.ticket1)
                 ticket.visibility = View.VISIBLE
-                /*        controls.visibility = View.VISIBLE
-                        controls.bringToFront()*/
-
-
 
             }
             else if (toggle == 4){
@@ -332,17 +251,14 @@ class Main : AppCompatActivity() {
                 TheFrog.animate().scaleY(.5F)
                 TheFrog.animate().x(10F)
                 returnFrog = true
-
                 theBSLog.visibility = View.VISIBLE
                 theBSLog.bringToFront()
-
+               // orderList()
                 dateTime.visibility = View.INVISIBLE
-
             }
             else if (toggle == 5){
 
                 //back to home screen
-
                 Log.d("lily2", "home screen")
                 clean()
                 dateTime.visibility = View.VISIBLE
@@ -350,41 +266,67 @@ class Main : AppCompatActivity() {
             }
         /*    else if (toggle == 6){
 
-                //back to home screen
-
-                Log.d("lily2", "home screen")
-                clean()
-                dateTime.visibility = View.VISIBLE
-               *//* var intent1 = Intent(this, Main::class.java)
-
-                startActivity(intent1)*//*
 
             }*/
 
         }
 
+        pos.setOnClickListener {
+            writeNewPost("jls", "Rating", "Stars: ",starRating.rating.toString() + " " + dateTime.toString(),starRating.toString().toInt())
+        }
 
-        phone.setOnClickListener {
-            phone.animate().rotation((132).toFloat())
-            reset = true
+        statusApprove.setOnClickListener {
+            writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
         }
 
 
+        fone.setOnClickListener {
+            if(reset == false){
+                fone.animate().rotation(90F)
+                reset = true
+            }
+            else if (reset) {
+                fone.animate().rotation(0F)
+                reset = false
+                Log.d("lily", "reset")
+
+            }
+            writeNewPost("jls", "jls", "phone", "hang up",null)
+        }
+
         starMode.setOnClickListener {
-            if (toggle6) {
+            if (funnyvar2) {
                 //this means I'm eating
                 starMode.animate().scaleX(2.3F)
                 starMode.animate().scaleY(2.3F)
-                toggle6 = false
+                funnyvar2 = false
+                writeNewPost("jls", "Mode", "starMode", "on",null)
+
             }
-            else if (!toggle6){
+            else if (!funnyvar2){
                 starMode.animate().scaleX(1F)
                 starMode.animate().scaleY(1F)
-                toggle6 = true
+                funnyvar2 = true
+                writeNewPost("jls", "Mode", "starMode", "off",null)
             }
-
         }
 
+        studyMode.setOnClickListener {
+            if (funnyvar2) {
+                //this means I'm studying
+                studyMode.animate().scaleX(2.3F)
+                studyMode.animate().scaleY(2.3F)
+                funnyvar3 = false
+                writeNewPost("jls", "Mode", "studyMode", "on: I'm working on computer science",null)
+
+            }
+            else if (!funnyvar2){
+                studyMode.animate().scaleX(1F)
+                studyMode.animate().scaleY(1F)
+                funnyvar3 = true
+                writeNewPost("jls", "Mode", "studyMode", "off",null)
+            }
+        }
 
         apple.setOnClickListener {
             if (threeggle) {
@@ -392,17 +334,16 @@ class Main : AppCompatActivity() {
                 apple.animate().scaleX(2.3F)
                 apple.animate().scaleY(2.3F)
                 threeggle = false
+                writeNewPost("jls", "Mode", "eatingMode", "on",null)
+
             }
             else if (!threeggle){
                 apple.animate().scaleX(1F)
                 apple.animate().scaleY(1F)
                 threeggle = true
+                writeNewPost("jls", "Mode", "eatingMode", "off",null)
             }
-
         }
-
-
-
 
         rest.setOnClickListener {
             if (twoggle) {
@@ -410,11 +351,14 @@ class Main : AppCompatActivity() {
                 rest.animate().scaleX(2.3F)
                 rest.animate().scaleY(2.3F)
                 twoggle = false
+                writeNewPost("jls", "Mode", "restMode", "on",null)
+
             }
             else if (!twoggle){
                 rest.animate().scaleX(1F)
                 rest.animate().scaleY(1F)
                 twoggle = true
+                writeNewPost("jls", "Mode", "restMode", "off",null)
             }
 
         }
@@ -458,20 +402,32 @@ class Main : AppCompatActivity() {
         }
         */
         goSkate.setOnClickListener {
-            if(sevenoggle) {
+            if(funnyvar) {
                 goSkate.animate().rotation(360F)
                 goSkate.animate().scaleX(2.3F)
                 goSkate.animate().scaleY(2.3F)
+                funnyvar = false
+                writeNewPost("jls", "Mode", "skatingMode", "on, safety first",null)
+
             }
-            else{
-                goSkate.animate().rotation(360F)
+            else if (!funnyvar){
+                goSkate.animate().rotation(0F)
                 goSkate.animate().scaleX(1F)
                 goSkate.animate().scaleY(1F)
+                funnyvar = true
+                writeNewPost("jls", "Mode", "skatingMode", "off",null)
             }
         }
 
 
+        caution.setOnLongClickListener {
 
+            lights1()
+
+
+
+            return@setOnLongClickListener true
+        }
 
         caution.setOnClickListener {
             if (froggie) {
@@ -479,113 +435,66 @@ class Main : AppCompatActivity() {
                 caution.animate().scaleX(2.3F)
                 caution.animate().scaleY(2.3F)
                 froggie = false
+                writeNewPost("jls", "Mode", "cautionMode", "on, safety first",null)
             }
             else if (!froggie){
                 caution.animate().scaleX(1F)
                 caution.animate().scaleY(1F)
                 froggie = true
+                writeNewPost("jls", "Mode", "cautionMode", "off",null)
             }
+        }
 
+        ticket.setOnLongClickListener {
+            switch()
         }
 
         ticket.setOnClickListener {
             if (giggle1) {
                 //opens a ticket
-
                 ticket.visibility = View.INVISIBLE
                 TheFrog.animate().scaleX(.5F)
                 TheFrog.animate().scaleY(.5F)
                 TheFrog.animate().x(10F)
                 returnFrog = true
-
                 clean()
                 ttf.visibility = View.VISIBLE
                 ttf.bringToFront()
                 dateTime.visibility = View.VISIBLE
-
-
-
-                //giggle1 = false
-            } /*else if (!giggle1) {
-
-                //returns to control screen
-
-
-                clean()
-
-                dateTime.visibility = View.VISIBLE
-
-                //returns frog
-                //todo double check back button
-
-
-
-                //returns phone to default
-
-
-                //verify toggle = 1
-                giggle1 = true
-            } */
-            if (reset) {
-            var theMath = 360 - 132 + 180
-            phone.animate().rotation(theMath.toFloat())
-            reset = false
+            }
         }
-        }
+
         var QT = sharedPreferences.getInt("QT", 0)
-
         var QTCount = sharedPreferences.getInt("QTCount",1)
         var current1 = sharedPreferences.getString("current","")
-        if(QT == 1){
 
-            QTCount++
-            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+        dateTime.visibility = View.VISIBLE
 
-          //  var theItem =  potentialSolutions.text.toString() + "\n\n" + date1 + "\n" + time.text.toString() + " " + color1.toString()
-            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-            QTBtn.animate().scaleX(2F)
-            QTBtn.animate().scaleY(2F)
-            Toast.makeText(this, QTCount.toString(), Toast.LENGTH_SHORT).show()
-
-        }
-
-
+        //gear
         QTBtn.setOnClickListener {
-
-
-
+            QT = sharedPreferences.getInt("QT", 0)
             if(QT==0){
                 QTBtn.animate().scaleX(2F)
                 QTBtn.animate().scaleY(2F)
-
                 QT = 1
                 var theItem = potentialSolutions.text.toString() + "\n" + date1 + "\n" + time.text.toString() + " level: " + color1.toString() +  " "
                 sharedPreferences.edit().putString("current", theItem).commit()
                 sharedPreferences.edit().putInt("QT", 1).commit()
-                boolean1 = false
+
+                sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute).commit()
+                sharedPreferences.edit().putInt("anHour4mNow", LocalDateTime.now().minute + tgoal).commit()
             }
-            else if(QT==1){
+            else {
                 QTBtn.animate().scaleX(1F)
                 QTBtn.animate().scaleY(1F)
 
                 Toast.makeText(this, "Stop", Toast.LENGTH_SHORT).show()
                 QT = 0
                 QTCount -1
-               // listnum = sharedPreferences.getInt("count1", 0)
-
-               // var theItem = "Count: " + QTCount.toString() + "\n" + potentialSolutions.text.toString() + "\n\n" + date1 + "\n" + time.text.toString() + " " + color1.toString()
-
-                //sharedPreferences.getString("current", "No Data") + QTCount
-               // sharedPreferences.edit().putString(listnum.toString(), theItem)
                 sharedPreferences.edit().putInt("QT", 0).commit()
                 sharedPreferences.edit().putInt("QTCount", 1).commit()
-
-                boolean1 = true
             }
         }
-
-
-
 
 
         /*
@@ -594,8 +503,6 @@ class Main : AppCompatActivity() {
             //note to self: microneurology
         //no ai crlty*/
 
-
-
         Log.d("lily2", "days that have passed: " + sharedPreferences.getInt("dogdays", 0))
 
 
@@ -603,8 +510,6 @@ class Main : AppCompatActivity() {
         var counter = sharedPreferences.getInt("counter", 0)
         //make button or text clickable
         //set var to zero on click
-
-
         //click to reset
         dogDays.setOnClickListener {
             counter = 0
@@ -630,7 +535,10 @@ class Main : AppCompatActivity() {
 
 
 
-    /*    for(i in 1 .. 4){
+    /*
+        for changing hue color  based on level
+
+        for(i in 1 .. 4){
             var itemInList = sharedPreferences.getString(i.toString(), "1")
             if(itemInList?.contains("1") == true){
                 //list item background color is green
@@ -655,37 +563,9 @@ class Main : AppCompatActivity() {
 
 
 
-
-
-       // listnum = sharedPreferences.getInt("count1", 0)
-
-
-       // var i = 1
-        //for(i in 0.. bslist.size+1){
-
         monaLista(0)
 
-
-
-
-    /*    var i = 0
-        if(i < bslist.size) {
-            if(bslist.size.equals(0)){
-            }
-            else{
-                bslist.set(i, sharedPreferences.getString(i.toString(), "").toString())
-                i++
-            }
-        }*/
-
-
-
-
         bsl.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,bslist)
-
-
-        //bsl.getItemAtPosition(1).toString().removeSuffix("1")
-
 
         bsl.setOnItemClickListener{ parent, view, position, id ->
 
@@ -715,11 +595,113 @@ class Main : AppCompatActivity() {
         }
 
 
+        //all rewards are redeemable, open to discussion
+        //if there is one good week:
+        if(counter == 7){
+            //you win, go to a beach, a club, a new farmers market, etc
+            TheFrog.setImageResource(R.drawable.youwon)
+        }
+        //if there is one good month
+        if(counter == 30){
+            //YOU WON music festival tickets
+            TheFrog.setImageResource(R.drawable.festivaltickets)
+        }
+
+        Toast.makeText(this,  "Less is More" , Toast.LENGTH_SHORT).show()
+        var minus1 = findViewById<TextView>(R.id.minus1)
+
+        minus1.setOnClickListener {
+            var QTCount = sharedPreferences.getInt("QTCount", 1)
+            QTCount--
+            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+            logIt("overwrite last count(s)", 0)
+
+            pressesMinus = true
+
+        }
+
+        var plus1 = findViewById<TextView>(R.id.plus1)
+        var plus2 = findViewById<TextView>(R.id.plus2)
 
 
 
 
-      //  bsl.get(1).setBackgroundColor(R.drawable.good)
+        plus1.setOnClickListener {
+            QTCount = sharedPreferences.getInt("QTCount", 1)
+
+            QTCount++
+            Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
+            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+            logIt("Tick: " + QTCount + "\n", 0)
+
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            else {
+                @Suppress("DEPRECATION")
+                v.vibrate(250)
+            }
+
+        }
+
+        plus2.setOnClickListener {
+            switch()
+            QTCount = sharedPreferences.getInt("QTCount", 1)
+
+            QTCount++
+            Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
+            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+            logIt("Tick: " + QTCount + "\n", 0)
+
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            else {
+                @Suppress("DEPRECATION")
+                v.vibrate(250)
+            }
+
+            switch()
+        }
+
+        var change = findViewById<TextView>(R.id.change)
+
+        change.setOnClickListener {
+            var testletters = potentialSolutions.text
+
+            testletters.toString().lowercase()
+
+            var abslist = arrayOf("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
+            var append1 = mutableListOf<Int>()
+            for(i in 0..testletters.length-1){
+                for(j in 0 .. abslist.size-1)
+                    if (testletters.get(i).toString() == abslist.get(j)){
+                        Log.d("lily", "not here" + j)
+                        append1.add(j)
+                    }
+            }
+            Log.d("lily", "here: "  + append1.toString())
+            potentialSolutions.setText(append1.toString())
+        }
+
+       // writeNewPost("jls", "jls", time.text.toString(), "TEST current count:" + QTCount.toString(),null)
+
+
+
+
+
+
+
+
+
+
+        checkHourGoal()
+
 
 
 
@@ -729,10 +711,49 @@ class Main : AppCompatActivity() {
 
     }
 
+/*    private fun orderList() {
+        if (reversed) {
+            bslist.reverse()
+        }
+        else{
+            bslist.reverse()
+        }
+    }*/
+    private fun checkHourGoal() {
+        //the last behaviour has stopped for tgoal minutes
+
+   /*     var QT = sharedPreferences.getInt("QT", 0)
+
+        if(QT ==0) {
+            //save current time
+            sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute)
+            sharedPreferences.edit().putInt("anHour4mNow", 2+LocalDateTime.now().minute)
+        }
+*/
+        var pastDifference = sharedPreferences.getInt("pastDifference", LocalDateTime.now().minute)
+
+
+
+
+        if(sharedPreferences.getInt("anHour4mNow", tgoal + pastDifference + LocalDateTime.now().minute) < LocalDateTime.now().minute + pastDifference){
+
+            Log.d("lily", "You Did It")
+            sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute)
+            sharedPreferences.edit().putInt("anHour4mNow", LocalDateTime.now().minute + tgoal)
+
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                @Suppress("DEPRECATION")
+                v.vibrate(1000)
+            }
+        }
+    }
+
     fun monaLista(j: Int){
         //loads the list
         var bsl = findViewById<ListView>(R.id.bsl)
-
         var i = j
         var totalItems = sharedPreferences.getInt("count1", listnum)
         if (totalItems == 0 || i >= totalItems){
@@ -742,7 +763,6 @@ class Main : AppCompatActivity() {
         bslist.add(sharedPreferences.getString(i.toString(), "").toString())
         i++
         bsl.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,bslist)
-
         monaLista(i)
     }
 
@@ -753,23 +773,18 @@ class Main : AppCompatActivity() {
         var year = LocalDate.now().year.toString()
         var date1 = "$month/$day/$year"
         var time2 = findViewById<TextClock>(R.id.time)
+        var dateTime1 = findViewById<RelativeLayout>(R.id.dateTime)
 
 
         var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
         var bsl = findViewById<ListView>(R.id.bsl)
 
-
-
-
-
-
-
+        dateTime1.visibility = View.VISIBLE
 
 
         listnum = sharedPreferences.getInt("count1", 0)
 
         //sharedPreferences.edit().putString(listnum.toString(), text).commit()
-
 
         var theItem =""
         if(color1 == 0 ){
@@ -793,52 +808,47 @@ class Main : AppCompatActivity() {
     fun clean() {
         var modeScreen = findViewById<RelativeLayout>(R.id.modeScreen)
         var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
-        var somethingElse = findViewById<RelativeLayout>(R.id.somethingElse)
-        var volumeLever = findViewById<SeekBar>(R.id.volumeLever)
-        val phone = findViewById<ImageView>(R.id.phone)
-        var dogDays = findViewById<TextView>(R.id.time1)
-        var stars = findViewById<RatingBar>(R.id.stars)
+        //var somethingElse = findViewById<RelativeLayout>(R.id.somethingElse)
+        //var volumeLever = findViewById<SeekBar>(R.id.volumeLever)
+       // val fone = findViewById<ImageView>(R.id.fone)
+       // var dogDays = findViewById<TextView>(R.id.time1)
+       // var stars = findViewById<RatingBar>(R.id.stars)
         val ticket = findViewById<ImageView>(R.id.ticket1)
         //var degree = findViewById<RatingBar>(R.id.degree)
        // var PotentialSolutions1 = findViewById<EditText>(R.id.title)
-        var pos = findViewById<TextView>(R.id.pos)
+       // var pos = findViewById<TextView>(R.id.pos)
        // var crit = findViewById<TextView>(R.id.critical)
       //  var noncrit = findViewById<TextView>(R.id.noncrit)
        // var skateBoard = findViewById<ImageView>(R.id.skateboard)
         var goSkate = findViewById<ImageView>(R.id.goSkate)
         var colorMenu = findViewById<RelativeLayout>(R.id.colorMenu)
-
         var theBSLog = findViewById<RelativeLayout>(R.id.theBSLog)
-
         var ticket3 = findViewById<ImageView>(R.id.ticket1)
         var newLayout = findViewById<RelativeLayout>(R.id.somethingElse1)
-
+        var read = findViewById<ImageView>(R.id.read)
+        var blew = findViewById<ImageView>(R.id.blew)
+        colorMenu.visibility = View.INVISIBLE
         newLayout.visibility = View.INVISIBLE
         ticket3.visibility = View.INVISIBLE
-
         ttf.visibility = View.INVISIBLE
         theBSLog.visibility = View.INVISIBLE
-
-
         modeScreen.visibility = View.INVISIBLE
-        somethingElse.visibility = View.INVISIBLE
-
-        volumeLever.visibility = View.INVISIBLE
-        phone.visibility = View.INVISIBLE
+        //somethingElse.visibility = View.INVISIBLE
+        //volumeLever.visibility = View.INVISIBLE
+        //fone.visibility = View.INVISIBLE
         ticket.visibility = View.INVISIBLE
-
         goSkate.visibility = View.INVISIBLE
 
+        read.visibility = View.INVISIBLE
+        blew.visibility = View.INVISIBLE
       //  skateBoard.visibility = View.INVISIBLE
-        dogDays.visibility = View.INVISIBLE
-        stars.visibility = View.INVISIBLE
+       // dogDays.visibility = View.INVISIBLE
+        //stars.visibility = View.INVISIBLE
         //degree.visibility = View.INVISIBLE
-        pos.visibility = View.INVISIBLE
+        //pos.visibility = View.INVISIBLE
         //PotentialSolutions1.visibility = View.INVISIBLE
         //crit.visibility = View.INVISIBLE
        // noncrit.visibility = View.INVISIBLE
-
-
     }
 
 /*    @Override
@@ -851,27 +861,354 @@ class Main : AppCompatActivity() {
     @Override
     override fun onResume() {
 
+        checkHourGoal()
+
+        switch2(false)
+
+        var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
+        var TheFrog = findViewById<ImageView>(R.id.Bullfrog)
+        var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
+
+        //back to home screen
+
+        Log.d("lily2", "home screen")
+        clean()
+        if(returnFrog){
+            TheFrog.animate().scaleX(2F)
+            TheFrog.animate().scaleY(2F)
+            TheFrog.animate().x((ttf.width/2F)-(TheFrog.width/2))
+            returnFrog = false
+
+        }
+        dateTime.visibility = View.VISIBLE
+        toggle = 1
+
+        lifecycleScope.launch {
+            delay(3000)
+
         var QT = sharedPreferences.getInt("QT", 0)
         var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
         var QTBtn = findViewById<ImageView>(R.id.QT)
         var time = findViewById<TextClock>(R.id.time)
-
         var QTCount = sharedPreferences.getInt("QTCount", 1)
         var current1 = sharedPreferences.getString("current", "")
+        var day = LocalDate.now().dayOfMonth.toString()
+        var month = LocalDate.now().monthValue.toString()
+        var year = LocalDate.now().year.toString()
+        var date1 = "$month/$day/$year"
+
+        if(falseA == false){
+
         if (QT == 1) {
 
+
+
+
+
             QTCount++
+
+
+
+
+
+
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+
+
+
+
+
+
 
             //  var theItem =  potentialSolutions.text.toString() + "\n\n" + date1 + "\n" + time.text.toString() + " " + color1.toString()
             potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+            logIt("Tick: " + QTCount + "\n", 0)
             QTBtn.animate().scaleX(2F)
             QTBtn.animate().scaleY(2F)
-            Toast.makeText(this, QTCount.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@Main, "Make it count", Toast.LENGTH_SHORT).show()
+
+
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
+
+
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                @Suppress("DEPRECATION")
+                v.vibrate(250)
+            }
+/*
+
+
+            LocalDateTime.now().hour
+            LocalDateTime.now().minute
+
+
+
+            while (QTCount == sharedPreferences.getInt("holdontothis", 0)) {
+
+                sharedPreferences.edit().putInt("holdontothis", QTCount).commit()
+            }
+
+
+            lifecycleScope.launch {
+
+
+                    var timeGoal = Random.nextInt(60000 * 30, 60000 * 90).toLong()
+                    delay(timeGoal)
+                    Log.d("lily", "this much time passed: " + timeGoal)
+
+                    val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+                    } else {
+                        @Suppress("DEPRECATION")
+                        v.vibrate(500)
+                    }
+
+                }
+
+                //lifecycleScope.cancel()
+*/
+
+
+
+
+
+      /*      var hour = LocalDateTime.now().hour
+            var min = LocalDateTime.now().minute*/
+
+           // var changeInStatus = sharedPreferences.getBoolean("changeInStatus", false)
+
+
+                sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute).commit()
+
+            //todo randomize 60 min
+            //todo test with smaller value
+                sharedPreferences.edit().putInt("anHour4mNow", LocalDateTime.now().minute + tgoal).commit()
+
+
+           /*     sharedPreferences.edit().putInt("dogmin",min).commit()
+                sharedPreferences.edit().putInt("doghour", hour).commit()*/
+
+
+
+
+
+
 
         }
+
+        }
+        }
+        falseA = false
+        //checkHourGoal()
         super.onResume()
     }
+
+
+    @IgnoreExtraProperties
+    data class User(val username: String? = null, val email: String? = null) {
+        // Null default values create a no-argument default constructor, which is needed
+        // for deserialization from a DataSnapshot.
+    }
+
+
+    fun writeNewUser(userId: String, name: String, email: String) {
+        val user = User(name, email)
+
+        database.child("users").child(userId).setValue(user).addOnSuccessListener {
+             Log.d("lily", "Success")
+            }
+
+    }
+    @IgnoreExtraProperties
+    data class Post(
+        var uid: String? = "",
+        var author: String? = "",
+        var title: String? = "",
+        var body: String? = "",
+        var starCount: Int = 0,
+        //var stars: MutableMap<String, Boolean> = HashMap(),
+    ) {
+
+
+        fun toMap(): Map<String, Any?> {
+            return mapOf(
+                "uid" to uid,
+                "1 Title" to author,
+                "2 description" to title,
+                "3 message" to body,
+                "starCount" to starCount,
+                //"stars" to stars,
+            )
+        }
+    }
+
+    private fun writeNewPost(userId: String, username: String, title: String, body: String, stars: Int?) {
+        if(testerMode==false) {
+            Toast.makeText(this, "w", Toast.LENGTH_SHORT).show()
+            // Create new post at /user-posts/$userid/$postid and at
+            // /posts/$postid simultaneously
+            val key = database.child("posts").push().key
+            if (key == null) {
+                Log.w("lily", "Couldn't get push key for posts")
+                return
+            }
+
+
+            if(stars !=null){
+                val post = Post(userId, username, title, body, stars)
+                val postValues = post.toMap()
+
+                val childUpdates = hashMapOf<String, Any>(
+                    "/posts/$key" to postValues,
+                    "/user-posts/$userId/$key" to postValues,
+                )
+            }
+            else {
+
+                val post = Post(userId, username, title, body)
+                val postValues = post.toMap()
+
+                val childUpdates = hashMapOf<String, Any>(
+                    "/posts/$key" to postValues,
+                    "/user-posts/$userId/$key" to postValues,
+                )
+
+                database.updateChildren(childUpdates).addOnSuccessListener {
+                    Log.d("lily", "Success")
+                }
+            }
+        }
+    }
+
+
+    private fun switch(): Boolean {
+        if (testerMode == true) {
+            testerMode = false
+        } else if (testerMode == false) {
+            testerMode = true
+           // writeNewPost("jls", "Mode", "testingMode", "on",null)
+        }
+        Toast.makeText(this, testerMode.toString(), Toast.LENGTH_SHORT).show()
+        Log.d("lily", testerMode.toString())
+        return testerMode
+    }
+
+    private fun switch2(onOff: Boolean): Boolean {
+        if (onOff == true){
+            falseA = true
+            Toast.makeText(this,  "did nothing", Toast.LENGTH_SHORT).show()
+
+
+
+
+
+
+
+
+
+
+        }
+        else if (onOff == false){
+            falseA = false
+        }
+        return falseA
+    }
+
+
+
+
+/*    private fun resetCountDown(){
+
+
+
+
+
+        var hour = LocalDateTime.now().hour.toString()
+
+        var lastSaveHour = sharedPreferences.getInt("lsh", hour.toInt())
+        var hourCount1 = sharedPreferences.getInt("hourcounter", 0)
+
+
+
+
+        //increments when day is different to yesterday
+        if(minute.toInt() != lastSaveMinute){
+            minCount1++
+            sharedPreferences.edit().putInt("mincounter", minCount1).commit()
+        }
+        sharedPreferences.edit().putInt("lsm", minute.toInt()).commit()
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+    private fun lights1() {
+
+        var blew = findViewById<ImageView>(R.id.blew)
+        var read = findViewById<ImageView>(R.id.read)
+        var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
+        var turnoff = sharedPreferences.getBoolean("turnoff", false)
+
+        blew.setOnClickListener {
+            turnoff = sharedPreferences.edit().putBoolean("turnoff", true).commit()
+            return@setOnClickListener
+        }
+        read.setOnClickListener {
+            turnoff = sharedPreferences.edit().putBoolean("turnoff", true).commit()
+            return@setOnClickListener
+        }
+
+        if (turnoff == true) {
+            clean()
+            dateTime.visibility = View.VISIBLE
+            toggle = 1
+            turnoff = sharedPreferences.edit().putBoolean("turnoff", false).commit()
+            return
+        }
+
+        lifecycleScope.launch {
+            blew.visibility = View.VISIBLE
+            blew.bringToFront()
+            delay(250)
+            read.visibility = View.VISIBLE
+            read.bringToFront()
+            delay(250)
+            blew.bringToFront()
+            delay(250)
+            read.bringToFront()
+            delay(250)
+
+            lights1()
+        }
+
+
+    }
+
+
+
+
+
+
+
+
 }
 
 

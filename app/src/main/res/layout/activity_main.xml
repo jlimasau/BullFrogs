@@ -7,298 +7,171 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbarAlwaysDrawHorizontalTrack="false"
+    android:background="@drawable/bleh"
     tools:context=".presentation.Main">
 
 
 
- <!--       <RelativeLayout
-            android:id="@+id/logotoggle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-                >
-
-&lt;!&ndash;
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-
-
-                    app:srcCompat="@drawable/apple" />&ndash;&gt;
-
-        </RelativeLayout>-->
-
-<!--        <RelativeLayout
-            android:id="@+id/layout2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-
-
-
-        </RelativeLayout>-->
-
 
     <!--todo leave visible-->
     <ImageView
-            android:id="@+id/Bullfrog"
-            android:layout_width="52dp"
-            android:layout_height="46dp"
-            android:scaleX="2"
-            android:scaleY="2"
+        android:id="@+id/Bullfrog"
+        android:layout_width="52dp"
+        android:layout_height="46dp"
+        android:scaleX="2"
+        android:scaleY="2"
 
         android:visibility="visible"
-                 app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/frog1" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/frog1" />
 
 
-
-
-
-
-        <RelativeLayout
-            android:id="@+id/dateTime"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
-            android:visibility="invisible"
-            >
-                <TextClock
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-               />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/time"
-                    android:layout_alignParentRight="true"
-                    android:text="xx/yy/zz" />
-
-
-
-        </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/modeScreen"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:visibility="invisible">
-
-                    <EditText
-                        android:id="@+id/statusUpdate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="55dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="60dp"
-                        android:layout_marginTop="27dp"
-                        android:layout_marginEnd="14dp"
-                        android:layout_marginBottom="145dp"
-                        android:ems="10"
-                        android:gravity="bottom"
-                        android:hint="Status: "
-                        android:inputType="textMultiLine" />
-
-
-                    <ImageView
-                        android:id="@+id/gear"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="26dp"
-                        android:layout_marginBottom="60dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/gear" />
-
-
-                    <ImageView
-                        android:id="@+id/starMode"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="35dp"
-                        android:layout_marginBottom="145dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/starmode" />
-
-                    <ImageView
-                        android:id="@+id/food"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginBottom="112dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/apple" />
-
-                    <ImageView
-                        android:id="@+id/rest"
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="32dp"
-
-                        android:layout_marginBottom="79dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/rest" />
-
-                    <ImageView
-                        android:id="@+id/goSkate"
-                        android:layout_width="23dp"
-                        android:layout_height="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="40dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/skateboard" />
-
-                    <ImageView
-                        android:id="@+id/caution"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="35dp"
-                        android:layout_marginBottom="55dp"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/caution" />
-
-
-                </RelativeLayout>
-
-
-
-
-
-
-<!--todo keep visible-->
     <RelativeLayout
-        android:id="@+id/somethingElse"
+        android:id="@+id/dateTime"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:layout_marginEnd="2dp"
+        android:visibility="invisible">
 
-
-        >
-
-
-<!--        <ImageButton
-            android:id="@+id/ticket"
-            android:layout_width="30dp"
-            android:layout_height="24dp"
-            android:layout_centerHorizontal="true"
-
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/caution" />-->
-
-        <ImageView
-            android:id="@+id/phone"
-            android:layout_width="48dp"
-            android:layout_height="53dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            app:srcCompat="@android:drawable/stat_sys_phone_call" />
-
-        <RatingBar
-            android:id="@+id/stars"
-            style="@android:style/Widget.Holo.RatingBar"
-            android:layout_width="231dp"
-            android:layout_height="43dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="25dp"
-            android:clickable="true"
-            android:maxWidth="2dp"
-            android:maxHeight="200dp"
-            android:minWidth="2dp"
-            android:minHeight="2000dp"
-            android:numStars="5"
-            android:scaleX=".5251"
-            android:scaleY=".51"
-            android:scrollbarSize="40dp"
-            android:stepSize="1"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-
-        <SeekBar
-            android:id="@+id/volumeLever"
-            style="@android:style/Widget.Material.SeekBar.Discrete"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:rotation="90"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:overScrollMode="always"
-
-
-            />
-
-
-        <TextView
-            android:id="@+id/time1"
+        <TextClock
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:clickable="true"
-            android:text="Reset days" />
-
-        <TextView
-            android:id="@+id/pos"
-            android:layout_width="34dp"
-            android:layout_height="12dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="40dp"
-            android:text="Positivity"
-            android:textSize="8sp"
-
-
+            android:layout_centerVertical="true"
+            android:format12Hour="h:mm:ss a"
             />
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_alignParentRight="true"
+            android:text="xx/yy/zz" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/modeScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/statusApprove"
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp"
+            android:text="✓"
+            android:textSize="12sp"
+            android:clickable="true"
+            />
+
+        <EditText
+            android:id="@+id/statusUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="145dp"
+            android:ems="10"
+            android:gravity="bottom"
+            android:hint="Status: "
+            android:textSize="30px"
+            android:inputType="textMultiLine" />
+
+
         <ImageView
-            android:id="@+id/ticket12"
+            android:id="@+id/starMode"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:clickable="true"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginBottom="145dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/starmode" />
+
+        <ImageView
+            android:id="@+id/food"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="112dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/apple" />
+
+        <ImageView
+            android:id="@+id/rest"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="32dp"
+
+            android:layout_marginBottom="79dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/rest" />
+
+        <ImageView
+            android:id="@+id/goSkate"
+            android:layout_width="23dp"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/skateboard" />
+
+
+
+        <ImageView
+            android:id="@+id/studyMode"
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitXY"
+            android:layout_toRightOf="@id/goSkate"
+            app:srcCompat="@drawable/studymode" />
+
+        <ImageView
+            android:id="@+id/caution"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginBottom="55dp"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/caution" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
     <RelativeLayout
+        android:id="@+id/somethingElse1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/somethingElse1"
-        android:visibility="invisible"
-        >
-        <!--todo-->
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/phone1"
@@ -306,10 +179,10 @@
             android:layout_height="53dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            app:srcCompat="@android:drawable/stat_sys_phone_call" />
+            app:srcCompat="@drawable/fone" />
 
         <RatingBar
-            android:id="@+id/stars1"
+            android:id="@+id/starRating"
             style="@android:style/Widget.Material.Light.RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -325,29 +198,6 @@
             android:stepSize=".5"
             app:layout_constraintEnd_toEndOf="parent" />
 
-  <!--      <RatingBar
-            android:id="@+id/degree"
-            style="@android:style/Widget.Holo.RatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="41dp"
-            android:layout_alignParentStart="true"
-
-            android:layout_marginTop="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="-10dp"
-            android:clickable="true"
-            android:maxWidth="2dp"
-            android:maxHeight="200dp"
-            android:minWidth="2dp"
-            android:minHeight="2000dp"
-            android:numStars="5"
-            android:scaleX=".5251"
-            android:scaleY=".51"
-            android:scrollbarSize="40dp"
-            android:stepSize="1"
-            app:layout_constraintBottom_toBottomOf="parent" />-->
-
-
 
 
         <SeekBar
@@ -355,13 +205,13 @@
             style="@android:style/Widget.Material.SeekBar.Discrete"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:rotation="90"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:layout_marginTop="5dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
             android:overScrollMode="always"
+            android:rotation="90"
 
 
             />
@@ -378,289 +228,295 @@
             android:text="Reset days" />
 
         <TextView
-            android:id="@+id/pos1"
+            android:id="@+id/pos"
             android:layout_width="34dp"
-            android:layout_height="12dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="40dp"
-            android:text="Positivity"
+            android:layout_marginTop="23dp"
+            android:layout_marginRight="44dp"
+            android:text="Send \n Positivity"
             android:textSize="8sp"
+            android:lineHeight="6dp"
+            android:clickable="true"
+
 
 
             />
 
 
-
-
-
     </RelativeLayout>
 
-
-    <!--keep this icon-->
     <ImageView
         android:id="@+id/ticket1"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:visibility="invisible"
         android:layout_centerHorizontal="false"
         android:clickable="true"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/caution" />
 
 
-
-        <RelativeLayout
-            android:id="@+id/ticketTakeitnFixIt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="invisible"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+    <RelativeLayout
+        android:id="@+id/ticketTakeitnFixIt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-            <ImageView
-                android:id="@+id/QT"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:clickable="true"
-                android:layout_marginBottom="10dp"
-                android:layout_toRightOf="@id/hue"
-                android:layout_marginLeft="10dp"
-                android:layout_alignParentBottom="true"
-                app:srcCompat="@drawable/gear" />
+        <TextView
+            android:id="@+id/plus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/QT"
+            android:text="+"
+            android:textSize="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="30dp"
+            android:clickable="true"
+            android:longClickable="true"
+            />
 
-            <SeekBar
-                android:id="@+id/progress"
-                style="@android:style/Widget.Material.SeekBar.Discrete"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:overScrollMode="always"
-                android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/plus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/change"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:text="+"
+            android:textColor="#1930A9"
+            android:textSize="35dp" />
 
-
-            <ImageView
-                android:id="@+id/hue"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                app:srcCompat="@drawable/good"/>
-
-
-
-
-
-
-                <EditText
-                    android:id="@+id/potentialSolutions"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:hint="Scenario: \n \nPotential Solutions:"
-                    android:layout_marginLeft="60dp"
-                    android:textSize="10dp"
-                    android:layout_centerVertical="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-
-                    />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/QT"
+            android:text="-"
+            android:id="@+id/minus1"
+            android:textSize="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="8dp"
+            android:clickable="true"
 
 
+            />
 
-              <!--  <EditText
-                    android:id="@+id/peaceTalks"
-                    android:layout_width="166dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:hint="Situation: "
-                    android:layout_marginTop="20dp"
-                    android:textSize="10dp"
-                    android:inputType="textMultiLine"
-                    android:layout_centerHorizontal="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />-->
-
-
-                <!--<RatingBar
-                    android:id="@+id/degree"
-                    style="@android:style/Widget.Holo.RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="41dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="-10dp"
-                    android:layout_marginBottom="33dp"
-                    android:clickable="true"
-                    android:maxWidth="2dp"
-                    android:maxHeight="200dp"
-                    android:minWidth="2dp"
-                    android:minHeight="2000dp"
-                    android:numStars="5"
-                    android:scaleX=".5251"
-                    android:scaleY=".51"
-                    android:scrollbarSize="40dp"
-                    android:stepSize="1"
-                    app:layout_constraintBottom_toBottomOf="parent" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_toLeftOf="@id/hue"
+            android:text="*"
+            android:id="@+id/change"
+            android:textSize="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
+            />
 
 
-           <!--     <TextView
-                    android:id="@+id/critical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/QT"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/hue"
+            android:clickable="true"
+            android:longClickable="true"
+            app:srcCompat="@drawable/gear" />
 
-                    android:text="Critical"
-                    android:textSize="8sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginLeft="160dp"
-
-                    />
-
-
-                <TextView
-                    android:id="@+id/noncrit"
-                    android:layout_width="42dp"
-                    android:layout_height="13dp"
-
-                    android:text="nonCritical"
-                    android:textSize="8sp"
-
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginLeft="40dp"
-
-                   />-->
+        <SeekBar
+            android:id="@+id/progress"
+            style="@android:style/Widget.Material.SeekBar.Discrete"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            android:overScrollMode="always" />
 
 
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/hue"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/good" />
+
+
+        <EditText
+            android:id="@+id/potentialSolutions"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Scenario: \n \nPotential Solutions:"
+            android:inputType="textMultiLine"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/colorMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        >
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/yellowcard"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/yellowcard"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/lime"
             android:layout_marginBottom="40dp"
             android:clickable="true"
+            app:srcCompat="@drawable/yellowcard"
 
             />
+
         <ImageView
             android:id="@+id/redcard"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/redcard"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/yellowcard"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="40dp"
+            android:layout_toRightOf="@+id/yellowcard"
             android:clickable="true"
-
+            app:srcCompat="@drawable/redcard"
             />
 
         <ImageView
             android:id="@+id/good"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/good"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/yellowcard"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="40dp"
             android:clickable="true"
-
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/good"
             />
-    </RelativeLayout>
-
-
-
-
-
-
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/theBSLog"
-        android:visibility="invisible"
-        >
-
-
-
-
-            <ListView
-                android:id="@+id/bsl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="30dp"
-                android:overScrollMode="always"
-                android:layout_marginBottom="10dp"
-               />
-            <!--Recycler view is recommended instead of ListView-->
 
 
         <ImageView
+            android:id="@+id/lime"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:id="@+id/currentItemColor"
-            app:srcCompat="@drawable/good"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="40dp"
 
-            android:layout_marginTop="10dp"
-
+            android:layout_toRightOf="@id/good"
+            android:clickable="true"
+            app:srcCompat="@drawable/lime"
             />
 
+        <ImageView
+        android:id="@+id/appissue"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_toLeftOf="@+id/good"
+        android:clickable="true"
+        app:srcCompat="@drawable/nonissue"
+        />
 
+        <ImageView
+        android:id="@+id/update"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="40dp"
+        android:layout_toLeftOf="@+id/appissue"
+        android:clickable="true"
+        app:srcCompat="@drawable/updates"
+        />
 
 
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/theBSLog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
 
+        <ListView
+            android:id="@+id/bsl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="always"
+            android:stackFromBottom="true"
+            />
+        <!--Recycler view is recommended instead of ListView-->
 
 
+        <ImageView
+            android:id="@+id/currentItemColor"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+
+            app:srcCompat="@drawable/good"
+
+            />
 
 
+    </RelativeLayout>
 
 
-    <!--   <ImageView
-           android:id="@+id/skateboard"
-           android:layout_width="23dp"
-           android:layout_height="23dp"
-           android:layout_marginBottom="36dp"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.48"
-           app:layout_constraintStart_toStartOf="parent"
-           app:srcCompat="@drawable/skateboard"
-           android:visibility="invisible"
-           />-->
+    <ImageView
+        android:id="@+id/blew"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/blew"
+        android:scaleY="100"
+        android:visibility="invisible"
+
+        />
+
+    <ImageView
+        android:id="@+id/read"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/read"
+        android:scaleY="100"
+        android:visibility="invisible"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

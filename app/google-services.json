@@ -1,0 +1,31 @@
+{
+  "project_info": {
+    "project_number": "621287867514",
+    "firebase_url": "https://bullfrogs1-default-rtdb.firebaseio.com",
+    "project_id": "bullfrogs1",
+    "storage_bucket": "bullfrogs1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621287867514:android:43133ad833d3e06dc0e7c3",
+        "android_client_info": {
+          "package_name": "com.example.bullfrogs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIbQjU7tWazkL46YQX4DrBSNwjYOlplk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+
+  ],
+  "configuration_version": "1"
+}

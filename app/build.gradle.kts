@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("com.android.application")
+    id("com.google.gms.google-services") version "4.4.4"
+    id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -63,8 +64,19 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+    // Import the Firebase BoM to manage your library versions
+
+
+    // Add the dependency for the Realtime Database library
+    // When using the BoM, you don't specify a version for the library
+    implementation("com.google.firebase:firebase-database:22.0.1")
+
+    // Add the Kotlin extensions (ktx) library for database functionality.
+    // Note: The KTX library is still used for specific extension functions,
+    // but its version is managed by the BoM.
 }
