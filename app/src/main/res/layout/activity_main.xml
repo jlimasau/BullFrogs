@@ -93,6 +93,17 @@
             android:textSize="30px"
             android:inputType="textMultiLine" />
 
+        <ImageView
+            android:id="@+id/nebulizer"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+          android:layout_marginBottom="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/nebulizer"
+
+            />
 
         <ImageView
             android:id="@+id/starMode"
@@ -248,15 +259,16 @@
 
     <ImageView
         android:id="@+id/ticket1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="false"
         android:clickable="true"
         android:visibility="invisible"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/caution" />
+        app:srcCompat="@drawable/tickets1" />
 
 
     <RelativeLayout
@@ -278,7 +290,7 @@
             android:textSize="35dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="25dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="40dp"
             android:clickable="true"
             android:longClickable="true"
             />
@@ -289,7 +301,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/change"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginRight="5dp"
             android:clickable="true"
             android:text="+"
@@ -304,7 +316,7 @@
             android:id="@+id/minus1"
             android:textSize="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="35dp"
             android:layout_marginLeft="8dp"
             android:clickable="true"
 
@@ -319,7 +331,7 @@
             android:id="@+id/change"
             android:textSize="45dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginRight="15dp"
             android:clickable="true"
             />
@@ -467,7 +479,9 @@
         android:id="@+id/theBSLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="invisible"
+
+        >
 
 
         <ListView
@@ -480,6 +494,8 @@
             android:layout_marginBottom="10dp"
             android:overScrollMode="always"
             android:stackFromBottom="true"
+
+
             />
         <!--Recycler view is recommended instead of ListView-->
 

@@ -3,6 +3,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
@@ -19,6 +20,7 @@ import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.bullfrogs.R
 import com.example.bullfrogs.databinding.ActivityMainBinding
@@ -29,10 +31,16 @@ import com.google.firebase.database.database
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.Properties
 import kotlin.concurrent.timerTask
 import kotlin.random.Random
+
 
 
 class Main : AppCompatActivity() {
@@ -55,11 +63,12 @@ class Main : AppCompatActivity() {
     var testerMode = true
     var pressesMinus = false
     var falseA = false
-    var tgoal = 1000 *60 * 25
+    var tgoal = 1000 *60 * 15
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         //make watchface
+
 
         super.onCreate(savedInstanceState)
 
@@ -105,6 +114,7 @@ class Main : AppCompatActivity() {
         var currentItemColor = findViewById<ImageView>(R.id.currentItemColor)
         var QTBtn = findViewById<ImageView>(R.id.QT)
         var studyMode = findViewById<ImageView>(R.id.studyMode)
+        var nebulizer = findViewById<ImageView>(R.id.nebulizer)
 
 
 
@@ -113,11 +123,17 @@ class Main : AppCompatActivity() {
         database = Firebase.database.reference
        //writeNewUser("jls", "jls", "jls@firebase.com")
         date.text = date1
+        var main1 = findViewById<ConstraintLayout>(R.id.main)
 
 
         if(testerMode == true) {
+
+            main1.setBackgroundColor(R.drawable.blew)
             Log.d("lily", "testerMode")
 
+        }
+        else{
+            main1.setBackgroundColor(R.drawable.bleh)
         }
 
         sharedPreferences = getSharedPreferences("daysSince", MODE_PRIVATE)
@@ -129,6 +145,7 @@ class Main : AppCompatActivity() {
            colorMenu.bringToFront()
        }
 
+        //card adds date and time
         good.setOnClickListener {
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.good)
@@ -222,7 +239,7 @@ class Main : AppCompatActivity() {
 
             } else if (toggle == 3) {
                 fone.animate().rotation(0F)
-                Log.d("lily", "something else")
+               // Log.d("lily", "something else")
                 clean()
                 dateTime.visibility = View.INVISIBLE
                 var newlayout = findViewById<RelativeLayout>(R.id.somethingElse1)
@@ -238,13 +255,15 @@ class Main : AppCompatActivity() {
                 returnFrog = true
                 theBSLog.visibility = View.VISIBLE
                 theBSLog.bringToFront()
-               // orderList()
+                Log.d("lily", bslist.toString() + " HERE's THE LIST")
+
+                // orderList()
                 dateTime.visibility = View.INVISIBLE
             }
             else if (toggle == 5){
 
                 //back to home screen
-                Log.d("lily2", "home screen")
+              //  Log.d("lily2", "home screen")
                 clean()
                 dateTime.visibility = View.VISIBLE
                 toggle = 1
@@ -257,15 +276,33 @@ class Main : AppCompatActivity() {
         }
 
         pos.setOnClickListener {
-            logIt("Stars:" + starRating.rating.toString() + "/6 " + dateTime.toString(), 0)
+            logIt("Stars:" + starRating.rating.toString() + "/6 ", 0)
             writeNewPost("jls", "Rating", "Stars: ",starRating.rating.toString() + "/6 " + dateTime.toString(),starRating.toString().toInt())
         }
 
-        statusApprove.setOnClickListener {
-            logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
-            writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
-        }
+        var status1 = sharedPreferences.getBoolean("status1", false)
 
+
+        statusApprove.setOnClickListener {
+
+            if(statusUpdate.toString() == ""){
+                status1 = sharedPreferences.edit().putBoolean("status1", false).commit()
+            }
+            else{
+                status1 = sharedPreferences.edit().putBoolean("status1", true).commit()
+                writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
+                logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
+                sharedPreferences.edit().putString("statusUpdate" , statusUpdate.toString()).commit()
+
+
+            }
+        }
+        statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
+
+
+        if(status1) {
+            Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
+        }
 
         fone.setOnClickListener {
             if(reset == false){
@@ -408,12 +445,30 @@ class Main : AppCompatActivity() {
         }
 
 
+        nebulizer.setOnClickListener {
+            var modeActivated = sharedPreferences.getBoolean("modeActivated", false)
+            if(!modeActivated){
+                Toast.makeText(this, "Quick Tickets is ON", Toast.LENGTH_SHORT).show()
+                nebulizer.animate().scaleY(2.3F)
+                nebulizer.animate().scaleX(2.3F)
+                sharedPreferences.edit().putBoolean("modeActivated", true).commit()
+                sharedPreferences.edit().putString("modeVar","Project Nebula count:").commit()
+
+            }
+            else{
+
+                //note for the future: download the sharedpref log then search this string among tickets to see data. it should smell like the original product. You can ID them a few seconds before each timestaamp for an upgrade. There are rewards
+                Toast.makeText(this, "Quick Tickets is OFF", Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putBoolean("modeActivated", false).commit()
+                nebulizer.animate().scaleX(1F)
+                nebulizer.animate().scaleY(1F)
+
+            }
+        }
+
         caution.setOnLongClickListener {
 
             lights1()
-
-
-
             return@setOnLongClickListener true
         }
 
@@ -437,6 +492,7 @@ class Main : AppCompatActivity() {
 
         ticket.setOnLongClickListener {
             switch()
+
         }
 
         ticket.setOnClickListener {
@@ -461,6 +517,7 @@ class Main : AppCompatActivity() {
         dateTime.visibility = View.VISIBLE
 
         //gear
+        //just tap to save day no need for final post
         QTBtn.setOnClickListener {
             QT = sharedPreferences.getInt("QT", 0)
             if(QT==0){
@@ -557,7 +614,8 @@ class Main : AppCompatActivity() {
 
         monaLista(0)
 
-        bsl.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,bslist)
+        bsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
+
 
         bsl.setOnItemClickListener{ parent, view, position, id ->
 
@@ -599,7 +657,6 @@ class Main : AppCompatActivity() {
             TheFrog.setImageResource(R.drawable.festivaltickets)
         }
 
-        Toast.makeText(this,  "Less is More" , Toast.LENGTH_SHORT).show()
         var minus1 = findViewById<TextView>(R.id.minus1)
 
         minus1.setOnClickListener {
@@ -620,14 +677,29 @@ class Main : AppCompatActivity() {
 
 
         plus1.setOnClickListener {
-            QTCount = sharedPreferences.getInt("QTCount", 1)
 
+            var modeCount = sharedPreferences.getInt("modeCount", 0)
+            var modeActivated = sharedPreferences.getBoolean("modeActivated", false)
+            var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
+
+            QTCount = sharedPreferences.getInt("QTCount", 1)
             QTCount++
             Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
-            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-            logIt("Tick: " + QTCount + "\n", 0)
-            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
+
+
+            if (modeActivated == true){
+                modeCount++
+                Toast.makeText(this@Main, "QTC: " + QTCount.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+                logIt(modeVar + modeCount + "\n", 0) //includes date, time, level
+                writeNewPost("jls", date1, time.text.toString(), modeVar + modeCount, null)
+            }
+
+            potentialSolutions.setText("Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString() + date1) //if you want to add a note after hue adds date time
+            logIt("Tick: " + QTCount + "\n" + current1 + "\n", 0)
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString() + " " + current1, null)
+
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -636,7 +708,6 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(250)
             }
-
         }
 
         //use regular plus if switch is already on
@@ -647,14 +718,32 @@ class Main : AppCompatActivity() {
             else{
                 switch()
             }
-            QTCount = sharedPreferences.getInt("QTCount", 1)
 
+
+            //should match plus1
+
+            var modeCount = sharedPreferences.getInt("modeCount", 0)
+            var modeActivated = sharedPreferences.getBoolean("modeActivated", false)
+            var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
+
+            QTCount = sharedPreferences.getInt("QTCount", 1)
             QTCount++
             Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
-            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-            logIt("Tick: " + QTCount + "\n", 0)
-            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
+
+
+            if (modeActivated == true){
+                modeCount++
+                Toast.makeText(this@Main, "QTC: " + QTCount.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+                logIt(modeVar + modeCount + "\n", 0) //includes date, time, level
+                writeNewPost("jls", date1, time.text.toString(), modeVar + modeCount, null)
+            }
+
+            potentialSolutions.setText("Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString() + date1) //if you want to add a note after hue adds date time
+            logIt("Tick: " + QTCount + "\n" + current1 + "\n", 0)
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString() + " " + current1, null)
+
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -663,6 +752,27 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(250)
             }
+      /*
+         QTCount = sharedPreferences.getInt("QTCount", 1)
+
+            QTCount++
+            Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
+            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+            potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+            logIt("Tick: " + QTCount + "\n" + current1 + "\n", 0)
+            writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(250, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            else {
+                @Suppress("DEPRECATION")
+                v.vibrate(250)
+            }*/
+
+
+
+
 
 
             if(testerMode == false){
@@ -711,6 +821,22 @@ class Main : AppCompatActivity() {
 
 
 
+
+
+           // var currentItemColor = findViewById<ImageView>(R.id.currentItemColor)
+
+        currentItemColor.setOnClickListener(){
+
+            saveSharedPreferencestoExternal(this, "daysSince", "bsl" + month + day + year)
+            Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+
+
+
     }
 
 /*    private fun orderList() {
@@ -745,10 +871,10 @@ class Main : AppCompatActivity() {
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE))
+                v.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
                 @Suppress("DEPRECATION")
-                v.vibrate(1000)
+                v.vibrate(2000)
             }
         }
     }
@@ -804,24 +930,12 @@ class Main : AppCompatActivity() {
         sharedPreferences.edit().putInt("count1", listnum).commit()
        // bslist.add("")
 
-        Log.d("lily", bslist.toString() + " HERE's THE LIST")
 
     }
     fun clean() {
         var modeScreen = findViewById<RelativeLayout>(R.id.modeScreen)
         var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
-        //var somethingElse = findViewById<RelativeLayout>(R.id.somethingElse)
-        //var volumeLever = findViewById<SeekBar>(R.id.volumeLever)
-       // val fone = findViewById<ImageView>(R.id.fone)
-       // var dogDays = findViewById<TextView>(R.id.time1)
-       // var stars = findViewById<RatingBar>(R.id.stars)
         val ticket = findViewById<ImageView>(R.id.ticket1)
-        //var degree = findViewById<RatingBar>(R.id.degree)
-       // var PotentialSolutions1 = findViewById<EditText>(R.id.title)
-       // var pos = findViewById<TextView>(R.id.pos)
-       // var crit = findViewById<TextView>(R.id.critical)
-      //  var noncrit = findViewById<TextView>(R.id.noncrit)
-       // var skateBoard = findViewById<ImageView>(R.id.skateboard)
         var goSkate = findViewById<ImageView>(R.id.goSkate)
         var colorMenu = findViewById<RelativeLayout>(R.id.colorMenu)
         var theBSLog = findViewById<RelativeLayout>(R.id.theBSLog)
@@ -835,29 +949,14 @@ class Main : AppCompatActivity() {
         ttf.visibility = View.INVISIBLE
         theBSLog.visibility = View.INVISIBLE
         modeScreen.visibility = View.INVISIBLE
-        //somethingElse.visibility = View.INVISIBLE
-        //volumeLever.visibility = View.INVISIBLE
-        //fone.visibility = View.INVISIBLE
         ticket.visibility = View.INVISIBLE
         goSkate.visibility = View.INVISIBLE
-
         read.visibility = View.INVISIBLE
         blew.visibility = View.INVISIBLE
-      //  skateBoard.visibility = View.INVISIBLE
-       // dogDays.visibility = View.INVISIBLE
-        //stars.visibility = View.INVISIBLE
-        //degree.visibility = View.INVISIBLE
-        //pos.visibility = View.INVISIBLE
-        //PotentialSolutions1.visibility = View.INVISIBLE
-        //crit.visibility = View.INVISIBLE
-       // noncrit.visibility = View.INVISIBLE
+
     }
 
-/*    @Override
-    override fun onRestart() {
-        monaLista(0)
-        super.onRestart()
-    }*/
+
 
 
     @Override
@@ -882,11 +981,14 @@ class Main : AppCompatActivity() {
             returnFrog = false
 
         }
+        //to go back to first screen on resume
+
         dateTime.visibility = View.VISIBLE
         toggle = 1
 
         lifecycleScope.launch {
-            delay(3000)
+            delay(2500)
+            //this causes someone to h me
 
         var QT = sharedPreferences.getInt("QT", 0)
         var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
@@ -905,6 +1007,12 @@ class Main : AppCompatActivity() {
 
 
 
+            var modeCount = sharedPreferences.getInt("modeCount", 0)
+            var modeActivated = sharedPreferences.getBoolean("modeActivated", false)
+
+            var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
+
+
 
 
             QTCount++
@@ -912,22 +1020,31 @@ class Main : AppCompatActivity() {
 
 
 
+            if (modeActivated == true){
+                modeCount++
+                Toast.makeText(this@Main, "QTC: " + QTCount.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+                logIt(modeVar + modeCount + "\n", 0) //includes date, time, level
+                writeNewPost("jls", date1, time.text.toString(), modeVar + modeCount, null)
+
+
+            }
+         /*   else{
+               // to show count
+             Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
+
+            }*/
+
 
 
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
 
-
-
-
-
-
-
             //  var theItem =  potentialSolutions.text.toString() + "\n\n" + date1 + "\n" + time.text.toString() + " " + color1.toString()
             potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-            logIt("Tick: " + QTCount + "\n", 0)
+            logIt("Tick: " + QTCount + "\n" + current1 + "\n", 0)
             QTBtn.animate().scaleX(2F)
             QTBtn.animate().scaleY(2F)
-            Toast.makeText(this@Main, "Make it count", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this@Main, "Make it count", Toast.LENGTH_SHORT).show()
 
 
             writeNewPost("jls", date1, time.text.toString(), "current count:" + QTCount.toString(), null)
@@ -1088,16 +1205,23 @@ class Main : AppCompatActivity() {
 
 
     private fun switch(): Boolean {
+        var main1 = findViewById<ConstraintLayout>(R.id.main)
+
         if (testerMode == true) {
             testerMode = false
+            main1.setBackgroundColor(R.drawable.blew)
         } else if (testerMode == false) {
             testerMode = true
-           // writeNewPost("jls", "Mode", "testingMode", "on",null)
+
+            main1.setBackgroundColor(R.drawable.bleh)
+
+            // writeNewPost("jls", "Mode", "testingMode", "on",null)
         }
         Toast.makeText(this, testerMode.toString(), Toast.LENGTH_SHORT).show()
-        Log.d("lily", testerMode.toString())
+        Log.d("lily", "testerMode: " + testerMode.toString())
         return testerMode
     }
+
 
     private fun switch2(onOff: Boolean): Boolean {
         if (onOff == true){
@@ -1207,7 +1331,48 @@ class Main : AppCompatActivity() {
 
 
 
+fun saveSharedPreferencestoExternal(context: Context, prefsName: String, fileName: String) {
+    Log.d("lily", "SP")
 
+    val preferences = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+    val keys = preferences.all
+    val properties = Properties()
+
+    for((key, value) in keys) {
+        properties.setProperty(key, value.toString())
+
+    }
+    try {
+
+        val externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(externalDir, fileName)
+        Log.d("lily", "SP2")
+
+        if (!externalDir.exists()) {
+            Log.d("lily", "SP3")
+
+            externalDir.mkdirs()
+            Log.d("lily", "SP make dir")
+
+        }
+        Log.d("lily", "SP4")
+        val fileOut = FileOutputStream(file)
+        properties.storeToXML(fileOut, "External Preferences")
+        fileOut.close()
+        Log.d("lily", "SP saved to" + file.absolutePath)
+    }
+    catch( e: FileNotFoundException) {
+        e.printStackTrace()
+
+    }
+    catch(e: IOException){
+        e.printStackTrace()
+    }
+
+
+
+
+}
 
 
 
