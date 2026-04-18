@@ -65,6 +65,11 @@ import kotlin.math.abs
 //emoji should retain size after close, gear
 
 
+//make it look more proffessional
+
+
+//sharedpref is located in /data/data/com.example.bullfrogs/shared_prefs/daysSince.xml
+
 class Main : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var toggle = 6
@@ -171,6 +176,9 @@ class Main : AppCompatActivity() {
 
         var volumelever1 = findViewById<SeekBar>(R.id.volumeLever1)
         volumelever1.progress = volumelever1.width/2
+
+        //var daycounter = 0
+
 
 
         database = Firebase.database.reference
@@ -287,7 +295,7 @@ class Main : AppCompatActivity() {
             hue.setImageResource(R.drawable.nonissue)
             colorMenu.visibility = View.INVISIBLE
             color1 = 0
-            logIt(potentialSolutions.text.toString(), color1)
+            logIt("note to self: " + potentialSolutions.text.toString(), color1)
             writeNewPost("jls", "jls", "note2self", potentialSolutions.text.toString(),null)
         }
 
@@ -749,7 +757,7 @@ class Main : AppCompatActivity() {
 
                 sharedPreferences.edit().putString("modeVar","Reeses mode issue count: ").commit()
 
-                turnOffMode(15)
+                turnOffMode(5)
 
 
 
@@ -846,7 +854,7 @@ class Main : AppCompatActivity() {
 
                 //save minute when clicked on then compare current minute to saved minute if greater than set time for mode then turn off and reset counter
 
-                turnOffMode(15)
+                turnOffMode(20)
 
 
 
@@ -921,7 +929,7 @@ class Main : AppCompatActivity() {
                 sharedPreferences.edit().putBoolean("funnyvar3", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","smoke testing mode issue count: ").commit()
-                turnOffMode(5)
+                turnOffMode(10)
 
 
             }
@@ -1257,6 +1265,9 @@ class Main : AppCompatActivity() {
 
         var lastSaveDate = sharedPreferences.getInt("lsd", day.toInt())
         var counter = sharedPreferences.getInt("counter", 0)
+
+        var daycounter = sharedPreferences.getInt("daycounter", 0)
+
         //make button or text clickable
         //set var to zero on click
         //long click to reset
@@ -1269,9 +1280,20 @@ class Main : AppCompatActivity() {
         }
 
         //increments when day is different to yesterday
+
+
+
+
+
+
         if(day.toInt() != lastSaveDate){
             counter++
             sharedPreferences.edit().putInt("counter", counter).commit()
+
+
+            daycounter++
+            sharedPreferences.edit().putInt("daycounter", daycounter).commit()
+
 
             //reset counters
             sharedPreferences.edit().putInt("QTCount", 0).commit()
@@ -1350,6 +1372,7 @@ class Main : AppCompatActivity() {
             //You win a prize, choose an outing, a request, vote on one thing
             ticket.setImageResource(R.drawable.winner1)
         }
+
 
 
 
@@ -2326,6 +2349,7 @@ class Main : AppCompatActivity() {
 
 
 
+        //the buttons
         var modesButton = findViewById<TextView>(R.id.modesButton)
         var phoneButton = findViewById<TextView>(R.id.phoneButton)
         var bslistButton = findViewById<TextView>(R.id.bslistbutton)
@@ -2338,7 +2362,51 @@ class Main : AppCompatActivity() {
 
         var stop = findViewById<ImageView>(R.id.stop)
         var off = findViewById<ImageView>(R.id.off)
+        var lost = findViewById<ImageView>(R.id.lost)
 
+        var bye = findViewById<ImageView>(R.id.bye)
+        var turnitoff = findViewById<ImageView>(R.id.turnitoff)
+
+
+
+
+
+        bye.setOnClickListener {
+            Toast.makeText(this, "bye", Toast.LENGTH_SHORT).show()
+            mediaPlayer = MediaPlayer.create(this, R.raw.bye)
+            Log.d("lily", "bye")
+            mediaPlayer?.setVolume(1f,1f)
+            mediaPlayer?.start()
+
+        }
+
+
+        //turns off their bbgn
+        turnitoff.setOnClickListener {
+            Toast.makeText(this, "turn it off", Toast.LENGTH_SHORT).show()
+            mediaPlayer = MediaPlayer.create(this, R.raw.turnitoff)
+            Log.d("lily", "turn it off")
+            mediaPlayer?.setVolume(1f,1f)
+            mediaPlayer?.start()
+
+        }
+
+
+
+
+
+
+
+
+        lost.setOnClickListener {
+            //make this a song
+            Toast.makeText(this, "you lost", Toast.LENGTH_SHORT).show()
+            mediaPlayer = MediaPlayer.create(this, R.raw.lost)
+            Log.d("lily", "they lost")
+            mediaPlayer?.setVolume(1f,1f)
+            mediaPlayer?.start()
+
+        }
 
         stop.setOnClickListener {
             //make this a song
@@ -2551,6 +2619,72 @@ class Main : AppCompatActivity() {
 
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+        //todo confirm this works
+
+        if(daycounter == 1){
+
+            sharedPreferences.edit().putInt("daycounter", 0).commit()
+
+
+            QT13.text = ""
+            QT14.text = ""
+            QT15.text = ""
+            QT16.text = ""
+            QT17.text = ""
+            QT18.text = ""
+
+
+            sharedPreferences.edit().putString("QTB13","      ").commit()
+            sharedPreferences.edit().putString("QTB14","      ").commit()
+            sharedPreferences.edit().putString("QTB15","      ").commit()
+            sharedPreferences.edit().putString("QTB16","      ").commit()
+            sharedPreferences.edit().putString("QTB17","      ").commit()
+            sharedPreferences.edit().putString("QTB18","      ").commit()
+        }
+
+
+
+
+
+
+  /*      //in the future replace with append and commas
+        val externalDir1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val savedList = "savedbsl" + month + day + year + ".txt"
+        val file = File(externalDir1, savedList)
+        file.writeText(bslist.joinToString("\n" ))*/
+
+       /* var newlist = bslist
+
+        for(i in 0 until newlist.size) {
+            newlist.get(i).plus(",")
+        }
+        Log.d("lily",newlist.toString())
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2822,12 +2956,22 @@ class Main : AppCompatActivity() {
 
         var lastSaveDate = sharedPreferences.getInt("lsd", day.toInt())
         var counter = sharedPreferences.getInt("counter", 0)
+        var daycounter = sharedPreferences.getInt("daycounter", 0)
+
         var feedback1 = findViewById<EditText>(R.id.feedback)
         //make button or text clickable
         //set var to zero on click
         //long click to reset
 
         var starRating = findViewById<RatingBar>(R.id.starRating)
+
+
+        var QT13 = findViewById<TextView>(R.id.thirteen)
+        var QT14 = findViewById<TextView>(R.id.fourteen)
+        var QT15 = findViewById<TextView>(R.id.fifteen)
+        var QT16 = findViewById<TextView>(R.id.sixteen)
+        var QT17 = findViewById<TextView>(R.id.seventeen)
+        var QT18 = findViewById<TextView>(R.id.eighteen)
 
 
         feedback1.setText("")
@@ -2837,6 +2981,10 @@ class Main : AppCompatActivity() {
         if(day.toInt() != lastSaveDate){
             counter++
             sharedPreferences.edit().putInt("counter", counter).commit()
+
+            daycounter++
+            sharedPreferences.edit().putInt("daycounter", daycounter).commit()
+
 
             //reset counters
             sharedPreferences.edit().putInt("QTCount", 0).commit()
@@ -2868,7 +3016,27 @@ class Main : AppCompatActivity() {
         }
         sharedPreferences.edit().putInt("lsd", day.toInt()).commit()
 
+        if(daycounter == 1){
 
+            sharedPreferences.edit().putInt("daycounter", 0).commit()
+
+
+            QT13.text = ""
+            QT14.text = ""
+            QT15.text = ""
+            QT16.text = ""
+            QT17.text = ""
+            QT18.text = ""
+
+
+            sharedPreferences.edit().putString("QTB13","      ").commit()
+            sharedPreferences.edit().putString("QTB14","      ").commit()
+            sharedPreferences.edit().putString("QTB15","      ").commit()
+            sharedPreferences.edit().putString("QTB16","      ").commit()
+            sharedPreferences.edit().putString("QTB17","      ").commit()
+            sharedPreferences.edit().putString("QTB18","      ").commit()
+
+        }
 
         turnOffMode(0)
         resize()
