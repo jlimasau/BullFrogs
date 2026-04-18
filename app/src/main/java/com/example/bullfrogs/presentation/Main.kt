@@ -571,6 +571,14 @@ class Main : AppCompatActivity() {
         if(day.toInt() != lastSaveDate){
             counter++
             sharedPreferences.edit().putInt("counter", counter).commit()
+
+            //todo put button refresher here
+
+
+
+
+
+
         }
         sharedPreferences.edit().putInt("lsd", day.toInt()).commit()
         dogDays.text = counter.toString()
@@ -837,7 +845,44 @@ class Main : AppCompatActivity() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
 
 /*    private fun orderList() {
         if (reversed) {
