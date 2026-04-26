@@ -2211,7 +2211,7 @@ class Main : AppCompatActivity() {
 
 
         input1.setOnLongClickListener {
-            input1.text = ""
+            input1.setText("")
             return@setOnLongClickListener true
         }
 
