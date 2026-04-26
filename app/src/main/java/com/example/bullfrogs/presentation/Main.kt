@@ -2118,6 +2118,8 @@ class Main : AppCompatActivity() {
 
 
 
+
+
         inputEnter.setOnClickListener {
 
             if(QTB !=0){
@@ -2226,6 +2228,14 @@ class Main : AppCompatActivity() {
                 v.vibrate(250)
             }
 
+        }
+
+
+
+
+        input1.setOnLongClickListener {
+            input1.setText("")
+            return@setOnLongClickListener true
         }
 
 
