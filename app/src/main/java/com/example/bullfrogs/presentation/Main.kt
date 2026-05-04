@@ -4,14 +4,17 @@ import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Environment
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.RatingBar
 import android.widget.RelativeLayout
@@ -21,6 +24,7 @@ import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import com.example.bullfrogs.R
 import com.example.bullfrogs.databinding.ActivityMainBinding
@@ -37,6 +41,10 @@ import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Properties
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timer
+import kotlin.concurrent.timerTask
 import kotlin.math.abs
 
 //Plan For Success!
@@ -70,6 +78,8 @@ import kotlin.math.abs
 
 //sharedpref is located in /data/data/com.example.bullfrogs/shared_prefs/daysSince.xml
 
+//modes should shrink after time passed ex smoke
+
 class Main : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var toggle = 6
@@ -85,10 +95,11 @@ class Main : AppCompatActivity() {
     var testerMode = true
     var pressesMinus = false
     var falseA = false
-    var tgoal = 4
+    var tgoal = 30
 
     var preset1 = 500
     var TC = 0
+
     private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,6 +148,7 @@ class Main : AppCompatActivity() {
         var clean = findViewById<ImageView>(R.id.cleaning)
         var busy = findViewById<ImageView>(R.id.busy)
         var groceries = findViewById<ImageView>(R.id.groceries)
+        var alert2 = findViewById<ImageView>(R.id.alert1)
 
 
         var caution = findViewById<ImageView>(R.id.caution)
@@ -175,6 +187,10 @@ class Main : AppCompatActivity() {
 
 
         var volumelever1 = findViewById<SeekBar>(R.id.volumeLever1)
+
+        var convoTimer = findViewById<TextView>(R.id.convoTimer)
+        var convoTime = findViewById<ImageView>(R.id.convotime)
+
         volumelever1.progress = volumelever1.width/2
 
         //var daycounter = 0
@@ -344,7 +360,35 @@ class Main : AppCompatActivity() {
 
 
 
+        var home1 = findViewById<RelativeLayout>(R.id.home1)
+        var thirdRow = findViewById<LinearLayout>(R.id.thirdRow)
+        var fourthRow = findViewById<LinearLayout>(R.id.fourthRow)
+        var fifthRow = findViewById<LinearLayout>(R.id.fifthRow)
+        var sixthRow = findViewById<LinearLayout>(R.id.sixthRow)
+        var inputQT = findViewById<RelativeLayout>(R.id.inputQT)
 
+
+        date.setOnClickListener {
+
+            clean()
+            home1.visibility = View.VISIBLE
+            QTS.visibility = View.VISIBLE
+
+
+            thirdRow.visibility = View.INVISIBLE
+
+            fourthRow.visibility = View.INVISIBLE
+
+            fifthRow.visibility = View.INVISIBLE
+
+            sixthRow.visibility = View.INVISIBLE
+
+            inputQT.visibility = View.INVISIBLE
+
+
+
+
+        }
 
 
 
@@ -417,14 +461,18 @@ class Main : AppCompatActivity() {
 
 
         statusApprove.setOnClickListener {
-            if(statusUpdate.toString() == ""){
+            if(statusUpdate.text.toString() == ""){
                 status1 = sharedPreferences.edit().putBoolean("status1", false).commit()
+                sharedPreferences.edit().putString("statusUpdate" , statusUpdate.text.toString()).commit()
+                Toast.makeText(this, "status is off", Toast.LENGTH_SHORT).show()
+
             }
             else{
                 status1 = sharedPreferences.edit().putBoolean("status1", true).commit()
-                writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
-                logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
-                sharedPreferences.edit().putString("statusUpdate" , statusUpdate.toString()).commit()
+                //writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
+                //logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
+                sharedPreferences.edit().putString("statusUpdate" , statusUpdate.text.toString()).commit()
+                Toast.makeText(this, statusUpdate.text.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
@@ -432,6 +480,7 @@ class Main : AppCompatActivity() {
 
         if(status1) {
             Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
+            statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
         }
 
         fone.setOnClickListener {
@@ -479,12 +528,25 @@ class Main : AppCompatActivity() {
         var busy1 = sharedPreferences.getBoolean("busy1" , true)
         var groceries1 = sharedPreferences.getBoolean("groceries1" , true)
 
+        var alert1 = sharedPreferences.getBoolean("alert1", true)
+
 
 
 
 
         var modeActivated = sharedPreferences.getBoolean("modeActivated", false)
 
+        //icons should remain large if they were on
+
+
+        if(!alert1){
+            alert2.animate().scaleX(2.3F)
+            alert2.animate().scaleY(2.3F)
+        }
+        else{
+            alert2.animate().scaleX(1F)
+            alert2.animate().scaleY(1F)
+        }
 
 
         if(!tea1){
@@ -620,7 +682,30 @@ class Main : AppCompatActivity() {
 
 
 
+        alert2.setOnClickListener {
+            if (alert1) {
+                //this means I'm studying
+                alert2.animate().scaleX(2.3F)
+                alert2.animate().scaleY(2.3F)
+                alert1 = false
+                //writeNewPost("jls", "Mode", "teaMode", "I'm drinking tea dont bother me",null)
+                sharedPreferences.edit().putBoolean("alert1", false).commit()
 
+                //sharedPreferences.edit().putString("modeVar","tea mode issue count: ").commit()
+                turnOffMode(30)
+
+
+            }
+            else if (!alert1){
+                alert2.animate().scaleX(1F)
+                alert2.animate().scaleY(1F)
+                alert1 = true
+                //writeNewPost("jls", "Mode", "teaMode", "off",null)
+                sharedPreferences.edit().putBoolean("alert1", true).commit()
+                //sharedPreferences.edit().putInt("modeCount", 0).commit()
+
+            }
+        }
 
 
 
@@ -1332,29 +1417,46 @@ class Main : AppCompatActivity() {
         bsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
 
 
+
+
+    /*    for(k in 0 .. bslist.size) {
+            var color2 = sharedPreferences.getString(k.toString() + bslist.get(k) + "level", "green")
+            if (color2 == "green") {
+                currentItemColor.setImageResource(R.drawable.good)
+                Log.d("lily", "1")
+            }
+            if (color2 == "lime") {
+                bsl[k].setBackgroundResource(R.drawable.lime)
+            }
+            if (color2 == "yellow") {
+                bsl[k].setBackgroundResource(R.drawable.yellowcard)
+            }
+            if (color2 == "red") {
+                bsl[k].setBackgroundResource(R.drawable.redcard)
+            }
+        }*/
+
         monaLista2(0)
         bsl.setOnItemClickListener{ parent, view, position, id ->
 
-
-            if(bslist.get(position).contains("level: 1") == true){
-                //list item background color is green
+            if(sharedPreferences.getString(position.toString() + bslist.get(position) + "level", "green") == "green"){
                 currentItemColor.setImageResource(R.drawable.good)
                 Log.d("lily", "1")
-
             }
-            if(bslist.get(position).contains("level: 2") == true ){
-                //list item background color is green
+
+            if(sharedPreferences.getString(position.toString() + bslist.get(position) + "level", "green") == "lime"){
+                currentItemColor.setImageResource(R.drawable.lime)
+                Log.d("lily", "HERE")
+            }
+
+            if(sharedPreferences.getString(position.toString() + bslist.get(position) + "level", "green") == "yellow"){
                 currentItemColor.setImageResource(R.drawable.yellowcard)
                 Log.d("lily", "2")
 
-
             }
-            if(bslist.get(position).contains("level: 3") == true){
+            if(sharedPreferences.getString(position.toString() + bslist.get(position) + "level", "green") == "red"){
                 currentItemColor.setImageResource(R.drawable.redcard)
-                //list item background color is green
-
                 Log.d("lily", "HERE")
-
 
             }
 
@@ -1588,7 +1690,7 @@ class Main : AppCompatActivity() {
         }
 
 
-        checkHourGoal()
+        checkHourGoal(false)
 
         currentItemColor.setOnClickListener(){
 
@@ -1767,7 +1869,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-
+            checkHourGoal(true)
 
         }
         QT2.setOnClickListener {
@@ -1788,6 +1890,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT3.setOnClickListener {
@@ -1808,6 +1911,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT4.setOnClickListener {
@@ -1828,6 +1932,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT5.setOnClickListener {
@@ -1848,6 +1953,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
+
         }
 
 
@@ -1870,6 +1977,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT7.setOnClickListener {
@@ -1890,6 +1998,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT8.setOnClickListener {
@@ -1910,6 +2019,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT9.setOnClickListener {
@@ -1930,6 +2040,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT10.setOnClickListener {
@@ -1950,6 +2061,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT11.setOnClickListener {
@@ -1970,6 +2082,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT12.setOnClickListener {
@@ -1990,6 +2103,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
 
@@ -2011,6 +2125,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT14.setOnClickListener {
@@ -2031,6 +2146,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT15.setOnClickListener {
@@ -2051,6 +2167,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
 
@@ -2073,6 +2190,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT17.setOnClickListener {
@@ -2093,6 +2211,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
         QT18.setOnClickListener {
@@ -2113,6 +2232,7 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
+            checkHourGoal(true)
 
         }
 
@@ -2686,6 +2806,83 @@ class Main : AppCompatActivity() {
 
 
 
+        var ticketPage = findViewById<RelativeLayout>(R.id.ticketPage)
+        var ticketTitle = findViewById<TextView>(R.id.ticketTitle)
+        var ticketUpdate = findViewById<TextView>(R.id.ticketUpdate)
+        var submitUpdate = findViewById<TextView>(R.id.submitUpdate)
+
+        var green1 = findViewById<ImageView>(R.id.good1)
+        var lime1 = findViewById<ImageView>(R.id.lime1)
+        var yellow1 = findViewById<ImageView>(R.id.yellowcard1)
+        var red1 = findViewById<ImageView>(R.id.redcard1)
+
+        bsl.setOnItemLongClickListener { parent, view, position, id ->
+
+            clean()
+            ticketPage.visibility = View.VISIBLE
+
+            ticketTitle.setText(bslist.get(position))
+            ticketUpdate.setText(sharedPreferences.getString(position.toString() + bslist.get(position), "unresolved"))
+
+            //Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
+
+
+
+            green1.setOnClickListener {
+                sharedPreferences.edit().putString(position.toString() + bslist.get(position) + "level", "green").commit()
+            }
+            lime1.setOnClickListener {
+                sharedPreferences.edit().putString(position.toString() + bslist.get(position) + "level", "lime").commit()
+            }
+            yellow1.setOnClickListener {
+                sharedPreferences.edit().putString(position.toString() + bslist.get(position) + "level", "yellow").commit()
+            }
+            red1.setOnClickListener {
+                sharedPreferences.edit().putString(position.toString() + bslist.get(position) + "level", "red").commit()
+            }
+
+
+            submitUpdate.setOnClickListener {
+                sharedPreferences.edit().putString(position.toString() + bslist.get(position), ticketUpdate.text.toString()).commit()
+
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                } else {
+                    @Suppress("DEPRECATION")
+                    v.vibrate(500)
+                }
+                
+            }
+
+
+            var color2 = sharedPreferences.getString(position.toString() + bslist.get(position) + "level", "green")
+
+         /*   if(color2 == "green") {
+                green1.animate().scaleX(2F)
+                green1.animate().scaleY(2F)
+            }
+            if(color2 == "lime") {
+                lime1.animate().scaleX(2F)
+                green1.animate().scaleY(2F)
+
+            }
+            if(color2 == "yellow") {
+                yellow1.animate().scaleX(2F)
+                green1.animate().scaleY(2F)
+
+            }
+            if(color2 == "red") {
+                red1.animate().scaleX(2F)
+                green1.animate().scaleY(2F)
+
+            }*/
+
+
+            return@setOnItemLongClickListener true
+
+        }
 
 
 
@@ -2695,12 +2892,26 @@ class Main : AppCompatActivity() {
 
 
 
+        val timer = object : CountDownTimer(60000, 1000){
+            override fun onFinish() {
+                Toast.makeText(this@Main, "bye", Toast.LENGTH_SHORT).show()
+                mediaPlayer = MediaPlayer.create(this@Main, R.raw.bye)
+                Log.d("lily", "bye")
+                mediaPlayer?.setVolume(1f,1f)
+                mediaPlayer?.start()
 
+            }
 
+            override fun onTick(p0: Long) {
 
+                val secondsRemaining = p0/1000
+                convoTimer.text = "00:" + secondsRemaining.toString()
+            }
+        }
 
-
-
+        convoTime.setOnClickListener {
+            timer.start()
+        }
 
 
 
@@ -2733,15 +2944,22 @@ class Main : AppCompatActivity() {
     }
 
 
-    private fun checkHourGoal() {
+    private fun checkHourGoal(tostartover: Boolean) {
 
-        //todo change to fun effect
+
+        //it is checking when the app was last used not when the last ticket was created
         var pastDifference = sharedPreferences.getInt("pastDifference", LocalDateTime.now().minute)
 
         if(LocalDateTime.now().minute - pastDifference > tgoal){
             //the difference is greater than tgoal then youdidit)
             Log.d("lily", "We Did It")
             Toast.makeText(this,"We did it!", Toast.LENGTH_SHORT).show()
+
+            mediaPlayer = MediaPlayer.create(this, R.raw.bell)
+            mediaPlayer?.setVolume(1f,1f)
+            mediaPlayer?.start()
+
+
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -2750,8 +2968,14 @@ class Main : AppCompatActivity() {
                 v.vibrate(2000)
             }
         }
-        sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute).commit()
+        if(tostartover == true){
 
+
+        sharedPreferences.edit().putInt("pastDifference", LocalDateTime.now().minute).commit()
+        }
+        else{
+
+        }
     }
 
     private fun turnOffMode(minutes1: Int) {
@@ -2813,9 +3037,15 @@ class Main : AppCompatActivity() {
             return
         }
         bslist.add(sharedPreferences.getString(i.toString(), "").toString())
+
+
+
         i++
         bsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
+
         monaLista(i)
+
+
     }
 
 
@@ -2852,6 +3082,8 @@ class Main : AppCompatActivity() {
         listnum++
         bsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
         sharedPreferences.edit().putInt("count1", listnum).commit()
+
+        sharedPreferences.edit().putString(listnum.toString() + theItem, "").commit()
         // bslist.add("")
 
 
@@ -2922,8 +3154,12 @@ class Main : AppCompatActivity() {
         var QTS = findViewById<RelativeLayout>(R.id.QTS)
         var backupLayout = findViewById<RelativeLayout>(R.id.backupLayout)
         var theButtons = findViewById<RelativeLayout>(R.id.theButtons)
+        var ticketPg = findViewById<RelativeLayout>(R.id.ticketPage)
+
+        var home1 = findViewById<RelativeLayout>(R.id.home1)
 
 
+        home1.visibility = View.INVISIBLE
         colorMenu.visibility = View.INVISIBLE
         newLayout.visibility = View.INVISIBLE
         ttf.visibility = View.INVISIBLE
@@ -2935,6 +3171,8 @@ class Main : AppCompatActivity() {
         QTS.visibility = View.INVISIBLE
         backupLayout.visibility = View.INVISIBLE
         theButtons.visibility = View.INVISIBLE
+        ticketPg.visibility = View.INVISIBLE
+
 
     }
 
@@ -2950,6 +3188,10 @@ class Main : AppCompatActivity() {
     override fun onResume() {
 
 
+        var dontdouble1 = sharedPreferences.getInt("dontdouble1", 0)
+        dontdouble1++
+        sharedPreferences.edit().putInt("dontdouble1", dontdouble1).commit()
+//if onresume was just turned on set dontdouble to true
 
 
         var day = LocalDate.now().dayOfMonth.toString()
@@ -2982,6 +3224,8 @@ class Main : AppCompatActivity() {
         var QT16 = findViewById<TextView>(R.id.sixteen)
         var QT17 = findViewById<TextView>(R.id.seventeen)
         var QT18 = findViewById<TextView>(R.id.eighteen)
+
+
 
 
         feedback1.setText("")
@@ -3020,7 +3264,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("TC", 0).commit()
 
             saveSharedPreferencestoExternal(this, "daysSince", "bsl" + month + day + year)
-            Toast.makeText(this, "New Day", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, "New Day", Toast.LENGTH_SHORT).show()
 
 
         }
@@ -3063,12 +3307,15 @@ class Main : AppCompatActivity() {
             dateTime.setBackgroundResource(R.drawable.blah)
             //TheFrog.bringToFront()
         }
-        checkHourGoal()
 
         var status1 = sharedPreferences.getBoolean("status1", false)
 
+        var statusUpdate = findViewById<EditText>(R.id.statusUpdate)
+
         if(status1) {
             Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
+            statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
+
         }
 
         switch2(false)
@@ -3137,56 +3384,83 @@ class Main : AppCompatActivity() {
             var modeCount = sharedPreferences.getInt("modeCount", 0)
             var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
 
+
             if(falseA == false) {
 
-                //todo get this
-                if (!funnyvar || !funnyvar2 || !funnyvar3 || !funnyvar4 || !threeggle || !twoggle || !funnyvar5 || !seriousvar1 || !reeses1 || !tea1 || !clean1 || !busy1 || !groceries1) {
 
-                    TC = sharedPreferences.getInt("TC", 0)
-                    TC++
-                    sharedPreferences.edit().putInt("TC", TC).commit()
-                    modeCount++
-                    sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+                checkHourGoal(true)
+                dontdouble1 = sharedPreferences.getInt("dontdouble1", 2)
+                if (dontdouble1>=2) {
+                    Toast.makeText(this@Main, "prevented \n" + dontdouble1, Toast.LENGTH_SHORT).show()
+                    //do nothing
+                }
+                else if (dontdouble1 <= 1) {
+                    sharedPreferences.edit().putInt("dontdouble1", 2)
+                    if (!funnyvar || !funnyvar2 || !funnyvar3 || !funnyvar4 || !threeggle || !twoggle || !funnyvar5 || !seriousvar1 || !reeses1 || !tea1 || !clean1 || !busy1 || !groceries1) {
 
-                    Toast.makeText(this@Main, "TC: " + TC.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
-                    logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 0) //includes date, time, level
-                    writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+                        TC = sharedPreferences.getInt("TC", 0)
+                        TC++
+                        sharedPreferences.edit().putInt("TC", TC).commit()
+                        modeCount++
+                        sharedPreferences.edit().putInt("modeCount", modeCount).commit()
 
-                    val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-                    } else {
-                        @Suppress("DEPRECATION")
-                        v.vibrate(500)
+                        Toast.makeText(this@Main, "TC: " + TC.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
+                        logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 0) //includes date, time, level
+                        writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+
+                        val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                        } else {
+                            @Suppress("DEPRECATION")
+                            v.vibrate(500)
+                        }
                     }
+
+
+                    if (QT == 1) {
+
+                        TC = sharedPreferences.getInt("TC", 0)
+                        QTCount++
+                        TC++
+                        sharedPreferences.edit().putInt("TC", TC).commit()
+
+                        sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+
+                        potentialSolutions.setText("#" + TC + "\n" + "Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+                        logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 0)
+                        QTBtn.animate().scaleX(2F)
+                        QTBtn.animate().scaleY(2F)
+                        writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
+
+                        val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                        } else {
+                            @Suppress("DEPRECATION")
+                            v.vibrate(500)
+                        }
+                    }
+
+                }
+
+                lifecycleScope.launch {
+                    delay(6000)
+                    //Toast.makeText(this@Main, "set to zero", Toast.LENGTH_SHORT).show()
+                    sharedPreferences.edit().putInt("dontdouble1", 0).commit()
                 }
 
 
-                if (QT == 1) {
-
-                    TC = sharedPreferences.getInt("TC", 0)
-                    QTCount++
-                    TC++
-                    sharedPreferences.edit().putInt("TC", TC).commit()
-
-                    sharedPreferences.edit().putInt("QTCount", QTCount).commit()
-
-                    potentialSolutions.setText("#" + TC + "\n" + "Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-                    logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 0)
-                    QTBtn.animate().scaleX(2F)
-                    QTBtn.animate().scaleY(2F)
-                    writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
-
-                    val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-                    } else {
-                        @Suppress("DEPRECATION")
-                        v.vibrate(500)
-                    }
-                }
             }
+            else if(falseA == true){
+                checkHourGoal(false)
+            }
+
         }
+
+
+
+
         falseA = false
         super.onResume()
     }
@@ -3643,6 +3917,12 @@ class Main : AppCompatActivity() {
         var guitar = findViewById<ImageView>(R.id.connect2)
         var walkie = findViewById<ImageView>(R.id.connect)
         var theButtons = findViewById<RelativeLayout>(R.id.theButtons)
+
+        var thirdRow = findViewById<LinearLayout>(R.id.thirdRow)
+        var fourthRow = findViewById<LinearLayout>(R.id.fourthRow)
+        var fifthRow = findViewById<LinearLayout>(R.id.fifthRow)
+        var sixthRow = findViewById<LinearLayout>(R.id.sixthRow)
+
         returnFrog = sharedPreferences.getBoolean("returnFrog", true)
 
         if(returnFrog){
@@ -3690,6 +3970,13 @@ class Main : AppCompatActivity() {
             QTS.visibility = View.VISIBLE
             QTS.bringToFront()
             ticket.visibility = View.VISIBLE
+            thirdRow.visibility = View.VISIBLE
+
+            fourthRow.visibility = View.VISIBLE
+
+            fifthRow.visibility = View.VISIBLE
+
+            sixthRow.visibility = View.VISIBLE
 
         }
         else if (toggle == 5){

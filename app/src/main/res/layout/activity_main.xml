@@ -219,6 +219,18 @@
 
 
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/alert1"
+            android:src="@drawable/alert1"
+            android:layout_marginStart="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="55dp"
+            />
+
+
+
 
         <ImageView
             android:layout_width="20dp"
@@ -292,12 +304,13 @@
 
         <TextView
             android:id="@+id/statusApprove"
-            android:layout_width="34dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="25dp"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:text="✓"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:clickable="true"
             />
@@ -327,9 +340,9 @@
             android:id="@+id/nebulizer"
             android:layout_width="27dp"
             android:layout_height="27dp"
-          android:layout_marginBottom="30dp"
-            android:layout_marginLeft="60dp"
-            android:layout_alignParentBottom="true"
+
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="90dp"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/nebulizer"
 
@@ -1031,7 +1044,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/QTS"
-        android:visibility="invisible"
+        android:visibility="visible"
 
 
         >
@@ -1042,6 +1055,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
 
+            android:id="@+id/inputQT"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
 
@@ -1430,6 +1444,8 @@
             />
 
         </LinearLayout>
+
+
         </RelativeLayout>
 
     </RelativeLayout>
@@ -1844,7 +1860,7 @@
         android:id="@+id/theButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="invisible"
         >
 
         <ImageView
@@ -2047,6 +2063,181 @@
 
 
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ticketPage"
+        android:visibility="invisible"
+        >
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:id="@+id/ticketTitleScroll"
+            >
+
+
+    <TextView
+        android:id="@+id/ticketTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:text="Ticket Title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:textSize="12dp"
+        android:textColor="#000000"
+
+        />
+    </ScrollView>
+
+        <EditText
+            android:id="@+id/ticketUpdate"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ticketTitleScroll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Update ticket status and notes"
+            android:inputType="textMultiLine"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:background="@drawable/bleh1"
+
+
+            android:textSize="10dp" />
+
+
+
+        <TextView
+            android:id="@+id/submitUpdate"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+
+            android:layout_centerHorizontal="true"
+            android:text="✓"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:clickable="true"
+            />
+
+
+
+        <ImageView
+            android:id="@+id/yellowcard1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/lime1"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/yellowcard"
+
+            />
+
+        <ImageView
+            android:id="@+id/redcard1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="40dp"
+            android:layout_toRightOf="@+id/yellowcard1"
+            android:clickable="true"
+            app:srcCompat="@drawable/redcard"
+            />
+
+        <ImageView
+            android:id="@+id/good1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+            android:layout_marginStart="45dp"
+            app:srcCompat="@drawable/good"
+            />
+
+
+        <ImageView
+            android:id="@+id/lime1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/good1"
+            android:clickable="true"
+            app:srcCompat="@drawable/lime"
+            />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/home1"
+        >
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+
+            android:id="@+id/intercommand"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60dp"
+            android:src="@drawable/intercommand"
+            />
+
+
+
+
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toLeftOf="@id/intercommand"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/convotime"
+            android:id="@+id/convotime"
+
+            />
+
+        <TextView
+            android:id="@+id/convoTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="1:00 min"
+            android:textSize="10dp"
+            android:textColor="#000000"
+            android:layout_below="@id/convotime"
+            android:layout_alignLeft="@id/convotime"
+            />
+
+
+
+    </RelativeLayout>
 
 
 
