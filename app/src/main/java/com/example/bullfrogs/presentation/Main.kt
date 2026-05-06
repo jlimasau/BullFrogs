@@ -52,14 +52,8 @@ import kotlin.math.abs
 // "quiet mode"
 //"right on"
 
-//fixed frog movement on start
-//updated frog carousel
-//updated qtb positions
-//todo test
 
 
-
-//new day toast saved
 
 //added total count with sharedpref
 //emoji should retain size after close, gear
@@ -2380,13 +2374,20 @@ class Main : AppCompatActivity() {
         var stop = findViewById<ImageView>(R.id.stop)
         var off = findViewById<ImageView>(R.id.off)
 
+        var collect = findViewById<ImageView>(R.id.collect)
 
 
 
+        collect.setOnClickListener {
+            //make this a song
+            Toast.makeText(this, "collect", Toast.LENGTH_SHORT).show()
+            Log.d("lily", "collect")
+          /*  mediaPlayer = MediaPlayer.create(this,)
 
+            mediaPlayer?.setVolume(1f,1f)
+            mediaPlayer?.start()*/
 
-
-
+        }
 
 
         stop.setOnClickListener {
@@ -2708,6 +2709,23 @@ class Main : AppCompatActivity() {
 
 
 
+    }
+
+
+    fun searcher(j: Int, searchTerm: String){
+        var searchbsl = findViewById<ListView>(R.id.searchbsl)
+        var i = j
+        var totalItems = sharedPreferences.getInt("searchcount", listnum)
+        if (totalItems == 0 || i >= totalItems){
+            return
+        }
+        if(sharedPreferences.getString(i).contains(searchTerm) == true) {
+                bslist.add(sharedPreferences.getString(i.toString(), "").toString())
+            }
+
+        i++
+        searchbsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
+        monaLista(i, "$searchTerm")
     }
 
     fun monaLista(j: Int){
