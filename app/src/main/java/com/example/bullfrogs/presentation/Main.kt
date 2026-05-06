@@ -150,6 +150,8 @@ class Main : AppCompatActivity() {
         var groceries = findViewById<ImageView>(R.id.groceries)
         var alert2 = findViewById<ImageView>(R.id.alert1)
 
+        var privView = findViewById<ImageView>(R.id.privacy)
+
 
         var caution = findViewById<ImageView>(R.id.caution)
 
@@ -530,6 +532,8 @@ class Main : AppCompatActivity() {
 
         var alert1 = sharedPreferences.getBoolean("alert1", true)
 
+        var privShared = sharedPreferences.getBoolean("private1", true)
+
 
 
 
@@ -546,6 +550,16 @@ class Main : AppCompatActivity() {
         else{
             alert2.animate().scaleX(1F)
             alert2.animate().scaleY(1F)
+        }
+
+
+        if(!privShared){
+            privView.animate().scaleX(2.3F)
+            privView.animate().scaleY(2.3F)
+        }
+        else{
+            privView.animate().scaleX(1F)
+            privView.animate().scaleY(1F)
         }
 
 
@@ -694,6 +708,14 @@ class Main : AppCompatActivity() {
                 //sharedPreferences.edit().putString("modeVar","tea mode issue count: ").commit()
                 turnOffMode(30)
 
+        privView.setOnClickListener {
+            if (privShared) {
+                //this means I want to be alone
+                privView.animate().scaleX(2.3F)
+                privView.animate().scaleY(2.3F)
+                privShared = false
+                //writeNewPost("jls", "Mode", "teaMode", "dont bother me",null)
+                sharedPreferences.edit().putBoolean("private1", false).commit()
 
             }
             else if (!alert1){
@@ -708,11 +730,21 @@ class Main : AppCompatActivity() {
         }
 
 
+                //sharedPreferences.edit().putString("modeVar","tea mode issue count: ").commit()
+                turnOffMode(10)
 
 
+            }
+            else if (!privShared){
+                privView.animate().scaleX(1F)
+                privView.animate().scaleY(1F)
+                privShared = true
+               // writeNewPost("jls", "Mode", "teaMode", "off",null)
+                sharedPreferences.edit().putBoolean("private1", true).commit()
+                sharedPreferences.edit().putInt("modeCount", 0).commit()
 
-
-
+            }
+        }
 
 
 
@@ -2538,6 +2570,14 @@ class Main : AppCompatActivity() {
 
         }
 
+
+
+
+
+
+
+
+
         stop.setOnClickListener {
             //make this a song
             Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
@@ -2853,7 +2893,7 @@ class Main : AppCompatActivity() {
                     @Suppress("DEPRECATION")
                     v.vibrate(500)
                 }
-                
+
             }
 
 
@@ -3755,6 +3795,9 @@ class Main : AppCompatActivity() {
         var busy1 = sharedPreferences.getBoolean("busy1", true)
         var groceries1 = sharedPreferences.getBoolean("groceries1", true)
 
+        var privShared = sharedPreferences.getBoolean("private1", true)
+
+
         var starMode = findViewById<ImageView>(R.id.starMode)
         var apple = findViewById<ImageView>(R.id.food)
         var rest = findViewById<ImageView>(R.id.rest)
@@ -3770,6 +3813,17 @@ class Main : AppCompatActivity() {
         var busy = findViewById<ImageView>(R.id.busy)
         var groceries = findViewById<ImageView>(R.id.groceries)
 
+        var privView = findViewById<ImageView>(R.id.privacy)
+
+
+        if(!privShared){
+            privView.animate().scaleX(2.3F)
+            privView.animate().scaleY(2.3F)
+        }
+        else{
+            privView.animate().scaleX(1F)
+            privView.animate().scaleY(1F)
+        }
 
 
         if(!tea1){
