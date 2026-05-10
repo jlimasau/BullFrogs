@@ -1,7 +1,11 @@
 package com.example.bullfrogs.presentation
+import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -10,7 +14,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
@@ -23,8 +26,10 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.bullfrogs.R
 import com.example.bullfrogs.databinding.ActivityMainBinding
@@ -41,10 +46,6 @@ import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Properties
-import java.util.Timer
-import java.util.TimerTask
-import kotlin.concurrent.timer
-import kotlin.concurrent.timerTask
 import kotlin.math.abs
 
 //Plan For Success!
@@ -99,6 +100,18 @@ class Main : AppCompatActivity() {
 
     var preset1 = 500
     var TC = 0
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+
+            // Permission granted, start recording
+        } else {
+            // Permission denied, handle accordingly
+        }
+    }
+
+
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -192,6 +205,31 @@ class Main : AppCompatActivity() {
 
         var convoTimer = findViewById<TextView>(R.id.convoTimer)
         var convoTime = findViewById<ImageView>(R.id.convotime)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         volumelever1.progress = volumelever1.width/2
 
@@ -372,20 +410,14 @@ class Main : AppCompatActivity() {
 
         date.setOnClickListener {
 
-            clean()
-            home1.visibility = View.VISIBLE
-            QTS.visibility = View.VISIBLE
+
+            froggle(7)
+            sharedPreferences.edit().putInt("toggle", 7).commit()
 
 
-            thirdRow.visibility = View.INVISIBLE
 
-            fourthRow.visibility = View.INVISIBLE
 
-            fifthRow.visibility = View.INVISIBLE
 
-            sixthRow.visibility = View.INVISIBLE
-
-            inputQT.visibility = View.INVISIBLE
 
 
 
@@ -481,7 +513,7 @@ class Main : AppCompatActivity() {
 
 
         if(status1) {
-            Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
             statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
         }
 
@@ -2553,20 +2585,18 @@ class Main : AppCompatActivity() {
 
         }
 
+        var collect = findViewById<ImageView>(R.id.collect)
 
 
 
-
-
-
-
-        lost.setOnClickListener {
+        collect.setOnClickListener {
             //make this a song
-            Toast.makeText(this, "you lost", Toast.LENGTH_SHORT).show()
-            mediaPlayer = MediaPlayer.create(this, R.raw.lost)
-            Log.d("lily", "they lost")
+            Toast.makeText(this, "collect", Toast.LENGTH_SHORT).show()
+            Log.d("lily", "collect")
+          /*  mediaPlayer = MediaPlayer.create(this,)
+
             mediaPlayer?.setVolume(1f,1f)
-            mediaPlayer?.start()
+            mediaPlayer?.start()*/
 
         }
 
@@ -2955,10 +2985,89 @@ class Main : AppCompatActivity() {
 
 
 
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }
+                var externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val sound = File(externalDir, "1sound.mp3")
 
 
 
 
+        var intercommand1 = true
+
+        var intercommand = findViewById<ImageView>(R.id.intercommand)
+
+        intercommand.setOnClickListener {
+
+            if(intercommand1) {
+                Log.d("lily","intercommand")
+
+
+                Toast.makeText(this, "intercommand", Toast.LENGTH_SHORT).show()
+
+
+
+                checkAndRequestAudioPermission()
+
+
+
+
+                intercommand1 = false
+            }
+            else {
+                Log.d("lily","stop rec")
+                Toast.makeText(this, "stop intercommand", Toast.LENGTH_SHORT).show()
+
+
+
+                val intent = Intent(this, Main::class.java)
+                startActivity(intent)
+           /*     try {
+                    recorder.stop()
+                    Toast.makeText(this, "stop intercommand", Toast.LENGTH_SHORT).show()
+
+                } catch (e: IllegalStateException) {
+
+                    // Handle the error or log it
+                } finally {
+                    try {
+                        recorder.reset()
+                        Toast.makeText(this, "stop intercommand", Toast.LENGTH_SHORT).show()
+
+                    } catch(e: IllegalStateException) {
+
+                    }
+                    recorder.release()
+                    Toast.makeText(this, "stop intercommand", Toast.LENGTH_SHORT).show()
+
+                }*/
+                intercommand1 = true
+            }
+        }
+
+
+
+        var play = findViewById<TextView>(R.id.play)
+        var playOn = true
+        play.setOnClickListener {
+            if(playOn){
+                Log.d("lily","playon")
+                Toast.makeText(this, "play", Toast.LENGTH_SHORT).show()
+
+                startPlaying()
+                playOn = false
+            }
+            else{
+                stopPlaying()
+                playOn = true
+                Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show()
+
+            }
+
+        }
 
 
 
@@ -2972,6 +3081,102 @@ class Main : AppCompatActivity() {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fun checkAndRequestAudioPermission() {
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }
+
+        var externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val sound = File(externalDir, "1sound.mp3")
+        when {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+                // Permission already granted, start recording
+                try {
+                    recorder.apply {
+                        setAudioSource(MediaRecorder.AudioSource.MIC) // Use the device microphone
+                        setOutputFormat(MediaRecorder.OutputFormat.DEFAULT) // Standard 3GP format
+                        setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB) // Standard audio encoder
+                        setOutputFile(sound.absolutePath) // Specify the storage path
+                        prepare()
+                        start()
+                    }
+                /*    recorder.prepare()
+                    recorder.start()*/
+                    Log.d("lily","start rec")
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) -> {
+                // Optional: Explain why the permission is needed before requesting again
+                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+            else -> {
+                // Directly request the permission
+                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+    private fun startPlaying() {
+
+        val externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val sound = File(externalDir, "1sound.mp3")
+
+        Log.d("lily","started")
+
+        mediaPlayer = MediaPlayer().apply {
+            try {
+                setDataSource(sound.getAbsolutePath())
+                prepare()
+                start()
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun stopPlaying() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
 
     private fun toasted() {
         Toast.makeText(this, "Quiet Mode", Toast.LENGTH_SHORT).show()
@@ -3976,6 +4181,9 @@ class Main : AppCompatActivity() {
         var fourthRow = findViewById<LinearLayout>(R.id.fourthRow)
         var fifthRow = findViewById<LinearLayout>(R.id.fifthRow)
         var sixthRow = findViewById<LinearLayout>(R.id.sixthRow)
+        var inputQT = findViewById<RelativeLayout>(R.id.inputQT)
+        var home1 = findViewById<RelativeLayout>(R.id.home1)
+
 
         returnFrog = sharedPreferences.getBoolean("returnFrog", true)
 
@@ -4031,6 +4239,7 @@ class Main : AppCompatActivity() {
             fifthRow.visibility = View.VISIBLE
 
             sixthRow.visibility = View.VISIBLE
+            inputQT.visibility = View.VISIBLE
 
         }
         else if (toggle == 5){
@@ -4066,6 +4275,22 @@ class Main : AppCompatActivity() {
             clean()
             dateTime.visibility = View.VISIBLE
             ticket.visibility = View.VISIBLE
+
+
+
+            home1.visibility = View.VISIBLE
+            QTS.visibility = View.VISIBLE
+
+
+            thirdRow.visibility = View.INVISIBLE
+
+            fourthRow.visibility = View.INVISIBLE
+
+            fifthRow.visibility = View.INVISIBLE
+
+            sixthRow.visibility = View.INVISIBLE
+
+            inputQT.visibility = View.INVISIBLE
 
         }
 

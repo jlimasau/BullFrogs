@@ -52,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="2dp"
-        android:visibility="visible"
         android:clickable="true"
 
         >
@@ -217,6 +216,20 @@
         android:orientation="vertical"
         android:visibility="invisible">
 
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/privacy"
+            android:src="@drawable/private1"
+
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="60dp"
+
+            />
 
 
         <ImageView
@@ -1866,6 +1879,20 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:id="@+id/collect"
+            android:layout_alignStart="@id/stop"
+            android:layout_below="@id/stop"
+            app:srcCompat="@drawable/collect"
+            android:soundEffectsEnabled="true"
+            android:clickable="true"
+
+            />
+
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/connect"
             android:layout_marginTop="20dp"
             android:layout_marginStart="80dp"
@@ -2196,6 +2223,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/home1"
+        android:visibility="invisible"
         >
 
         <ImageView
@@ -2211,7 +2239,20 @@
 
 
 
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="15dp"
 
+            android:id="@+id/play"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="125dp"
+            android:background="@drawable/blah"
+            android:text="play"
+            android:textSize="10dp"
+
+
+            />
 
         <ImageView
             android:layout_width="25dp"
@@ -2228,7 +2269,7 @@
             android:id="@+id/convoTimer"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:text="1:00 min"
+            android:text="1:00"
             android:textSize="10dp"
             android:textColor="#000000"
             android:layout_below="@id/convotime"
