@@ -8952,7 +8952,12 @@ class Main : AppCompatActivity() {
         unregisterReceiver(screenStateReceiver)
     }
     private fun handleScreenOff() {
+
+var returnToHome1 = sharedPreferences.getString("returnToHome1", "on")
+
+            if(returnToHome1 == "on"){
             froggle(7)
+}
     }
     private fun handleUserPresent(){
         Toast.makeText(this@Main, "it works", Toast.LENGTH_SHORT).show()
