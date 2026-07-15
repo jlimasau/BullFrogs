@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>`
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!--ask for permission-->
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- ask for permission -->
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
@@ -16,20 +14,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+
         <activity
             android:name=".presentation.Main"
             android:exported="true"
             android:taskAffinity="com.example.bullfrogs.presentation"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
 
         <uses-library
             android:name="com.google.android.wearable"
@@ -44,7 +40,6 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
     </application>
 
 </manifest>

@@ -61,8 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:format12Hour="h:mm:ss a"
-            android:textSize="10dp"
+            android:format12Hour="hh:mm:ssa"
+            android:textSize="11dp"
       android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
             android:textColor="#0135CA"
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:id="@+id/buttons"
-            android:text="Buttons"
+            android:text="Buttons  "
             android:layout_alignParentEnd="true"
             android:layout_above="@id/ticket1"
             android:layout_marginBottom="2dp"
@@ -129,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:id="@+id/QQTS"
-            android:text="Quick"
+            android:text="Quick  "
             android:layout_alignParentEnd="true"
             android:layout_above="@id/buttons"
             android:textSize="10dp"
@@ -162,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:id="@+id/phoneButton"
-            android:text="Phone"
+            android:text="Phone "
             android:layout_alignParentEnd="true"
 
             android:layout_below="@id/modesButton"
@@ -178,12 +178,12 @@
             android:layout_width="30dp"
             android:layout_height="15dp"
             android:id="@+id/bslistbutton"
-            android:text=" BSL"
+            android:text="  BSL"
             android:layout_alignParentEnd="true"
 
             android:layout_below="@id/phoneButton"
             android:textSize="10dp"
-            android:layout_marginRight="14dp"
+            android:layout_marginRight="18dp"
             android:clickable="true"
            android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
@@ -273,9 +273,9 @@
             android:src="@drawable/busy"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/food"
-            android:layout_marginStart="13dp"
-            android:layout_marginBottom="145dp"
+
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="30dp"
 
 
 
@@ -289,8 +289,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/food"
-            android:layout_marginStart="55dp"
-            android:layout_marginBottom="115dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginBottom="30dp"
             />
 
 
@@ -505,7 +505,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:id="@+id/reviews"
         >
 
@@ -521,8 +521,8 @@
             android:clickable="true"
             android:numStars="6"
             android:rating="3"
-            android:scaleX=".4"
-            android:scaleY=".4"
+            android:scaleX=".35"
+            android:scaleY=".35"
             android:scrollbarSize="70dp"
             android:stepSize=".5"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -564,12 +564,13 @@
             android:layout_width="34dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="140dp"
             android:text="Send \n Positivity"
             android:textSize="8sp"
             android:lineHeight="6dp"
             android:textColor="#0135CA"
             android:clickable="true"
+
 
 
             />
@@ -655,8 +656,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="55dp"
             android:layout_marginBottom="10dp"
             android:overScrollMode="always"
             android:stackFromBottom="true"
@@ -692,7 +693,7 @@
             android:textSize="6dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="50dp"
-            android:layout_marginBottom="66dp"
+            android:layout_marginBottom="56dp"
 
            android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
@@ -743,7 +744,7 @@
             android:longClickable="true"
             />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/plus2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -754,7 +755,7 @@
             android:clickable="true"
             android:text="+"
             android:textColor="#1930A9"
-            android:textSize="35dp" />
+            android:textSize="35dp" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -985,7 +986,7 @@
         android:id="@+id/theBSLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="visible"
         >
 
         <ListView
@@ -993,7 +994,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="55dp"
             android:layout_marginBottom="10dp"
             android:overScrollMode="always"
@@ -1047,7 +1048,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="35dp"
             android:layout_marginEnd="55dp"
             android:layout_marginBottom="10dp"
             android:overScrollMode="always"
@@ -1257,7 +1258,7 @@
             android:id="@+id/one"
             android:layout_width="30dp"
             android:layout_height="25dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="50dp"
 
             android:text="      test"
             android:textSize="7dp"
@@ -1315,7 +1316,7 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
 
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="50dp"
 
                         android:background="#187e72"
             android:text="      "
@@ -1368,7 +1369,7 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
 
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="50dp"
             android:text="      "
 
             android:textSize="7dp"
@@ -1422,7 +1423,7 @@
             android:id="@+id/ten"
             android:layout_width="30dp"
             android:layout_height="25dp"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="50dp"
             android:text="      "
             android:textSize="7dp"
             android:background="#187e72"
@@ -1476,7 +1477,7 @@
             android:id="@+id/thirteen"
             android:layout_width="30dp"
             android:layout_height="25dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="25dp"
             android:text="      "
             android:textSize="7dp"
             android:background="#187e72"
@@ -1529,7 +1530,7 @@
             android:id="@+id/sixteen"
             android:layout_width="30dp"
             android:layout_height="25dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="25dp"
             android:text="      "
             android:textSize="7dp"
             android:background="#187e72"
@@ -1852,6 +1853,7 @@
 
 
 
+<!--
 
 
        <ImageView
@@ -1865,6 +1867,7 @@
             android:clickable="true"
 
             />
+-->
 
 
 
@@ -1922,8 +1925,8 @@
             android:layout_width="30dp"
             android:layout_height="20dp"
             android:id="@+id/infoping"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="160dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="100dp"
             app:srcCompat="@drawable/infoping"
             android:soundEffectsEnabled="true"
             android:clickable="true"
@@ -1939,7 +1942,7 @@
                android:clickable="true"
 
                />-->
-
+<!--
         <ImageView
             android:layout_width="30dp"
             android:layout_height="20dp"
@@ -1973,8 +1976,8 @@
             app:srcCompat="@drawable/leavemealone"
             android:soundEffectsEnabled="true"
             android:clickable="true"
-            />
-
+            />-->
+<!--
         <ImageView
             android:layout_width="30dp"
             android:layout_height="20dp"
@@ -1985,8 +1988,8 @@
             app:srcCompat="@drawable/stop"
             android:soundEffectsEnabled="true"
             android:clickable="true"
-            />
-        <ImageView
+            />-->
+       <!-- <ImageView
             android:layout_width="30dp"
             android:layout_height="20dp"
             android:id="@+id/off"
@@ -2026,7 +2029,7 @@
             app:srcCompat="@drawable/turnitoff"
             android:soundEffectsEnabled="true"
             android:clickable="true"
-            />
+            />-->
 
 
     </RelativeLayout>
@@ -2065,7 +2068,7 @@
 
 
 
-
+<!--
     <ImageView
         android:id="@+id/bye"
         android:layout_width="30dp"
@@ -2082,7 +2085,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bye" />
+        app:srcCompat="@drawable/bye" />-->
+
 
 
 
@@ -2124,10 +2128,10 @@
     <TextView
         android:id="@+id/ticketTitle"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:text="Ticket Title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+
         android:textSize="12dp"
         android:textColor="#000000"
 
@@ -2140,7 +2144,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ticketTitleScroll"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="Update ticket status and notes"
@@ -2390,6 +2394,7 @@
             android:layout_height="match_parent"
 
             android:id="@+id/buttonLayout1"
+
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -2405,7 +2410,7 @@
                     android:id="@+id/one1"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="55dp"
+                    android:layout_marginStart="50dp"
 
                     android:text="      "
                     android:textSize="7dp"
@@ -2462,7 +2467,7 @@
                     android:layout_width="30dp"
                     android:layout_height="25dp"
 
-                    android:layout_marginStart="55dp"
+                    android:layout_marginStart="50dp"
 
                     android:background="#195294"
                     android:text="      "
@@ -2515,7 +2520,7 @@
                     android:layout_width="30dp"
                     android:layout_height="25dp"
 
-                    android:layout_marginStart="55dp"
+                    android:layout_marginStart="50dp"
                     android:text="      "
 
                     android:textSize="7dp"
@@ -2568,7 +2573,7 @@
                     android:id="@+id/ten1"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="55dp"
+                    android:layout_marginStart="50dp"
                     android:text="      "
                     android:textSize="7dp"
                     android:background="#195294"
@@ -2616,7 +2621,7 @@
                     android:id="@+id/thirteen1"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="25dp"
                     android:text="      "
                     android:textSize="7dp"
                     android:background="#195294"
@@ -2665,7 +2670,7 @@
                     android:id="@+id/sixteen1"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="25dp"
                     android:text="      "
                     android:textSize="7dp"
                     android:background="#195294"
@@ -2840,6 +2845,19 @@
             android:background="@drawable/bleh1"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:id="@+id/lowerquickPanel"
+            android:text="Lower Quick panel"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="100dp"
+
+            android:background="@drawable/bleh1"
+            />
+
        <TextView
             android:layout_width="wrap_content"
             android:layout_height="15dp"
@@ -2848,10 +2866,36 @@
             android:textColor="#000000"
             android:textSize="10dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="160dp"
             android:background="@drawable/bleh1"
 
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:id="@+id/connectivity"
+            android:text="connectivity"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/bleh1"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:id="@+id/numberOfButtons"
+            android:text="Toggle number of buttons"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="140dp"
+            android:background="@drawable/bleh1"
+
+            />
+
+
 
     </RelativeLayout>
 
@@ -2894,7 +2938,7 @@
                 android:id="@+id/one2"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
 
                 android:text="      "
                 android:textSize="7dp"
@@ -2951,7 +2995,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
 
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
 
                 android:background="#b05a2f"
                 android:text="      "
@@ -3004,7 +3048,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
 
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
                 android:text="      "
 
                 android:textSize="7dp"
@@ -3057,7 +3101,7 @@
                 android:id="@+id/ten2"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#b05a2f"
@@ -3096,16 +3140,16 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:orientation="horizontal"
-            android:layout_below="@id/fourthRow2"
+
             android:id="@+id/fifthRow2"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="138dp"
             android:layout_marginStart="25dp"
             >
             <TextView
                 android:id="@+id/thirteen2"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="25dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#b05a2f"
@@ -3154,7 +3198,7 @@
                 android:id="@+id/sixteen2"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="25dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#b05a2f"
@@ -3288,7 +3332,7 @@
                 android:id="@+id/one3"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
 
                 android:text="      "
                 android:textSize="7dp"
@@ -3345,7 +3389,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
 
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
 
                 android:background="#5d667f"
                 android:text="      "
@@ -3398,7 +3442,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
 
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
                 android:text="      "
 
                 android:textSize="7dp"
@@ -3451,7 +3495,7 @@
                 android:id="@+id/ten3"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="50dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#5d667f"
@@ -3499,7 +3543,7 @@
                 android:id="@+id/thirteen3"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="25dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#5d667f"
@@ -3548,7 +3592,7 @@
                 android:id="@+id/sixteen3"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="25dp"
                 android:text="      "
                 android:textSize="7dp"
                 android:background="#5d667f"
@@ -3672,8 +3716,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="55dp"
             android:layout_marginBottom="10dp"
             android:overScrollMode="always"
             android:stackFromBottom="true"

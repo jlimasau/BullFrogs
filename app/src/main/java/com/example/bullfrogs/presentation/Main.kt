@@ -49,6 +49,7 @@ import java.time.LocalDateTime
 import java.util.Properties
 import kotlin.math.abs
 import android.content.BroadcastReceiver
+import android.util.TypedValue
 import android.view.Gravity
 import androidx.appcompat.app.AlertDialog
 
@@ -60,6 +61,7 @@ import androidx.appcompat.app.AlertDialog
 //Intention should matter
 
 //the app does not come with ai
+//if you make something make sure it has an off switch
 
 //sharedpref is located in /data/data/com.example.bullfrogs/shared_prefs/daysSince.xml
 
@@ -82,12 +84,15 @@ class Main : AppCompatActivity() {
     var falseA = false
     var tgoal = 30
 
-    var preset1 = 500
+    var preset1 = 1000
     var TC = 0
     var removeFromClean = true
     var homePage = false
+    var userid = "newuser"
+    var froggleIs4 = true
 
-    private val requestPermissionLauncher = registerForActivityResult(
+
+        private val requestPermissionLauncher1 = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
@@ -100,7 +105,9 @@ class Main : AppCompatActivity() {
 
 
 
+
     private var mediaPlayer: MediaPlayer? = null
+
 
 
     //todo get userpresent to work
@@ -136,7 +143,6 @@ class Main : AppCompatActivity() {
 
         //remove intercommand stop
 
-        //question mark button that guides user in every page
 
         //make logs erasable
 
@@ -160,12 +166,12 @@ class Main : AppCompatActivity() {
         var date = findViewById<TextView>(R.id.date)
         var time = findViewById<TextClock>(R.id.time)
 
-        var dayOfTheWeek = LocalDate.now().dayOfWeek.toString().removeRange(2,LocalDate.now().dayOfWeek.toString().length)
+        var dayOfTheWeek = LocalDate.now().dayOfWeek.toString().removeRange(3,LocalDate.now().dayOfWeek.toString().length)
 
         var day = LocalDate.now().dayOfMonth.toString()
         var month = LocalDate.now().monthValue.toString()
         var year = LocalDate.now().year.toString()
-        var date1 = "$month/$day/$year $dayOfTheWeek"
+        var date1 = "$month/$day/$year \n     $dayOfTheWeek"
         var pos = findViewById<TextView>(R.id.pos)
         var statusApprove = findViewById<TextView>(R.id.statusApprove)
 
@@ -232,17 +238,7 @@ class Main : AppCompatActivity() {
 
 
 
-
-
-
-
-
-
-//todo make activities
-
-
-
-
+        //todo add encryption to any data thats sent
 
 
 
@@ -253,7 +249,20 @@ class Main : AppCompatActivity() {
 
 
         database = Firebase.database.reference
-        //writeNewUser("jls", "jls", "jls@firebase.com")
+        //writeNewUser("newuser", "newuser", "newuser@firebase.com")
+
+        sharedPreferences = getSharedPreferences("daysSince", MODE_PRIVATE)
+
+         var isFirstRun = sharedPreferences.getBoolean("first1", true);
+
+        if (isFirstRun){
+
+            showDialog(this, " \nThe voice command buttons require permission to record and write to storage. The app requests Internet access aswell")
+
+            sharedPreferences.edit().putBoolean("first1", false).commit()
+            //writeNewUser("newuser", "newuser", "newuser@firebase.com")
+
+        }
         date.text = date1
 
 
@@ -262,7 +271,6 @@ class Main : AppCompatActivity() {
 
         }
 
-        sharedPreferences = getSharedPreferences("daysSince", MODE_PRIVATE)
 
 
 
@@ -286,7 +294,7 @@ class Main : AppCompatActivity() {
                 colorMenu.bringToFront()
                 on1 = false}
             else {
-                colorMenu.visibility = View.INVISIBLE
+                colorMenu.visibility = View.GONE
                 on1 = true
             }
 
@@ -328,10 +336,10 @@ class Main : AppCompatActivity() {
 
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.good)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 1
             logIt(potentialSolutions.text.toString(), color1)
-            writeNewPost("jls", "jls", "green", potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "green", potentialSolutions.text.toString(),null)
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -347,12 +355,12 @@ class Main : AppCompatActivity() {
 
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.yellowcard)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 3
             TC++
             sharedPreferences.edit().putInt("TC", TC).commit()
             logIt("#" + TC + "\n" + potentialSolutions.text.toString(), color1)
-            writeNewPost("jls", "jls", "yellow", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "yellow", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -369,13 +377,13 @@ class Main : AppCompatActivity() {
 
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.redcard)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 4
             TC++
             sharedPreferences.edit().putInt("TC", TC).commit()
             logIt("#" + TC + "\n" + potentialSolutions.text.toString(), color1)
             Log.d("lily", potentialSolutions.text.toString() + color1)
-            writeNewPost("jls", "jls", "red", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "red", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
 
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -393,12 +401,12 @@ class Main : AppCompatActivity() {
 
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.lime)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 2
             TC++
             sharedPreferences.edit().putInt("TC", TC).commit()
             logIt("#" + TC + "\n" + potentialSolutions.text.toString(), color1)
-            writeNewPost("jls", "jls", "lime", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "lime", "#" + TC + "\n" + potentialSolutions.text.toString(),null)
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -414,11 +422,11 @@ class Main : AppCompatActivity() {
 
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.updates)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 0
 
             logIt(potentialSolutions.text.toString(), color1)
-            writeNewPost("jls", "jls", "update", potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "update", potentialSolutions.text.toString(),null)
 
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -434,10 +442,10 @@ class Main : AppCompatActivity() {
         note2self.setOnClickListener {
             Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show()
             hue.setImageResource(R.drawable.nonissue)
-            colorMenu.visibility = View.INVISIBLE
+            colorMenu.visibility = View.GONE
             color1 = 0
             logIt("note to self: " + potentialSolutions.text.toString(), color1)
-            writeNewPost("jls", "jls", "note2self", potentialSolutions.text.toString(),null)
+            writeNewPost(userid, userid, "note2self", potentialSolutions.text.toString(),null)
 
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -521,8 +529,6 @@ class Main : AppCompatActivity() {
         date.setOnClickListener {
 
 
-            froggle(7)
-            sharedPreferences.edit().putInt("toggle", 7).commit()
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -553,7 +559,7 @@ class Main : AppCompatActivity() {
                 sharedPreferences.edit().putInt("version", version).commit()
                 //writeNewUser("backup request", "backup request", "fake@mail.com")
                 writeNewPost(
-                    "jls",
+                    userid,
                     "Rating",
                     "Stars: ",
                     "Version: " + version + "\n" + starRating.rating.toString() + "/6.0 \n" + feedback.text.toString() + date1 + time.text.toString(),
@@ -564,7 +570,7 @@ class Main : AppCompatActivity() {
 
             logIt("Stars:" + starRating.rating.toString() + "/6.0 \n" + feedback.text.toString(), 0)
             writeNewPost(
-                "jls",
+                userid,
                 "Rating",
                 "Stars: ",
                 starRating.rating.toString() + "/6.0 \n" + feedback.text.toString() + date1 + time.text.toString(),
@@ -597,7 +603,7 @@ class Main : AppCompatActivity() {
             }
             else{
                 status1 = sharedPreferences.edit().putBoolean("status1", true).commit()
-                //writeNewPost("jls", "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
+                //writeNewPost(userid, "Status", ": ",statusUpdate.toString() + " " + dateTime.toString(),null)
                 //logIt("Status" + statusUpdate.toString() + " " + dateTime.toString(), 0)
                 sharedPreferences.edit().putString("statusUpdate" , statusUpdate.text.toString()).commit()
                 Toast.makeText(this, statusUpdate.text.toString(), Toast.LENGTH_SHORT).show()
@@ -634,7 +640,7 @@ class Main : AppCompatActivity() {
 
             }
             logIt("Hang up ", 0)
-            writeNewPost("jls", "jls", "phone", "Hang up " + date1 + time.text.toString(),null)
+            writeNewPost(userid, userid, "phone", "Hang up " + date1 + time.text.toString(),null)
 
             mediaPlayer = MediaPlayer.create(this, R.raw.hangup)
 
@@ -879,7 +885,7 @@ class Main : AppCompatActivity() {
                 alert2.animate().scaleX(2.3F)
                 alert2.animate().scaleY(2.3F)
                 alert1 = false
-                //writeNewPost("jls", "Mode", "teaMode", "I'm drinking tea dont bother me",null)
+                //writeNewPost(userid, "Mode", "teaMode", "I'm drinking tea dont bother me",null)
                 sharedPreferences.edit().putBoolean("alert1", false).commit()
 
                 //sharedPreferences.edit().putString("modeVar","tea mode issue count: ").commit()
@@ -893,7 +899,7 @@ class Main : AppCompatActivity() {
                 alert2.animate().scaleX(1F)
                 alert2.animate().scaleY(1F)
                 alert1 = true
-                //writeNewPost("jls", "Mode", "teaMode", "off",null)
+                //writeNewPost(userid, "Mode", "teaMode", "off",null)
                 sharedPreferences.edit().putBoolean("alert1", true).commit()
                 //sharedPreferences.edit().putInt("modeCount", 0).commit()
                 ticket.setImageResource(R.drawable.scribble)
@@ -919,7 +925,7 @@ class Main : AppCompatActivity() {
                 privView.animate().scaleX(2.3F)
                 privView.animate().scaleY(2.3F)
                 privShared = false
-                //writeNewPost("jls", "Mode", "teaMode", "dont bother me",null)
+                //writeNewPost(userid, "Mode", "teaMode", "dont bother me",null)
                 sharedPreferences.edit().putBoolean("private1", false).commit()
                 turnOffMode(1)
                 ticket.setImageResource(R.drawable.private1)
@@ -931,7 +937,7 @@ class Main : AppCompatActivity() {
                 privView.animate().scaleX(1F)
                 privView.animate().scaleY(1F)
                 privShared = true
-                // writeNewPost("jls", "Mode", "teaMode", "off",null)
+                // writeNewPost(userid, "Mode", "teaMode", "off",null)
                 sharedPreferences.edit().putBoolean("private1", true).commit()
                 //sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -963,7 +969,7 @@ class Main : AppCompatActivity() {
                 tea.animate().scaleX(2.3F)
                 tea.animate().scaleY(2.3F)
                 tea1 = false
-                writeNewPost("jls", "Mode", "teaMode", "I'm drinking tea dont bother me",null)
+                writeNewPost(userid, "Mode", "teaMode", "I'm drinking tea dont bother me",null)
                 sharedPreferences.edit().putBoolean("tea1", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","tea mode issue count: ").commit()
@@ -977,7 +983,7 @@ class Main : AppCompatActivity() {
                 tea.animate().scaleX(1F)
                 tea.animate().scaleY(1F)
                 tea1 = true
-                writeNewPost("jls", "Mode", "teaMode", "off",null)
+                writeNewPost(userid, "Mode", "teaMode", "off",null)
                 sharedPreferences.edit().putBoolean("tea1", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1006,7 +1012,7 @@ class Main : AppCompatActivity() {
                 clean.animate().scaleX(2.3F)
                 clean.animate().scaleY(2.3F)
                 clean1 = false
-                writeNewPost("jls", "Mode", "cleanMode", "I'm busy cleaning",null)
+                writeNewPost(userid, "Mode", "cleanMode", "I'm busy cleaning",null)
                 sharedPreferences.edit().putBoolean("clean1", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","clean mode issue count: ").commit()
@@ -1019,7 +1025,7 @@ class Main : AppCompatActivity() {
                 clean.animate().scaleX(1F)
                 clean.animate().scaleY(1F)
                 clean1 = true
-                writeNewPost("jls", "Mode", "cleanMode", "off",null)
+                writeNewPost(userid, "Mode", "cleanMode", "off",null)
                 sharedPreferences.edit().putBoolean("clean1", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
                 ticket.setImageResource(R.drawable.scribble)
@@ -1046,7 +1052,7 @@ class Main : AppCompatActivity() {
                 busy.animate().scaleX(2.3F)
                 busy.animate().scaleY(2.3F)
                 busy1 = false
-                writeNewPost("jls", "Mode", "busyMode", "I am busy please do not bother me",null)
+                writeNewPost(userid, "Mode", "busyMode", "I am busy please do not bother me",null)
                 sharedPreferences.edit().putBoolean("busy1", false).commit()
 
                 Toast.makeText(this, "Busy Quick Tickets is ON for 25m", Toast.LENGTH_SHORT).show()
@@ -1062,7 +1068,7 @@ class Main : AppCompatActivity() {
                 busy.animate().scaleX(1F)
                 busy.animate().scaleY(1F)
                 busy1 = true
-                writeNewPost("jls", "Mode", "busyMode", "off",null)
+                writeNewPost(userid, "Mode", "busyMode", "off",null)
                 sharedPreferences.edit().putBoolean("busy1", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
                 ticket.setImageResource(R.drawable.scribble)
@@ -1092,7 +1098,7 @@ class Main : AppCompatActivity() {
                 groceries.animate().scaleY(2.3F)
                 groceries1 = false
                 //before leaving to groceries I turn this mode on, then I can plan to go safely with support ex. go now it's safe
-                writeNewPost("jls", "Mode", "groceriesMode", "I am grocery shopping",null)
+                writeNewPost(userid, "Mode", "groceriesMode", "I am grocery shopping",null)
                 sharedPreferences.edit().putBoolean("groceries1", false).commit()
                 Toast.makeText(this, "Groceries Quick Tickets is ON for 15m", Toast.LENGTH_SHORT).show()
 
@@ -1107,7 +1113,7 @@ class Main : AppCompatActivity() {
                 groceries.animate().scaleX(1F)
                 groceries.animate().scaleY(1F)
                 groceries1 = true
-                writeNewPost("jls", "Mode", "groceriesMode", "off",null)
+                writeNewPost(userid, "Mode", "groceriesMode", "off",null)
                 sharedPreferences.edit().putBoolean("groceries1", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1136,7 +1142,7 @@ class Main : AppCompatActivity() {
                 reeses.animate().scaleX(2.3F)
                 reeses.animate().scaleY(2.3F)
                 reeses1 = false
-                writeNewPost("jls", "Mode", "reesesMode", "on",null)
+                writeNewPost(userid, "Mode", "reesesMode", "on",null)
                 sharedPreferences.edit().putBoolean("reeses1", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","Reeses mode issue count: ").commit()
@@ -1155,7 +1161,7 @@ class Main : AppCompatActivity() {
                 reeses.animate().scaleX(1F)
                 reeses.animate().scaleY(1F)
                 reeses1 = true
-                writeNewPost("jls", "Mode", "reesesMode", "off",null)
+                writeNewPost(userid, "Mode", "reesesMode", "off",null)
                 sharedPreferences.edit().putBoolean("reeses1", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1191,7 +1197,7 @@ class Main : AppCompatActivity() {
                 starMode.animate().scaleX(2.3F)
                 starMode.animate().scaleY(2.3F)
                 funnyvar2 = false
-                writeNewPost("jls", "Mode", "starMode", "on",null)
+                writeNewPost(userid, "Mode", "starMode", "on",null)
                 sharedPreferences.edit().putBoolean("funnyvar2", false).commit()
 
 
@@ -1207,7 +1213,7 @@ class Main : AppCompatActivity() {
                 starMode.animate().scaleX(1F)
                 starMode.animate().scaleY(1F)
                 funnyvar2 = true
-                writeNewPost("jls", "Mode", "starMode", "off",null)
+                writeNewPost(userid, "Mode", "starMode", "off",null)
                 sharedPreferences.edit().putBoolean("funnyvar2", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1236,7 +1242,7 @@ class Main : AppCompatActivity() {
                 studyMode.animate().scaleX(2.3F)
                 studyMode.animate().scaleY(2.3F)
                 funnyvar4 = false
-                writeNewPost("jls", "Mode", "studyMode", "on: I'm working on computer science",null)
+                writeNewPost(userid, "Mode", "studyMode", "on: I'm working on computer science",null)
                 sharedPreferences.edit().putBoolean("funnyvar4", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","study mode issue count: ").commit()
@@ -1250,7 +1256,7 @@ class Main : AppCompatActivity() {
                 studyMode.animate().scaleX(1F)
                 studyMode.animate().scaleY(1F)
                 funnyvar4 = true
-                writeNewPost("jls", "Mode", "studyMode", "off",null)
+                writeNewPost(userid, "Mode", "studyMode", "off",null)
                 sharedPreferences.edit().putBoolean("funnyvar4", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1279,7 +1285,7 @@ class Main : AppCompatActivity() {
                 apple.animate().scaleX(2.3F)
                 apple.animate().scaleY(2.3F)
                 threeggle = false
-                writeNewPost("jls", "Mode", "eatingMode", "on",null)
+                writeNewPost(userid, "Mode", "eatingMode", "on",null)
                 sharedPreferences.edit().putBoolean("threeggle", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","eating mode issue count: ").commit()
@@ -1297,7 +1303,7 @@ class Main : AppCompatActivity() {
                 apple.animate().scaleX(1F)
                 apple.animate().scaleY(1F)
                 threeggle = true
-                writeNewPost("jls", "Mode", "eatingMode", "off",null)
+                writeNewPost(userid, "Mode", "eatingMode", "off",null)
                 sharedPreferences.edit().putBoolean("threeggle", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1323,7 +1329,7 @@ class Main : AppCompatActivity() {
                 rest.animate().scaleX(2.3F)
                 rest.animate().scaleY(2.3F)
                 twoggle = false
-                //writeNewPost("jls", "Mode", "restroomMode", "on",null)
+                //writeNewPost(userid, "Mode", "restroomMode", "on",null)
                 sharedPreferences.edit().putBoolean("twoggle", false).commit()
                 sharedPreferences.edit().putString("modeVar","restroom mode issue count: ").commit()
                 turnOffMode(10)
@@ -1338,7 +1344,7 @@ class Main : AppCompatActivity() {
                 rest.animate().scaleX(1F)
                 rest.animate().scaleY(1F)
                 twoggle = true
-                //writeNewPost("jls", "Mode", "restMode", "off",null)
+                //writeNewPost(userid, "Mode", "restMode", "off",null)
                 sharedPreferences.edit().putBoolean("twoggle", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
 
@@ -1367,7 +1373,7 @@ class Main : AppCompatActivity() {
                 goSkate.animate().scaleX(2.3F)
                 goSkate.animate().scaleY(2.3F)
                 funnyvar = false
-                writeNewPost("jls", "Mode", "skatingMode", "on, safety first",null)
+                writeNewPost(userid, "Mode", "skatingMode", "on, safety first",null)
                 sharedPreferences.edit().putBoolean("funnyvar", false).commit()
 
                 sharedPreferences.edit().putString("modeVar","skating mode issue count: ").commit()
@@ -1382,7 +1388,7 @@ class Main : AppCompatActivity() {
                 goSkate.animate().scaleX(1F)
                 goSkate.animate().scaleY(1F)
                 funnyvar = true
-                writeNewPost("jls", "Mode", "skatingMode", "off",null)
+                writeNewPost(userid, "Mode", "skatingMode", "off",null)
                 sharedPreferences.edit().putBoolean("funnyvar", true).commit()
                 sharedPreferences.edit().putInt("modeCount", 0).commit()
                 ticket.setImageResource(R.drawable.scribble)
@@ -1577,7 +1583,7 @@ class Main : AppCompatActivity() {
                 caution.animate().scaleX(2.3F)
                 caution.animate().scaleY(2.3F)
                 froggie = false
-                writeNewPost("jls", "Mode", "cautionMode", "on, safety first" + dateTime,null)
+                writeNewPost(userid, "Mode", "cautionMode", "on, safety first" + dateTime,null)
                 logIt("cautionMode: on, safety first", 3)
                 sharedPreferences.edit().putBoolean("froggie", false).commit()
 
@@ -1589,7 +1595,7 @@ class Main : AppCompatActivity() {
                 caution.animate().scaleX(1F)
                 caution.animate().scaleY(1F)
                 froggie = true
-                writeNewPost("jls", "Mode", "cautionMode", "off" + date1 + time.text.toString(),null)
+                writeNewPost(userid, "Mode", "cautionMode", "off" + date1 + time.text.toString(),null)
                 logIt("cautionMode: now off", 0)
                 sharedPreferences.edit().putBoolean("froggie", true).commit()
                 ticket.setImageResource(R.drawable.caution)
@@ -1616,10 +1622,25 @@ class Main : AppCompatActivity() {
 
 
 
+        var guide = findViewById<TextView>(R.id.guide)
 
 
         ticket.setOnLongClickListener {
-            switch()
+
+            //opens a ticket
+
+            clean()
+            ttf.visibility = View.VISIBLE
+            ttf.bringToFront()
+            dateTime.visibility = View.VISIBLE
+            adjust.bringToFront()
+
+            guide.setOnClickListener{
+                showDialog(this, "Type in ticket info then select the color to indicate severity.")
+            }
+
+
+
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
@@ -1631,21 +1652,18 @@ class Main : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
-        var guide = findViewById<TextView>(R.id.guide)
         ticket.setOnClickListener {
 
             if (giggle1) {
-                //opens a ticket
 
-                clean()
-                ttf.visibility = View.VISIBLE
-                ttf.bringToFront()
-                dateTime.visibility = View.VISIBLE
-                adjust.bringToFront()
 
-                guide.setOnClickListener{
-                    showDialog(this, "Type in ticket info then select the color to indicate severity.")
-                }
+                froggle(7)
+                sharedPreferences.edit().putInt("toggle", 7).commit()
+
+
+
+
+
             }
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -1703,7 +1721,7 @@ class Main : AppCompatActivity() {
                 logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + potentialSolutions.text.toString() + "\n", color1)
 
                 //logIt(potentialSolutions.text.toString(), color1)
-                writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
+                writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
                 sharedPreferences.edit().putString("current", theItem).commit()
                 sharedPreferences.edit().putInt("QT", 1).commit()
 
@@ -1813,13 +1831,13 @@ class Main : AppCompatActivity() {
             var QT9C = sharedPreferences.getInt("QT9C", 0)
             var QT10C = sharedPreferences.getInt("QT10C", 0)
             var QT11C = sharedPreferences.getInt("QT11C", 0)
-            var QT12C = sharedPreferences.getInt("QT12", 0)
-            var QT13C = sharedPreferences.getInt("QT13", 0)
-            var QT14C = sharedPreferences.getInt("QT14", 0)
-            var QT15C = sharedPreferences.getInt("QT15", 0)
-            var QT16C = sharedPreferences.getInt("QT16", 0)
-            var QT17C = sharedPreferences.getInt("QT17", 0)
-            var QT18C = sharedPreferences.getInt("QT18", 0)
+            var QT12C = sharedPreferences.getInt("QT12C", 0)
+            var QT13C = sharedPreferences.getInt("QT13C", 0)
+            var QT14C = sharedPreferences.getInt("QT14C", 0)
+            var QT15C = sharedPreferences.getInt("QT15C", 0)
+            var QT16C = sharedPreferences.getInt("QT16C", 0)
+            var QT17C = sharedPreferences.getInt("QT17C", 0)
+            var QT18C = sharedPreferences.getInt("QT18C", 0)
 
             //get word from ticket title append
 
@@ -2058,7 +2076,7 @@ class Main : AppCompatActivity() {
             }
             //potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
             logIt("overwrite last count(s)", 0)
-            writeNewPost("jls", date1, time.text.toString(), "overwrite last count(s)", null)
+            writeNewPost(userid, date1, time.text.toString(), "overwrite last count(s)", null)
             pressesMinus = true
             TC = sharedPreferences.getInt("TC", 0)
 
@@ -2081,7 +2099,7 @@ class Main : AppCompatActivity() {
         }
 
         var plus1 = findViewById<TextView>(R.id.plus1)
-        var plus2 = findViewById<TextView>(R.id.plus2)
+        //var plus2 = findViewById<TextView>(R.id.plus2)
 
 
 
@@ -2108,12 +2126,12 @@ class Main : AppCompatActivity() {
                 Toast.makeText(this@Main, "#" + TC + "\n" + "QTC: " + QTCount.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().putInt("modeCount", modeCount).commit()
                 logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 0) //includes date, time, level
-                writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+                writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
             }
 
             potentialSolutions.setText("Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString() + date1) //if you want to add a note after hue adds date time
             logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 0)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "current count:" + QTCount.toString() + " " + current1, null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + "current count:" + QTCount.toString() + " " + current1, null)
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -2127,7 +2145,7 @@ class Main : AppCompatActivity() {
 
         //use regular plus if switch is already on
         //todo test in field
-        plus2.setOnClickListener {
+     /*   plus2.setOnClickListener {
             if(testerMode == true) {
             }
             else{
@@ -2142,7 +2160,7 @@ class Main : AppCompatActivity() {
             QTCount++
             Toast.makeText(this@Main, QTCount.toString(), Toast.LENGTH_SHORT).show()
             sharedPreferences.edit().putInt("QTCount", QTCount).commit()
-            TC = sharedPreferences.getInt("TC", 0)+
+            TC = sharedPreferences.getInt("TC", 0)
 
             TC++
             sharedPreferences.edit().putInt("TC", TC).commit()
@@ -2151,12 +2169,12 @@ class Main : AppCompatActivity() {
                 Toast.makeText(this@Main, "QTC: " + QTCount.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().putInt("modeCount", modeCount).commit()
                 logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 0) //includes date, time, level
-                writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+                writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
             }
 
             potentialSolutions.setText("#" + TC + "\n" + "Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString() + date1) //if you want to add a note after hue adds date time
             logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 0)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "current count:" + QTCount.toString() + " " + current1, null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + "current count:" + QTCount.toString() + " " + current1, null)
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -2173,7 +2191,7 @@ class Main : AppCompatActivity() {
                 switch()
             }
 
-        }
+        }*/
 
         var change = findViewById<TextView>(R.id.change)
 
@@ -2204,8 +2222,9 @@ class Main : AppCompatActivity() {
         }
 
 
-        checkHourGoal(false)
+        //checkHourGoal(false)
 
+        //todo test that checkhourgoal no longer rings twice
 
 
 
@@ -2536,7 +2555,7 @@ class Main : AppCompatActivity() {
 
         Q1.setOnClickListener {
 
-           
+
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -2550,7 +2569,7 @@ class Main : AppCompatActivity() {
 
         }
         Q2.setOnClickListener {
-            
+
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -2572,8 +2591,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q4.setOnClickListener {
             Toast.makeText(this, "y4", Toast.LENGTH_SHORT).show()
@@ -2585,8 +2604,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q5.setOnClickListener {
             Toast.makeText(this, "y5", Toast.LENGTH_SHORT).show()
@@ -2598,9 +2617,9 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
-            
+
+
+
         }
 
 
@@ -2614,8 +2633,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q7.setOnClickListener {
             Toast.makeText(this, "y7", Toast.LENGTH_SHORT).show()
@@ -2627,8 +2646,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q8.setOnClickListener {
             Toast.makeText(this, "y8", Toast.LENGTH_SHORT).show()
@@ -2640,8 +2659,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q9.setOnClickListener {
             Toast.makeText(this, "y9", Toast.LENGTH_SHORT).show()
@@ -2653,8 +2672,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q10.setOnClickListener {
             Toast.makeText(this, "y10", Toast.LENGTH_SHORT).show()
@@ -2666,8 +2685,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
         }
         Q11.setOnClickListener {
             Toast.makeText(this, "y11", Toast.LENGTH_SHORT).show()
@@ -2679,8 +2698,8 @@ class Main : AppCompatActivity() {
                 @Suppress("DEPRECATION")
                 v.vibrate(500)
             }
-            
-            
+
+
 
         }
         Q12.setOnClickListener {
@@ -2776,8 +2795,18 @@ class Main : AppCompatActivity() {
 
                 Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().putBoolean("multiclick", true).commit()
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+                val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    MediaRecorder(this)
+                } else {
+                    MediaRecorder()
+                }
+
+                stopRecording(recorder)
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
+                finish()
+                kotlin.system.exitProcess(0)
             }
 
 
@@ -3514,9 +3543,19 @@ class Main : AppCompatActivity() {
 
                 Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().putBoolean("multiclick", true).commit()
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+                val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    MediaRecorder(this)
+                } else {
+                    MediaRecorder()
+                }
+
+                stopRecording(recorder)
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
 
+                finish()
+                kotlin.system.exitProcess(0)
             }
 
 
@@ -4244,9 +4283,22 @@ class Main : AppCompatActivity() {
 
                 Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
                 sharedPreferences.edit().putBoolean("multiclick", true).commit()
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+
+                val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    MediaRecorder(this)
+                } else {
+                    MediaRecorder()
+                }
+
+
+                stopRecording(recorder)
+
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
 
+                finish()
+                kotlin.system.exitProcess(0)
             }
 
 
@@ -4386,8 +4438,8 @@ class Main : AppCompatActivity() {
 
 
 //grey boxes
-        
-        
+
+
         var intercommand3x = true
 
 
@@ -4497,7 +4549,7 @@ class Main : AppCompatActivity() {
             }
             //potentialSolutions.setText("Count: " + QTCount.toString() + "\n" + current1 + time.text.toString())
             logIt("overwrite last count(s)", 0)
-            writeNewPost("jls", date1, time.text.toString(), "overwrite last count(s)", null)
+            writeNewPost(userid, date1, time.text.toString(), "overwrite last count(s)", null)
             pressesMinus = true
             TC = sharedPreferences.getInt("TC", 0)
 
@@ -4844,7 +4896,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT1C", QT1C).commit()
             Toast.makeText(this, "QT1C: " + QT1C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QTOne.text.toString() + " Count: " + QT1C, 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QTOne.text.toString() + " Count:" + QT1C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QTOne.text.toString() + " Count:" + QT1C.toString(), null)
 
 
 
@@ -4868,7 +4920,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT2C", QT2C).commit()
             Toast.makeText(this, "QT2C: " + QT2C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT2.text.toString() + " Count: " + QT2C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT2.text.toString() + " Count:" + QT2C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT2.text.toString() + " Count:" + QT2C.toString(), null)
 
 
         }
@@ -4889,7 +4941,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT3C", QT3C).commit()
             Toast.makeText(this, "QT3C: " + QT3C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT3.text.toString() + " Count: " + QT3C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT3.text.toString() + " Count:" + QT3C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT3.text.toString() + " Count:" + QT3C.toString(), null)
 
             checkHourGoal(true)
 
@@ -4911,7 +4963,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT4C", QT4C).commit()
             Toast.makeText(this, "QT4C: " + QT4C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT4.text.toString() + " Count: " + QT4C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT4.text.toString() + " Count:" + QT4C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT4.text.toString() + " Count:" + QT4C.toString(), null)
 
             checkHourGoal(true)
 
@@ -4933,7 +4985,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT5C", QT5C).commit()
             Toast.makeText(this, "QT5C: " + QT5C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT5.text.toString() + " Count: " + QT5C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT5.text.toString() + " Count:" + QT5C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT5.text.toString() + " Count:" + QT5C.toString(), null)
 
             checkHourGoal(true)
 
@@ -4958,7 +5010,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT6C", QT6C).commit()
             Toast.makeText(this, "QT6C: " + QT6C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT6.text.toString() + " Count: " + QT6C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT6.text.toString() + " Count:" + QT6C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT6.text.toString() + " Count:" + QT6C.toString(), null)
 
             checkHourGoal(true)
 
@@ -4980,7 +5032,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT7C", QT7C).commit()
             Toast.makeText(this, "Seven: " + QT7C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT7.text.toString() + " Count: " + QT7C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT7.text.toString() + " Count:" + QT7C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT7.text.toString() + " Count:" + QT7C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5004,7 +5056,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT7C", QT7C).commit()
             Toast.makeText(this, "QT7C: " + QT7C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT7.text.toString() + " Count: " + QT7C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT7.text.toString() + " Count:" + QT7C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT7.text.toString() + " Count:" + QT7C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5028,7 +5080,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT8C", QT8C).commit()
             Toast.makeText(this, "QT8C: " + QT8C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT8.text.toString() + " Count: " + QT8C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT8.text.toString() + " Count:" + QT8C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT8.text.toString() + " Count:" + QT8C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5051,7 +5103,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT9C", QT9C).commit()
             Toast.makeText(this, "QT9C: " + QT9C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT9.text.toString() + " Count: " + QT9C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT9.text.toString() + " Count:" + QT9C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT9.text.toString() + " Count:" + QT9C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5073,7 +5125,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT10C", QT10C).commit()
             Toast.makeText(this, "QT10C: " + QT10C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT10.text.toString() + " Count: " + QT10C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT10.text.toString() + " Count:" + QT10C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT10.text.toString() + " Count:" + QT10C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5096,7 +5148,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT11C", QT11C).commit()
             Toast.makeText(this, "QT11C: " + QT11C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT11.text.toString() + " Count: " + QT11C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT11.text.toString() + " Count:" + QT11C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT11.text.toString() + " Count:" + QT11C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5120,7 +5172,7 @@ class Main : AppCompatActivity() {
             QT12C++
             sharedPreferences.edit().putInt("QT12C", QT12C).commit()
             logIt("#" + TC + "\n" + QT12.text.toString() + " Count: " + QT12C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT12.text.toString() + " Count:" + QT12C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT12.text.toString() + " Count:" + QT12C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5143,7 +5195,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT12C", QT12C).commit()
             Toast.makeText(this, "QT12C: " + QT12C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT12.text.toString() + " Count: " + QT12C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT12.text.toString() + " Count:" + QT12C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT12.text.toString() + " Count:" + QT12C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5167,7 +5219,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT13C", QT13C).commit()
             Toast.makeText(this, "QT13C: " + QT13C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT13.text.toString() + " Count: " + QT13C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT13.text.toString() + " Count:" + QT13C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT13.text.toString() + " Count:" + QT13C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5189,7 +5241,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT14C", QT14C).commit()
             Toast.makeText(this, "QT14C: " + QT14C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT14.text.toString() + " Count: " + QT14C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT14.text.toString() + " Count:" + QT14C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT14.text.toString() + " Count:" + QT14C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5211,7 +5263,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT15C", QT15C).commit()
             Toast.makeText(this, "QT15C: " + QT15C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT15.text.toString() + " Count: " + QT15C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT15.text.toString() + " Count:" + QT15C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT15.text.toString() + " Count:" + QT15C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5235,7 +5287,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT16C", QT16C).commit()
             Toast.makeText(this, "QT16C: " + QT16C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT16.text.toString() + " Count: " + QT16C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT16.text.toString() + " Count:" + QT16C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT16.text.toString() + " Count:" + QT16C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5257,7 +5309,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT17C", QT17C).commit()
             Toast.makeText(this, "QT17C: " + QT17C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT17.text.toString() + " Count: " + QT17C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT17.text.toString() + " Count:" + QT17C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT17.text.toString() + " Count:" + QT17C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5280,7 +5332,7 @@ class Main : AppCompatActivity() {
             sharedPreferences.edit().putInt("QT18C", QT18C).commit()
             Toast.makeText(this, "QT18C: " + QT18C, Toast.LENGTH_SHORT).show()
             logIt("#" + TC + "\n" + QT18.text.toString() + " Count: " + QT18C + "\n", 2)
-            writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + QT18.text.toString() + " Count:" + QT18C.toString(), null)
+            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + QT18.text.toString() + " Count:" + QT18C.toString(), null)
 
             checkHourGoal(true)
 
@@ -5643,8 +5695,11 @@ class Main : AppCompatActivity() {
         var phoneButton = findViewById<TextView>(R.id.phoneButton)
         var bslistButton = findViewById<TextView>(R.id.bslistbutton)
         var theButtonsButton = findViewById<TextView>(R.id.buttons)
+/*
+        var bye = findViewById<ImageView>(R.id.bye)
+*/
 
-        var righton = findViewById<ImageView>(R.id.righton)
+  /*      var righton = findViewById<ImageView>(R.id.righton)
 
         var nogood = findViewById<ImageView>(R.id.nogood)
         var leavemealone = findViewById<ImageView>(R.id.leavemealone)
@@ -5653,12 +5708,12 @@ class Main : AppCompatActivity() {
         var off = findViewById<ImageView>(R.id.off)
         var lost = findViewById<ImageView>(R.id.lost)
 
-        var bye = findViewById<ImageView>(R.id.bye)
-        var turnitoff = findViewById<ImageView>(R.id.turnitoff)
+        var turnitoff = findViewById<ImageView>(R.id.turnitoff)*/
 
 
 
 
+/*
 
         lost.setOnClickListener {
             Toast.makeText(this, "they lost", Toast.LENGTH_SHORT).show()
@@ -5677,8 +5732,10 @@ class Main : AppCompatActivity() {
             }
         }
 
+*/
 
 
+/*
         bye.setOnClickListener {
             Toast.makeText(this, "bye", Toast.LENGTH_SHORT).show()
             mediaPlayer = MediaPlayer.create(this, R.raw.bye)
@@ -5695,9 +5752,10 @@ class Main : AppCompatActivity() {
                 v.vibrate(200)
             }
         }
+*/
 
 
-        //turns off their bbgn
+     /*   //turns off their bbgn
         turnitoff.setOnClickListener {
             Toast.makeText(this, "turn it off", Toast.LENGTH_SHORT).show()
             mediaPlayer = MediaPlayer.create(this, R.raw.turnitoff)
@@ -5723,10 +5781,10 @@ class Main : AppCompatActivity() {
             //make this a song
             Toast.makeText(this, "collect", Toast.LENGTH_SHORT).show()
             Log.d("lily", "collect")
-          /*  mediaPlayer = MediaPlayer.create(this,)
+          *//*  mediaPlayer = MediaPlayer.create(this,)
 
             mediaPlayer?.setVolume(1f,1f)
-            mediaPlayer?.start()*/
+            mediaPlayer?.start()*//*
 
         }
 
@@ -5830,7 +5888,7 @@ class Main : AppCompatActivity() {
             }
 
         }
-
+*/
 
         var boggle = true
 
@@ -5930,24 +5988,27 @@ class Main : AppCompatActivity() {
         QQTS.setOnClickListener {
 
 
+            //toggle2++
 
+            if(froggleIs4){
+                froggle(11)
+            }
 
-            if (toggle2 == 0) {
-                sharedPreferences.edit().putBoolean("returnFrog", true).commit()
+            else if (toggle2 == 0) {
 
-                sharedPreferences.edit().putInt("toggle", 4).commit()
                 froggle(4)
 
 
-                toggle2 = 1
+               // toggle2 = 1
             }
             else if(toggle2 == 1) {
                 froggle(11)
-                toggle2 = 2
+               // toggle2 = 2
             }
             else if (toggle2 == 2){
                 froggle(13)
                 toggle2 = 0
+
             }
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -5960,11 +6021,12 @@ class Main : AppCompatActivity() {
 
 
             lifecycleScope.launch {
-                delay(2000)
+                delay(4000)
 
                 toggle2 = 0
             }
 
+            toggle2++
 
             //todo add another page
         }
@@ -6127,10 +6189,11 @@ class Main : AppCompatActivity() {
 
 
         //in the future replace with append and commas
-        val externalDir1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        //val externalDir1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        //val internalFile = context.getFilesDir()
         val savedList = "HEREbsl" + month + day + year + ".txt"
-        val file = File(externalDir1, savedList)
-        file.writeText(bslist.joinToString("\n" ))
+        val file = File(this.filesDir, savedList)
+       // file.writeText(bslist.joinToString("\n" ))
 
        /* var newlist = bslist
 
@@ -6155,12 +6218,15 @@ class Main : AppCompatActivity() {
                 v.vibrate(500)
             }
 
+
             file.writeText(bslist.joinToString("\n" ))
+
 
             saveSharedPreferencestoExternal(this, "daysSince", "bsl" + month + day + year)
             many++
             if(many == 5){
-                bsl.visibility = View.INVISIBLE
+                file.writeText(bslist.joinToString("\n" ))
+                bsl.visibility = View.GONE
             }
             if(many >= 10){
                 file.writeText(bslist.joinToString("\n" ))
@@ -6174,6 +6240,8 @@ class Main : AppCompatActivity() {
                 bsl.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,bslist)
 
                 many = 0
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
             }
@@ -6223,6 +6291,8 @@ class Main : AppCompatActivity() {
                 }
 
                 sharedPreferences.edit().putBoolean("multiclick", true).commit()
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
 
@@ -6370,8 +6440,8 @@ class Main : AppCompatActivity() {
                 mediaPlayer?.setVolume(1f,1f)
                 mediaPlayer?.start()
 
-                convoTimer.visibility = View.INVISIBLE
-                convoTime.visibility = View.INVISIBLE
+                convoTimer.visibility = View.GONE
+                convoTime.visibility = View.GONE
 
                 homePage = false
 
@@ -6407,13 +6477,13 @@ class Main : AppCompatActivity() {
         val timer1 = object : CountDownTimer(15 * 60000, 1000){
             override fun onFinish() {
                 Toast.makeText(this@Main, "bye", Toast.LENGTH_SHORT).show()
-                mediaPlayer = MediaPlayer.create(this@Main, R.raw.bye)
+        /* todo consider changing this so they can create their own sound       mediaPlayer = MediaPlayer.create(this@Main, R.raw.bye)
                 Log.d("lily", "bye")
                 mediaPlayer?.setVolume(1f,1f)
-                mediaPlayer?.start()
+                mediaPlayer?.start()*/
 
-                convoTimer.visibility = View.INVISIBLE
-                convoTime.visibility = View.INVISIBLE
+                convoTimer.visibility = View.GONE
+                convoTime.visibility = View.GONE
 
                 homePage = false
 
@@ -6500,6 +6570,8 @@ class Main : AppCompatActivity() {
 
 
                 sharedPreferences.edit().putBoolean("multiclick", true).commit()
+                sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+
                 val intent = Intent(this, Main::class.java)
                 startActivity(intent)
            /*     try {
@@ -6565,7 +6637,7 @@ class Main : AppCompatActivity() {
 
         searchTerm.setOnLongClickListener {
             bsl.visibility = View.VISIBLE
-            searchList1.visibility = View.INVISIBLE
+            searchList1.visibility = View.GONE
             searchTerm.setText("")
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -6592,7 +6664,7 @@ class Main : AppCompatActivity() {
 
         searchList1.adapter = ArrayAdapter<String>(this,R.layout.custom_list1, R.id.custom_text,searchList2)
 
-            bsl.visibility = View.INVISIBLE
+            bsl.visibility = View.GONE
             searchList1.visibility = View.VISIBLE
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -7045,6 +7117,56 @@ class Main : AppCompatActivity() {
         }
 
 
+        var connectivity = findViewById<TextView>(R.id.connectivity)
+
+        connectivity.setOnLongClickListener{
+            switch()
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            else {
+                @Suppress("DEPRECATION")
+                v.vibrate(200)
+            }
+            return@setOnLongClickListener true
+
+            //todo in the future add another setting to enable a blue button on the home screen that connects
+     }
+
+
+        var toggleNumberOfButtons = findViewById<TextView>(R.id.numberOfButtons)
+
+        toggleNumberOfButtons.setOnClickListener{
+            var toggler = sharedPreferences.getBoolean("toggler", true)
+
+            if( toggler) {
+
+                toggler = sharedPreferences.edit().putBoolean("toggler", false).commit()
+                Toast.makeText(this, "Less buttons", Toast.LENGTH_SHORT).show()
+
+
+
+            }
+
+            else{
+              /*  firstRow.visibility = View.GONE
+                secondRow.visibility = View.GONE*/
+
+                toggler = sharedPreferences.edit().putBoolean("toggler", true).commit()
+                Toast.makeText(this, "More buttons", Toast.LENGTH_SHORT).show()
+            }
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+            }
+            else {
+                @Suppress("DEPRECATION")
+                v.vibrate(200)
+            }
+
+
+        }
 
 
 
@@ -7052,10 +7174,10 @@ class Main : AppCompatActivity() {
 
         var changeBackground = findViewById<TextView>(R.id.changeBackground)
 
-        var toggled = sharedPreferences.getInt("toggled", 0)
+        var toggled = sharedPreferences.getInt("toggled", 5)
         changeBackground.setOnClickListener {
             toggled++
-            if(toggled == 9){
+            if(toggled >= 9){
                 toggled = 1
             }
             if(toggled == 1) {
@@ -7111,7 +7233,7 @@ class Main : AppCompatActivity() {
             points1.visibility = View.VISIBLE
             if(togglez) {
 
-                pointz.visibility = View.INVISIBLE
+                pointz.visibility = View.GONE
 
             }
             else {
@@ -7160,8 +7282,8 @@ class Main : AppCompatActivity() {
             }
 
             else{
-                firstRow.visibility = View.INVISIBLE
-                secondRow.visibility = View.INVISIBLE
+                firstRow.visibility = View.GONE
+                secondRow.visibility = View.GONE
 
                 toggle1 = sharedPreferences.edit().putBoolean("toggle1", true).commit()
                 Toast.makeText(this, "quick panel", Toast.LENGTH_SHORT).show()
@@ -7181,20 +7303,60 @@ class Main : AppCompatActivity() {
 
 
 
-       /* var newButton1 = findViewById<TextView>(R.id.newButton1)
-        var toggle3 = true
-        newButton1.setOnClickListener {
 
-            if(toggle3){
-                //hide
-                toggle3 = false
+        var lowerquickPanel = findViewById<TextView>(R.id.lowerquickPanel)
+
+        lowerquickPanel.setOnClickListener {
+            var toggle2 = sharedPreferences.getBoolean("toggle2", false)
+
+            if(toggle2) {
+                //QTS.visibility = View.VISIBLE
+                // firstRow.visibility = View.VISIBLE
+                // secondRow.visibility = View.VISIBLE
+                toggle2 = sharedPreferences.edit().putBoolean("toggle2", false).commit()
+                Toast.makeText(this, "lower quick panel OFF", Toast.LENGTH_SHORT).show()
+                var changeTitle3 = findViewById<RelativeLayout>(R.id.changeTitle3)
+                changeTitle3.visibility = View.GONE
+
+
+            }
+
+            else{
+                fifthRow.visibility = View.GONE
+                sixthRow.visibility = View.GONE
+                Toast.makeText(this, "lower quick panel ON", Toast.LENGTH_SHORT).show()
+
+                toggle2 = sharedPreferences.edit().putBoolean("toggle2", true).commit()
+            }
+            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
             }
             else {
-                //unhide
-                toggle3 = true
+                @Suppress("DEPRECATION")
+                v.vibrate(200)
             }
 
-        }*/
+        }
+
+
+
+
+
+        /* var newButton1 = findViewById<TextView>(R.id.newButton1)
+         var toggle3 = true
+         newButton1.setOnClickListener {
+
+             if(toggle3){
+                 //hide
+                 toggle3 = false
+             }
+             else {
+                 //unhide
+                 toggle3 = true
+             }
+
+         }*/
 
 
 
@@ -7228,17 +7390,40 @@ class Main : AppCompatActivity() {
 
         monaLista3(0)
         inputEnterm.setOnClickListener{
-            //instead of being size bml it should be string bml
-            sharedPreferences.edit().putString(bmlsize.toString() + "bml", inputm.text.toString()).commit()
-            bmlsize++
-            sharedPreferences.edit().putInt("count3", bmlsize).commit()
 
+            var bmlpos = sharedPreferences.getInt("bmlpos", -1)
+            if(bmlpos != -1){
+
+                //edit string
+                sharedPreferences.edit().putString(bmlpos.toString() + "bml", inputm.text.toString()).commit()
+
+
+                sharedPreferences.edit().putInt("bmlpos", -1).commit()
+            }
+            if(bmlpos == -1){
+
+
+                //instead of being size bml it should be string bml
+                sharedPreferences.edit().putString(bmlsize.toString() + "bml", inputm.text.toString()).commit()
+                bmlsize++
+                sharedPreferences.edit().putInt("count3", bmlsize).commit()
+                // sharedPreferences.edit().putString(inputm.text.toString() + "bml", bmlsize.toString()).commit()
+
+            }
             monaLista3(0)
             //Toast.makeText(this, " input " + sharedPreferences.getString(bmlsize.toString() + "bml", " nothing") + " " + bml.toString() + buttonMachineList.toString(), Toast.LENGTH_SHORT).show()
 
-
+            sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
+            val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MediaRecorder(this)
+            } else {
+                MediaRecorder()
+            }
+            stopRecording(recorder)
             val intent = Intent(this, Main::class.java)
             startActivity(intent)
+            finish()
+            kotlin.system.exitProcess(0)
 
         }
         buttonMachineList.setOnItemClickListener { parent, view, position, id ->
@@ -7252,22 +7437,37 @@ class Main : AppCompatActivity() {
 
         buttonMachineList.setOnItemLongClickListener { parent, view, position, id ->
             Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
-            bmlsize = sharedPreferences.getInt("count3", 0)
+
+            sharedPreferences.edit().putInt("bmlpos", position).commit()
+            //bmlsize = sharedPreferences.getInt("count3", 0)
             //should be removed as string not position then it should be saved as string not position
-            sharedPreferences.edit().remove(position.toString() + "bml").commit()
-           // bml.removeAt(position)
+
+           // var word1 = bml.get(position)
+
+     /*       sharedPreferences.edit().remove(position.toString() + "bml").commit()
+            sharedPreferences.edit().putInt("count3", bmlsize -1).commit()*/
+            //sharedPreferences.edit().remove(sharedPreferences.getString(word1 + "bml", bmlsize.toString()) + "bml").commit()
+
+            //...sharedPreferences.edit().remove(position.toString() + "bml").commit()
+            //sharedPreferences.edit().putString(position.toString() + "bml", "").commit()
+
+            ///bml.removeAt(position)
 
                 //update existing positions in countbml sharedpref
             //bmlsize = bmlsize -1
             //sharedPreferences.edit().putInt("count3", bmlsize).commit()
 
+          /*  for(j in 0.. 10){
+                      sharedPreferences.edit().remove(j.toString() + "bml").commit()
+                      sharedPreferences.edit().putInt("count3", 0).commit()
 
-          /*  for(j in 0.. bml.size-1){
-                sharedPreferences.edit().putString(j.toString() + "bml", inputm.text.toString()).commit()
         }*/
 
-            val intent = Intent(this, Main::class.java)
-            startActivity(intent)
+
+
+            //sharedPreferences.edit().putString(j.toString() + "bml", bml.get(j)).commit()
+        /*    val intent = Intent(this, Main::class.java)
+            startActivity(intent)*/
             return@setOnItemLongClickListener true
 
             //todo finish this
@@ -7334,13 +7534,13 @@ class Main : AppCompatActivity() {
 
                 intercommand3m = true
 
-                val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+          /*      val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     MediaRecorder(this)
                 } else {
                     MediaRecorder()
                 }
                 stopRecording(recorder)
-
+                */
 
 
             }
@@ -7363,10 +7563,21 @@ class Main : AppCompatActivity() {
 
 
 
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }
 
 
-
-
+        try{
+            recorder?.apply {
+                stop()
+                release()
+            }
+        } catch(e: Exception) {
+            e.printStackTrace()
+        }
 
 
         //onCreate
@@ -7385,6 +7596,10 @@ class Main : AppCompatActivity() {
         // Center the message text
         val messageView = alertDialog.findViewById<TextView>(android.R.id.message)
         messageView?.gravity = Gravity.CENTER
+        messageView?.let {
+            // 18f represents the 18 SP font size
+            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        }
 
 
     }
@@ -7392,7 +7607,7 @@ class Main : AppCompatActivity() {
 
 
     private fun returnBackground() {
-        var toggled = sharedPreferences.getInt("toggled", 0)
+        var toggled = sharedPreferences.getInt("toggled", 5)
 
         var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
         if(toggled == 1) {
@@ -7423,6 +7638,9 @@ class Main : AppCompatActivity() {
     }
 
 
+
+
+
     fun checkAndRequestAudioPermission() {
         var time3 = LocalDateTime.now().hour
         var time4 = LocalDateTime.now().minute
@@ -7430,12 +7648,12 @@ class Main : AppCompatActivity() {
         var timeNdate =  LocalDate.now().dayOfMonth.toString() + time3 + time4.toString()
 
 
-
         val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(this)
         } else {
             MediaRecorder()
         }
+
 
         var externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val sound = File(externalDir, "$timeNdate.mp3")
@@ -7462,11 +7680,11 @@ class Main : AppCompatActivity() {
             }
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO) -> {
                 // Optional: Explain why the permission is needed before requesting again
-                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                requestPermissionLauncher1.launch(Manifest.permission.RECORD_AUDIO)
             }
             else -> {
                 // Directly request the permission
-                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                requestPermissionLauncher1.launch(Manifest.permission.RECORD_AUDIO)
             }
         }
     }
@@ -7515,6 +7733,7 @@ class Main : AppCompatActivity() {
     }
 
     private fun stopPlaying() {
+
         mediaPlayer?.release()
         mediaPlayer = null
     }
@@ -7757,7 +7976,9 @@ class Main : AppCompatActivity() {
         var home1 = findViewById<RelativeLayout>(R.id.home1)
 
         var search1 = findViewById<RelativeLayout>(R.id.searchLayout)
+/*
         var bye = findViewById<ImageView>(R.id.bye)
+*/
         var boxes1 = findViewById<RelativeLayout>(R.id.boxes1)
         var settings1 = findViewById<RelativeLayout>(R.id.settings1)
         var reviews = findViewById<RelativeLayout>(R.id.reviews)
@@ -7773,29 +7994,31 @@ class Main : AppCompatActivity() {
         var buttonMachine = findViewById<RelativeLayout>(R.id.buttonMachine)
 
 
-        home1.visibility = View.INVISIBLE
-        colorMenu.visibility = View.INVISIBLE
-        newLayout.visibility = View.INVISIBLE
-        ttf.visibility = View.INVISIBLE
-        theBSLog.visibility = View.INVISIBLE
-        modeScreen.visibility = View.INVISIBLE
-        goSkate.visibility = View.INVISIBLE
-        read.visibility = View.INVISIBLE
-        blew.visibility = View.INVISIBLE
-        QTS.visibility = View.INVISIBLE
-        backupLayout.visibility = View.INVISIBLE
-        theButtons.visibility = View.INVISIBLE
-        ticketPg.visibility = View.INVISIBLE
-        search1.visibility = View.INVISIBLE
-        bye.visibility = View.INVISIBLE
-        boxes1.visibility = View.INVISIBLE
-        settings1.visibility = View.INVISIBLE
-        reviews.visibility = View.INVISIBLE
+        home1.visibility = View.GONE
+        colorMenu.visibility = View.GONE
+        newLayout.visibility = View.GONE
+        ttf.visibility = View.GONE
+        theBSLog.visibility = View.GONE
+        modeScreen.visibility = View.GONE
+        goSkate.visibility = View.GONE
+        read.visibility = View.GONE
+        blew.visibility = View.GONE
+        QTS.visibility = View.GONE
+        backupLayout.visibility = View.GONE
+        theButtons.visibility = View.GONE
+        ticketPg.visibility = View.GONE
+        search1.visibility = View.GONE
+/*
+        bye.visibility = View.GONE
+*/
+        boxes1.visibility = View.GONE
+        settings1.visibility = View.GONE
+        reviews.visibility = View.GONE
 
-        boxes2.visibility = View.INVISIBLE
-        pointz.visibility = View.INVISIBLE
-        newButtons.visibility = View.INVISIBLE
-        buttonMachine.visibility = View.INVISIBLE
+        boxes2.visibility = View.GONE
+        pointz.visibility = View.GONE
+        newButtons.visibility = View.GONE
+        buttonMachine.visibility = View.GONE
 
 
 
@@ -7803,12 +8026,12 @@ class Main : AppCompatActivity() {
 
 
         if(removeFromClean){
-            convoTimer.visibility = View.INVISIBLE
-            convoTime.visibility = View.INVISIBLE
+            convoTimer.visibility = View.GONE
+            convoTime.visibility = View.GONE
         }
         var guide = findViewById<TextView>(R.id.guide)
         if(sharedPreferences.getBoolean("toggleGuide", false)){
-            guide.visibility = View.INVISIBLE
+            guide.visibility = View.GONE
         }
         else{
             guide.visibility = View.VISIBLE
@@ -7828,373 +8051,388 @@ class Main : AppCompatActivity() {
     override fun onResume() {
 
 
-        var dontdouble1 = sharedPreferences.getInt("dontdouble1", 0)
-        dontdouble1++
-        sharedPreferences.edit().putInt("dontdouble1", dontdouble1).commit()
+        var dontOnResume = sharedPreferences.getBoolean("dontOnResume", true)
+        if (dontOnResume) {
+
+            sharedPreferences.edit().putBoolean("dontOnResume", false).commit()
+        } else {
+            var dontdouble1 = sharedPreferences.getInt("dontdouble1", 0)
+            dontdouble1++
+            sharedPreferences.edit().putInt("dontdouble1", dontdouble1).commit()
 //if onresume was just turned on set dontdouble to true
 
 
-        var day = LocalDate.now().dayOfMonth.toString()
-        var month = LocalDate.now().monthValue.toString()
-        var year = LocalDate.now().year.toString()
+            var day = LocalDate.now().dayOfMonth.toString()
+            var month = LocalDate.now().monthValue.toString()
+            var year = LocalDate.now().year.toString()
 
-        var hue = findViewById<ImageView>(R.id.hue)
-        hue.setImageResource(R.drawable.good)
+            var hue = findViewById<ImageView>(R.id.hue)
+            hue.setImageResource(R.drawable.good)
 
-        var progress1 = findViewById<SeekBar>(R.id.progress)
-        var volumelever1 = findViewById<SeekBar>(R.id.volumeLever1)
-        volumelever1.progress = volumelever1.width/2
-        progress1.progress = 0
+            var progress1 = findViewById<SeekBar>(R.id.progress)
+            var volumelever1 = findViewById<SeekBar>(R.id.volumeLever1)
+            volumelever1.progress = volumelever1.width / 2
+            progress1.progress = 0
 
-        var lastSaveDate = sharedPreferences.getInt("lsd", day.toInt())
-        var counter = sharedPreferences.getInt("counter", 0)
-        var daycounter = sharedPreferences.getInt("daycounter", 0)
+            var lastSaveDate = sharedPreferences.getInt("lsd", day.toInt())
+            var counter = sharedPreferences.getInt("counter", 0)
+            var daycounter = sharedPreferences.getInt("daycounter", 0)
 
-        var feedback1 = findViewById<EditText>(R.id.feedback)
-        //make button or text clickable
-        //set var to zero on click
-        //long click to reset
+            var feedback1 = findViewById<EditText>(R.id.feedback)
+            //make button or text clickable
+            //set var to zero on click
+            //long click to reset
 
-        var starRating = findViewById<RatingBar>(R.id.starRating)
+            var starRating = findViewById<RatingBar>(R.id.starRating)
 
-        var QTOne = findViewById<TextView>(R.id.one)
-        var QT2 = findViewById<TextView>(R.id.two)
-        var QT3 = findViewById<TextView>(R.id.three)
-        var QT4 = findViewById<TextView>(R.id.four)
-        var QT5 = findViewById<TextView>(R.id.five)
-        var QT6 = findViewById<TextView>(R.id.six)
-        var QT7 = findViewById<TextView>(R.id.seven)
-        var QT8 = findViewById<TextView>(R.id.eight)
-        var QT9 = findViewById<TextView>(R.id.nine)
-        var QT10 = findViewById<TextView>(R.id.ten)
-        var QT11 = findViewById<TextView>(R.id.eleven)
-        var QT12 = findViewById<TextView>(R.id.twelve)
-        var QT13 = findViewById<TextView>(R.id.thirteen)
-        var QT14 = findViewById<TextView>(R.id.fourteen)
-        var QT15 = findViewById<TextView>(R.id.fifteen)
-        var QT16 = findViewById<TextView>(R.id.sixteen)
-        var QT17 = findViewById<TextView>(R.id.seventeen)
-        var QT18 = findViewById<TextView>(R.id.eighteen)
-
-
-        var QT1C = sharedPreferences.getInt("QT1C", 0)
-        var QT2C = sharedPreferences.getInt("QT2C", 0)
-        var QT3C = sharedPreferences.getInt("QT3C", 0)
-        var QT4C = sharedPreferences.getInt("QT4C", 0)
-        var QT5C = sharedPreferences.getInt("QT5C", 0)
-        var QT6C = sharedPreferences.getInt("QT6C", 0)
-        var QT7C = sharedPreferences.getInt("QT7C", 0)
-        var QT8C = sharedPreferences.getInt("QT8C", 0)
-        var QT9C = sharedPreferences.getInt("QT9C", 0)
-        var QT10C = sharedPreferences.getInt("QT10C", 0)
-        var QT11C = sharedPreferences.getInt("QT11C", 0)
-        var QT12C = sharedPreferences.getInt("QT12", 0)
-        var QT13C = sharedPreferences.getInt("QT13", 0)
-        var QT14C = sharedPreferences.getInt("QT14", 0)
-        var QT15C = sharedPreferences.getInt("QT15", 0)
-        var QT16C = sharedPreferences.getInt("QT16", 0)
-        var QT17C = sharedPreferences.getInt("QT17", 0)
-        var QT18C = sharedPreferences.getInt("QT18", 0)
+            var QTOne = findViewById<TextView>(R.id.one)
+            var QT2 = findViewById<TextView>(R.id.two)
+            var QT3 = findViewById<TextView>(R.id.three)
+            var QT4 = findViewById<TextView>(R.id.four)
+            var QT5 = findViewById<TextView>(R.id.five)
+            var QT6 = findViewById<TextView>(R.id.six)
+            var QT7 = findViewById<TextView>(R.id.seven)
+            var QT8 = findViewById<TextView>(R.id.eight)
+            var QT9 = findViewById<TextView>(R.id.nine)
+            var QT10 = findViewById<TextView>(R.id.ten)
+            var QT11 = findViewById<TextView>(R.id.eleven)
+            var QT12 = findViewById<TextView>(R.id.twelve)
+            var QT13 = findViewById<TextView>(R.id.thirteen)
+            var QT14 = findViewById<TextView>(R.id.fourteen)
+            var QT15 = findViewById<TextView>(R.id.fifteen)
+            var QT16 = findViewById<TextView>(R.id.sixteen)
+            var QT17 = findViewById<TextView>(R.id.seventeen)
+            var QT18 = findViewById<TextView>(R.id.eighteen)
 
 
-        feedback1.setText("")
-        starRating.rating = 3F
+            var QT1C = sharedPreferences.getInt("QT1C", 0)
+            var QT2C = sharedPreferences.getInt("QT2C", 0)
+            var QT3C = sharedPreferences.getInt("QT3C", 0)
+            var QT4C = sharedPreferences.getInt("QT4C", 0)
+            var QT5C = sharedPreferences.getInt("QT5C", 0)
+            var QT6C = sharedPreferences.getInt("QT6C", 0)
+            var QT7C = sharedPreferences.getInt("QT7C", 0)
+            var QT8C = sharedPreferences.getInt("QT8C", 0)
+            var QT9C = sharedPreferences.getInt("QT9C", 0)
+            var QT10C = sharedPreferences.getInt("QT10C", 0)
+            var QT11C = sharedPreferences.getInt("QT11C", 0)
+            var QT12C = sharedPreferences.getInt("QT12C", 0)
+            var QT13C = sharedPreferences.getInt("QT13C", 0)
+            var QT14C = sharedPreferences.getInt("QT14C", 0)
+            var QT15C = sharedPreferences.getInt("QT15C", 0)
+            var QT16C = sharedPreferences.getInt("QT16C", 0)
+            var QT17C = sharedPreferences.getInt("QT17C", 0)
+            var QT18C = sharedPreferences.getInt("QT18C", 0)
 
-        //increments when day is different to yesterday
-        if(day.toInt() != lastSaveDate){
-            counter++
-            sharedPreferences.edit().putInt("counter", counter).commit()
 
+            feedback1.setText("")
+            starRating.rating = 3F
 
-
-            logIt("Previous Day Total Count: " + TC + "\n" + sharedPreferences.getString("QTB1","") + " Count: " + QT1C + "\n" +
-                    sharedPreferences.getString("QTB2","") + " Count: " + QT2C + "\n" +
-                    sharedPreferences.getString("QTB3","") + " Count: " + QT3C + "\n" +
-                    sharedPreferences.getString("QTB4","") + " Count: " + QT4C + "\n" +
-                    sharedPreferences.getString("QTB5","") + " Count: " + QT5C + "\n" +
-                    sharedPreferences.getString("QTB6","") + " Count: " + QT6C + "\n" +
-                    sharedPreferences.getString("QTB7","") + " Count: " + QT7C + "\n" +
-                    sharedPreferences.getString("QTB8","") + " Count: " + QT8C + "\n" +
-                    sharedPreferences.getString("QTB9","") + " Count: " + QT9C + "\n" +
-                    sharedPreferences.getString("QTB10","") + " Count: " + QT10C + "\n" +
-                    sharedPreferences.getString("QTB11","") + " Count: " + QT11C + "\n" +
-                    sharedPreferences.getString("QTB12","") + " Count: " + QT12C + "\n" +
-                    sharedPreferences.getString("QTB13","") + " Count: " + QT13C + "\n" +
-                    sharedPreferences.getString("QTB14","") + " Count: " + QT14C + "\n" +
-                    sharedPreferences.getString("QTB15","") + " Count: " + QT15C + "\n" +
-                    sharedPreferences.getString("QTB16","") + " Count: " + QT16C + "\n" +
-                    sharedPreferences.getString("QTB17","") + " Count: " + QT17C + "\n" +
-                    sharedPreferences.getString("QTB18","") + " Count: " + QT18C
-                , 0)
+            //increments when day is different to yesterday
+            if (day.toInt() != lastSaveDate) {
+                counter++
+                sharedPreferences.edit().putInt("counter", counter).commit()
 
 
 
-            //reset counters
-            sharedPreferences.edit().putInt("QTCount", 0).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
-            sharedPreferences.edit().putInt("QT1C", 0).commit()
-            sharedPreferences.edit().putInt("QT2C", 0).commit()
-            sharedPreferences.edit().putInt("QT3C", 0).commit()
-            sharedPreferences.edit().putInt("QT4C", 0).commit()
-            sharedPreferences.edit().putInt("QT5C", 0).commit()
-            sharedPreferences.edit().putInt("QT6C", 0).commit()
-            sharedPreferences.edit().putInt("QT7C", 0).commit()
-            sharedPreferences.edit().putInt("QT8C", 0).commit()
-            sharedPreferences.edit().putInt("QT9C", 0).commit()
-            sharedPreferences.edit().putInt("QT10C", 0).commit()
-            sharedPreferences.edit().putInt("QT11C", 0).commit()
-            sharedPreferences.edit().putInt("QT12C", 0).commit()
-            sharedPreferences.edit().putInt("QT13C", 0).commit()
-            sharedPreferences.edit().putInt("QT14C", 0).commit()
-            sharedPreferences.edit().putInt("QT15C", 0).commit()
-            sharedPreferences.edit().putInt("QT16C", 0).commit()
-            sharedPreferences.edit().putInt("QT17C", 0).commit()
-            sharedPreferences.edit().putInt("QT18C", 0).commit()
-            sharedPreferences.edit().putInt("TC", 0).commit()
-            QT13.text = ""
-            QT14.text = ""
-            QT15.text = ""
-            QT16.text = ""
-            QT17.text = ""
-            QT18.text = ""
+                logIt(
+                    "Previous Day Total Count: " + TC + "\n" + sharedPreferences.getString("QTB1", "") + " Count: " + QT1C + "\n" +
+                            sharedPreferences.getString("QTB2", "") + " Count: " + QT2C + "\n" +
+                            sharedPreferences.getString("QTB3", "") + " Count: " + QT3C + "\n" +
+                            sharedPreferences.getString("QTB4", "") + " Count: " + QT4C + "\n" +
+                            sharedPreferences.getString("QTB5", "") + " Count: " + QT5C + "\n" +
+                            sharedPreferences.getString("QTB6", "") + " Count: " + QT6C + "\n" +
+                            sharedPreferences.getString("QTB7", "") + " Count: " + QT7C + "\n" +
+                            sharedPreferences.getString("QTB8", "") + " Count: " + QT8C + "\n" +
+                            sharedPreferences.getString("QTB9", "") + " Count: " + QT9C + "\n" +
+                            sharedPreferences.getString("QTB10", "") + " Count: " + QT10C + "\n" +
+                            sharedPreferences.getString("QTB11", "") + " Count: " + QT11C + "\n" +
+                            sharedPreferences.getString("QTB12", "") + " Count: " + QT12C + "\n" +
+                            sharedPreferences.getString("QTB13", "") + " Count: " + QT13C + "\n" +
+                            sharedPreferences.getString("QTB14", "") + " Count: " + QT14C + "\n" +
+                            sharedPreferences.getString("QTB15", "") + " Count: " + QT15C + "\n" +
+                            sharedPreferences.getString("QTB16", "") + " Count: " + QT16C + "\n" +
+                            sharedPreferences.getString("QTB17", "") + " Count: " + QT17C + "\n" +
+                            sharedPreferences.getString("QTB18", "") + " Count: " + QT18C, 0
+                )
 
 
-            sharedPreferences.edit().putString("QTB13","").commit()
-            sharedPreferences.edit().putString("QTB14","").commit()
-            sharedPreferences.edit().putString("QTB15","").commit()
-            sharedPreferences.edit().putString("QTB16","").commit()
-            sharedPreferences.edit().putString("QTB17","").commit()
-            sharedPreferences.edit().putString("QTB18","").commit()
+                //reset counters
+                sharedPreferences.edit().putInt("QTCount", 0).commit()
+                sharedPreferences.edit().putInt("modeCount", 0).commit()
+                sharedPreferences.edit().putInt("QT1C", 0).commit()
+                sharedPreferences.edit().putInt("QT2C", 0).commit()
+                sharedPreferences.edit().putInt("QT3C", 0).commit()
+                sharedPreferences.edit().putInt("QT4C", 0).commit()
+                sharedPreferences.edit().putInt("QT5C", 0).commit()
+                sharedPreferences.edit().putInt("QT6C", 0).commit()
+                sharedPreferences.edit().putInt("QT7C", 0).commit()
+                sharedPreferences.edit().putInt("QT8C", 0).commit()
+                sharedPreferences.edit().putInt("QT9C", 0).commit()
+                sharedPreferences.edit().putInt("QT10C", 0).commit()
+                sharedPreferences.edit().putInt("QT11C", 0).commit()
+                sharedPreferences.edit().putInt("QT12C", 0).commit()
+                sharedPreferences.edit().putInt("QT13C", 0).commit()
+                sharedPreferences.edit().putInt("QT14C", 0).commit()
+                sharedPreferences.edit().putInt("QT15C", 0).commit()
+                sharedPreferences.edit().putInt("QT16C", 0).commit()
+                sharedPreferences.edit().putInt("QT17C", 0).commit()
+                sharedPreferences.edit().putInt("QT18C", 0).commit()
+                sharedPreferences.edit().putInt("TC", 0).commit()
+                QT13.text = ""
+                QT14.text = ""
+                QT15.text = ""
+                QT16.text = ""
+                QT17.text = ""
+                QT18.text = ""
 
-            saveSharedPreferencestoExternal(this, "daysSince", "bsl" + month + day + year)
-            Toast.makeText(this, "New Day", Toast.LENGTH_SHORT).show()
 
+                sharedPreferences.edit().putString("QTB13", "").commit()
+                sharedPreferences.edit().putString("QTB14", "").commit()
+                sharedPreferences.edit().putString("QTB15", "").commit()
+                sharedPreferences.edit().putString("QTB16", "").commit()
+                sharedPreferences.edit().putString("QTB17", "").commit()
+                sharedPreferences.edit().putString("QTB18", "").commit()
 
+                saveSharedPreferencestoExternal(this, "daysSince", "bsl" + month + day + year)
+                Toast.makeText(this, "New Day", Toast.LENGTH_SHORT).show()
 
-
-
-
-
-
-
-        }
-        sharedPreferences.edit().putInt("lsd", day.toInt()).commit()
-
-
-
-
-        turnOffMode(0)
-
-
-        var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
-        var alert1 = sharedPreferences.getBoolean("alert1", true)
-
-        if(sharedPreferences.getBoolean("safety", true)){
-            var toggled = sharedPreferences.getInt("toggled", 0)
-            if(toggled == 1) {
-                dateTime.setBackgroundResource(R.drawable.spiderbg)
 
             }
-            if(toggled == 2) {
-                dateTime.setBackgroundResource(R.drawable.newbg)
-            }
-            if(toggled == 3) {
-                dateTime.setBackgroundResource(R.drawable.good)
-            }
-            if(toggled == 4) {
-                dateTime.setBackgroundResource(R.drawable.lime)
-            }
-            if(toggled == 5) {
-                dateTime.setBackgroundResource(R.drawable.updates)
-            }
-            if(toggled == 6) {
-                dateTime.setBackgroundResource(R.drawable.bleh)
-            }
-            if(toggled == 7){
-                dateTime.setBackgroundResource(R.drawable.nonissue)
-            }
-            if(toggled == 8){
-                dateTime.setBackgroundResource(R.drawable.bleh1)
-            }
-            if(!alert1){
-
-                dateTime.setBackgroundResource(R.drawable.alert1)
-
-            }
-
-        }
-        else{
-            dateTime.setBackgroundResource(R.drawable.blah)
-        }
-
-        var status1 = sharedPreferences.getBoolean("status1", false)
-
-        var statusUpdate = findViewById<EditText>(R.id.statusUpdate)
-
-        var homeStatus = findViewById<TextView>(R.id.homeStatus)
-
-        if(status1) {
-            Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
-            statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
-            homeStatus.setText(sharedPreferences.getString("statusUpdate", ""))
-
-        }
-
-        switch2(false)
-
-        var delay1 = sharedPreferences.getInt("delay3", 2500)
-        var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
-
-        //back to home screen
-
-        Log.d("lily2", "home screen")
-        clean()
-
-        dateTime.visibility = View.VISIBLE
-        toggle = sharedPreferences.getInt("toggle", 6)
-        froggle(toggle)
-
-        lifecycleScope.launch {
-            var time1 = findViewById<TextClock>(R.id.time)
-            if(sharedPreferences.getBoolean("multiclick", true) == true){
-                falseA = true
-                time1.performClick()
+            sharedPreferences.edit().putInt("lsd", day.toInt()).commit()
 
 
-                sharedPreferences.edit().putBoolean("multiclick", false).commit()
-            }
-            delay(delay1.toLong())
-            //this causes someone to h me
-
-            var QT = sharedPreferences.getInt("QT", 0)
-            var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
-            var QTBtn = findViewById<ImageView>(R.id.QT)
-            var time = findViewById<TextClock>(R.id.time)
-            var QTCount = sharedPreferences.getInt("QTCount", 1)
-            var current1 = sharedPreferences.getString("current", "")
-
-            var date1 = "$month/$day/$year"
 
 
-            //gear should be sized in oncreate and resume scenarios
-            if(QT==1) {
-                QTBtn.animate().scaleX(2F)
-                QTBtn.animate().scaleY(2F)
-            }
-            else {
-                QTBtn.animate().scaleX(1F)
-                QTBtn.animate().scaleY(1F)
-            }
+            turnOffMode(0)
 
 
-            var funnyvar = sharedPreferences.getBoolean("funnyvar", true)
-            var funnyvar2 = sharedPreferences.getBoolean("funnyvar2", true)
-            var funnyvar3 = sharedPreferences.getBoolean("funnyvar3", true)
-            var funnyvar4 = sharedPreferences.getBoolean("funnyvar4", true)
-            var threeggle = sharedPreferences.getBoolean("threeggle", true)
-            var twoggle = sharedPreferences.getBoolean("twoggle", true)
-            var froggie = sharedPreferences.getBoolean("froggie", true)
-            var funnyvar5 = sharedPreferences.getBoolean("funnyvar5", true)
-            var seriousvar1 = sharedPreferences.getBoolean("seriousvar1", true)
-
-            var reeses1 = sharedPreferences.getBoolean("reeses1" , true)
-            var tea1 = sharedPreferences.getBoolean("tea1" , true)
-            var clean1 = sharedPreferences.getBoolean("clean1" , true)
-            var busy1 = sharedPreferences.getBoolean("busy1" , true)
-            var groceries1 = sharedPreferences.getBoolean("groceries1" , true)
+            var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
             var alert1 = sharedPreferences.getBoolean("alert1", true)
-            var privShared = sharedPreferences.getBoolean("private1", true)
 
-            var modeCount = sharedPreferences.getInt("modeCount", 0)
-            var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
+            if (sharedPreferences.getBoolean("safety", true)) {
+                var toggled = sharedPreferences.getInt("toggled", 5)
+                if (toggled == 1) {
+                    dateTime.setBackgroundResource(R.drawable.spiderbg)
 
-
-            if(falseA == false) {
-
-
-                checkHourGoal(true)
-                dontdouble1 = sharedPreferences.getInt("dontdouble1", 2)
-                if (dontdouble1>=2) {
-                    //Toast.makeText(this@Main, "dontdouble count: \n" + dontdouble1, Toast.LENGTH_SHORT).show()
-                    //do nothing
                 }
-                else if (dontdouble1 <= 1) {
-                    sharedPreferences.edit().putInt("dontdouble1", 2)
-                    if (!funnyvar || !funnyvar2 || !funnyvar3 || !funnyvar4 || !threeggle || !funnyvar5 || !seriousvar1 || !reeses1 || !tea1 || !clean1 || !busy1 || !groceries1) {
+                if (toggled == 2) {
+                    dateTime.setBackgroundResource(R.drawable.newbg)
+                }
+                if (toggled == 3) {
+                    dateTime.setBackgroundResource(R.drawable.good)
+                }
+                if (toggled == 4) {
+                    dateTime.setBackgroundResource(R.drawable.lime)
+                }
+                if (toggled == 5) {
+                    dateTime.setBackgroundResource(R.drawable.updates)
+                }
+                if (toggled == 6) {
+                    dateTime.setBackgroundResource(R.drawable.bleh)
+                }
+                if (toggled == 7) {
+                    dateTime.setBackgroundResource(R.drawable.nonissue)
+                }
+                if (toggled == 8) {
+                    dateTime.setBackgroundResource(R.drawable.bleh1)
+                }
+                if (!alert1) {
 
-                        TC = sharedPreferences.getInt("TC", 0)
-                        TC++
-                        sharedPreferences.edit().putInt("TC", TC).commit()
-                        modeCount++
-                        sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+                    dateTime.setBackgroundResource(R.drawable.alert1)
 
-                        Toast.makeText(this@Main, "TC: " + TC.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
-                        logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 1) //includes date, time, level
-                        writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+                }
 
-                        val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            v.vibrate(500)
+            } else {
+                dateTime.setBackgroundResource(R.drawable.blah)
+            }
+
+            var status1 = sharedPreferences.getBoolean("status1", false)
+
+            var statusUpdate = findViewById<EditText>(R.id.statusUpdate)
+
+            var homeStatus = findViewById<TextView>(R.id.homeStatus)
+
+            if (status1) {
+                Toast.makeText(this, sharedPreferences.getString("statusUpdate", "Have a good day"), Toast.LENGTH_SHORT).show()
+                statusUpdate.setText(sharedPreferences.getString("statusUpdate", ""))
+                homeStatus.setText(sharedPreferences.getString("statusUpdate", ""))
+
+            }
+
+            switch2(false)
+
+            var delay1 = sharedPreferences.getInt("delay3", 2500)
+            var ttf = findViewById<RelativeLayout>(R.id.ticketTakeitnFixIt)
+
+            //back to home screen
+
+            Log.d("lily2", "home screen")
+            clean()
+
+            dateTime.visibility = View.VISIBLE
+            toggle = sharedPreferences.getInt("toggle", 6)
+            froggle(toggle)
+
+            lifecycleScope.launch {
+
+                //todo remove multiclick if not necessary
+                var time1 = findViewById<TextClock>(R.id.time)
+                if (sharedPreferences.getBoolean("multiclick", true) == true) {
+                    falseA = true
+                    //time1.performClick()
+
+
+                    sharedPreferences.edit().putBoolean("multiclick", false).commit()
+                }
+                delay(delay1.toLong())
+                //this causes someone to h me
+
+                var QT = sharedPreferences.getInt("QT", 0)
+                var potentialSolutions = findViewById<EditText>(R.id.potentialSolutions)
+                var QTBtn = findViewById<ImageView>(R.id.QT)
+                var time = findViewById<TextClock>(R.id.time)
+                var QTCount = sharedPreferences.getInt("QTCount", 1)
+                var current1 = sharedPreferences.getString("current", "")
+
+                var date1 = "$month/$day/$year"
+
+
+                //gear should be sized in oncreate and resume scenarios
+                if (QT == 1) {
+                    QTBtn.animate().scaleX(2F)
+                    QTBtn.animate().scaleY(2F)
+                } else {
+                    QTBtn.animate().scaleX(1F)
+                    QTBtn.animate().scaleY(1F)
+                }
+
+
+                var funnyvar = sharedPreferences.getBoolean("funnyvar", true)
+                var funnyvar2 = sharedPreferences.getBoolean("funnyvar2", true)
+                var funnyvar3 = sharedPreferences.getBoolean("funnyvar3", true)
+                var funnyvar4 = sharedPreferences.getBoolean("funnyvar4", true)
+                var threeggle = sharedPreferences.getBoolean("threeggle", true)
+                var twoggle = sharedPreferences.getBoolean("twoggle", true)
+                var froggie = sharedPreferences.getBoolean("froggie", true)
+                var funnyvar5 = sharedPreferences.getBoolean("funnyvar5", true)
+                var seriousvar1 = sharedPreferences.getBoolean("seriousvar1", true)
+
+                var reeses1 = sharedPreferences.getBoolean("reeses1", true)
+                var tea1 = sharedPreferences.getBoolean("tea1", true)
+                var clean1 = sharedPreferences.getBoolean("clean1", true)
+                var busy1 = sharedPreferences.getBoolean("busy1", true)
+                var groceries1 = sharedPreferences.getBoolean("groceries1", true)
+                var alert1 = sharedPreferences.getBoolean("alert1", true)
+                var privShared = sharedPreferences.getBoolean("private1", true)
+
+                var modeCount = sharedPreferences.getInt("modeCount", 0)
+                var modeVar = sharedPreferences.getString("modeVar", "Current Mode count: ")
+
+
+                if (falseA == false) {
+
+
+                    checkHourGoal(true)
+                    dontdouble1 = sharedPreferences.getInt("dontdouble1", 2)
+                    if (dontdouble1 >= 2) {
+                        //Toast.makeText(this@Main, "dontdouble count: \n" + dontdouble1, Toast.LENGTH_SHORT).show()
+                        //do nothing
+                    } else if (dontdouble1 <= 1) {
+                        sharedPreferences.edit().putInt("dontdouble1", 2)
+                        if (!funnyvar || !funnyvar2 || !funnyvar3 || !funnyvar4 || !threeggle || !funnyvar5 || !seriousvar1 || !reeses1 || !tea1 || !clean1 || !busy1 || !groceries1) {
+
+                            TC = sharedPreferences.getInt("TC", 0)
+                            TC++
+                            sharedPreferences.edit().putInt("TC", TC).commit()
+                            modeCount++
+                            sharedPreferences.edit().putInt("modeCount", modeCount).commit()
+
+                            Toast.makeText(this@Main, "TC: " + TC.toString() + "\nMC: " + modeCount, Toast.LENGTH_SHORT).show()
+                            logIt("#" + TC + "\n" + modeVar + modeCount + "\n", 1) //includes date, time, level
+                            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + modeVar + modeCount, null)
+
+                            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                            } else {
+                                @Suppress("DEPRECATION")
+                                v.vibrate(500)
+                            }
                         }
+
+
+                        if (QT == 1) {
+
+                            TC = sharedPreferences.getInt("TC", 0)
+                            QTCount++
+                            TC++
+                            sharedPreferences.edit().putInt("TC", TC).commit()
+
+                            sharedPreferences.edit().putInt("QTCount", QTCount).commit()
+
+                            potentialSolutions.setText("#" + TC + "\n" + "Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString())
+                            logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 1)
+                            QTBtn.animate().scaleX(2F)
+                            QTBtn.animate().scaleY(2F)
+                            writeNewPost(userid, date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
+
+                            val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                            } else {
+                                @Suppress("DEPRECATION")
+                                v.vibrate(500)
+                            }
+                        }
+
+                    }
+
+                    lifecycleScope.launch {
+                        delay(3000)
+                        //Toast.makeText(this@Main, "set to zero", Toast.LENGTH_SHORT).show()
+                        sharedPreferences.edit().putInt("dontdouble1", 0).commit()
                     }
 
 
-                    if (QT == 1) {
-
-                        TC = sharedPreferences.getInt("TC", 0)
-                        QTCount++
-                        TC++
-                        sharedPreferences.edit().putInt("TC", TC).commit()
-
-                        sharedPreferences.edit().putInt("QTCount", QTCount).commit()
-
-                        potentialSolutions.setText("#" + TC + "\n" + "Tick: " + QTCount.toString() + "\n" + current1 + time.text.toString())
-                        logIt("#" + TC + "\n" + "Tick: " + QTCount + "\n" + current1 + "\n", 1)
-                        QTBtn.animate().scaleX(2F)
-                        QTBtn.animate().scaleY(2F)
-                        writeNewPost("jls", date1, time.text.toString(), "#" + TC + "\n" + "Tick:" + QTCount.toString(), null)
-
-                        val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
-                        } else {
-                            @Suppress("DEPRECATION")
-                            v.vibrate(500)
-                        }
-                    }
-
+                } else if (falseA == true) {
+                    checkHourGoal(false)
                 }
 
-                lifecycleScope.launch {
-                    delay(3000)
-                    //Toast.makeText(this@Main, "set to zero", Toast.LENGTH_SHORT).show()
-                    sharedPreferences.edit().putInt("dontdouble1", 0).commit()
-                }
+            }
 
 
-            }
-            else if(falseA == true){
-                checkHourGoal(false)
-            }
+            falseA = false
+
+
+
+            resize()
 
         }
 
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }
 
-        falseA = false
 
-
-
-        resize()
+        try{
+            recorder?.apply {
+                stop()
+                release()
+            }
+        } catch(e: Exception) {
+            e.printStackTrace()
+        }
 
         super.onResume()
-        val filter = IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_OFF)
-            addAction(Intent.ACTION_USER_PRESENT)
-        }
-        registerReceiver(screenStateReceiver, filter)
+            val filter = IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(Intent.ACTION_USER_PRESENT)
+            }
+            registerReceiver(screenStateReceiver, filter)
+
     }
 
 
@@ -8316,7 +8554,7 @@ class Main : AppCompatActivity() {
     private fun switch2(onOff: Boolean): Boolean {
         if (onOff == true){
             falseA = true
-            //Toast.makeText(this,  "did nothing", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,  "did nothing", Toast.LENGTH_SHORT).show()
 
 
         }
@@ -8459,6 +8697,7 @@ class Main : AppCompatActivity() {
 
         var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
         var alert2 = findViewById<ImageView>(R.id.alert1)
+        ticket.setImageResource(R.drawable.scribble)
 
 
         if(!alert1){
@@ -8468,12 +8707,11 @@ class Main : AppCompatActivity() {
             dateTime.setBackgroundResource(R.drawable.alert1)
 
         }
-        else
+        else if(alert1)
         {
             alert2.animate().scaleX(1F)
             alert2.animate().scaleY(1F)
             returnBackground()
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("alert1", true).commit()
 
         }
@@ -8488,11 +8726,10 @@ class Main : AppCompatActivity() {
 
 
         }
-        else{
+        else if (privShared){
             privView.animate().scaleX(1F)
             privView.animate().scaleY(1F)
             returnBackground()
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("private1", true).commit()
         }
 
@@ -8503,12 +8740,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.tea)
 
         }
-        else{
+        else if(tea1){
             tea.animate().scaleX(1F)
             tea.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("tea1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+           // sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
         if(!clean1){
             clean.animate().scaleX(2.3F)
@@ -8516,12 +8752,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.cleaning)
 
         }
-        else{
+        else if (clean1){
             clean.animate().scaleX(1F)
             clean.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("clean1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
 
         }
 
@@ -8531,12 +8766,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.busy)
 
         }
-        else{
+        else if(busy1){
             busy.animate().scaleX(1F)
             busy.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("busy1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+           // sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
         if(!groceries1){
@@ -8545,12 +8779,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.groceries)
 
         }
-        else{
+        else if (groceries1){
             groceries.animate().scaleX(1F)
             groceries.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("groceries1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
 
@@ -8560,12 +8793,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.peanutbutter)
 
         }
-        else{
+        else if(reeses1){
             reeses.animate().scaleX(1F)
             reeses.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("reeses1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
         if(!funnyvar2){
             starMode.animate().scaleX(2.3F)
@@ -8573,12 +8805,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.starmode)
 
         }
-        else{
+        else if (funnyvar2){
             starMode.animate().scaleX(1F)
             starMode.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("funnyvar2", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
         if(!funnyvar4){
             studyMode.animate().scaleX(2.3F)
@@ -8586,12 +8817,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.studymode)
 
         }
-        else{
+        else if(funnyvar4){
             studyMode.animate().scaleX(1F)
             studyMode.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("funnyvar4", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
         if(!threeggle){
@@ -8600,12 +8830,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.apple)
 
         }
-        else{
+        else if(threeggle){
             apple.animate().scaleX(1F)
             apple.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("threeggle", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
         if(!twoggle){
             rest.animate().scaleX(2.3F)
@@ -8613,12 +8842,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.rest)
 
         }
-        else{
+        else if(twoggle){
             rest.animate().scaleX(1F)
             rest.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("twoggle", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
         if(!funnyvar){
@@ -8627,12 +8855,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.skateboard)
 
         }
-        else{
+        else if (funnyvar){
             goSkate.animate().scaleX(1F)
             goSkate.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("funnyvar", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
 
@@ -8642,12 +8869,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.nebulizer)
 
         }
-        else{
+        else if(funnyvar3){
             nebulizer.animate().scaleX(1F)
             nebulizer.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("funnyvar3", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
 
 
@@ -8657,12 +8883,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.automobile)
 
         }
-        else{
+        else if(funnyvar5){
             auto.animate().scaleX(1F)
             auto.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("funnyvar5", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
         if(!seriousvar1){
             sleep.animate().scaleX(2.3F)
@@ -8670,12 +8895,11 @@ class Main : AppCompatActivity() {
             ticket.setImageResource(R.drawable.zulater)
 
         }
-        else{
+        else if(seriousvar1){
             sleep.animate().scaleX(1F)
             sleep.animate().scaleY(1F)
-            ticket.setImageResource(R.drawable.scribble)
             sharedPreferences.edit().putBoolean("seriousvar1", true).commit()
-            sharedPreferences.edit().putInt("modeCount", 0).commit()
+            //sharedPreferences.edit().putInt("modeCount", 0).commit()
         }
     }
 
@@ -8696,8 +8920,6 @@ class Main : AppCompatActivity() {
         var theBSLog = findViewById<RelativeLayout>(R.id.theBSLog)
         var dateTime = findViewById<RelativeLayout>(R.id.dateTime)
 
-        var guitar = findViewById<ImageView>(R.id.connect2)
-        var walkie = findViewById<ImageView>(R.id.connect)
         var theButtons = findViewById<RelativeLayout>(R.id.theButtons)
 
         var thirdRow = findViewById<LinearLayout>(R.id.thirdRow)
@@ -8707,11 +8929,7 @@ class Main : AppCompatActivity() {
         var inputQT = findViewById<RelativeLayout>(R.id.inputQT)
         var home1 = findViewById<RelativeLayout>(R.id.home1)
 
-        var lost = findViewById<ImageView>(R.id.lost)
-
         var search1 = findViewById<RelativeLayout>(R.id.searchLayout)
-
-        var bye = findViewById<ImageView>(R.id.bye)
 
         var boxes = findViewById<RelativeLayout>(R.id.boxes1)
 
@@ -8728,13 +8946,69 @@ class Main : AppCompatActivity() {
         var firstRow = findViewById<LinearLayout>(R.id.firstRow)
         var secondRow = findViewById<LinearLayout>(R.id.secondRow)
 
-        var guide = findViewById<TextView>(R.id.guide)
+        var firstRow2 = findViewById<LinearLayout>(R.id.firstRow2)
+        var secondRow2 = findViewById<LinearLayout>(R.id.secondRow2)
+        var thirdRow2 = findViewById<LinearLayout>(R.id.thirdRow2)
+        var fourthRow2 = findViewById<LinearLayout>(R.id.fourthRow2)
+        var fifthRow2 = findViewById<LinearLayout>(R.id.fifthRow2)
+        var sixthRow2 = findViewById<LinearLayout>(R.id.sixthRow2)
+        var firstRow3 = findViewById<LinearLayout>(R.id.firstRow3)
+        var secondRow3 = findViewById<LinearLayout>(R.id.secondRow3)
+        var thirdRow3 = findViewById<LinearLayout>(R.id.thirdRow3)
+        var fourthRow3 = findViewById<LinearLayout>(R.id.fourthRow3)
+        var fifthRow3 = findViewById<LinearLayout>(R.id.fifthRow3)
+        var sixthRow3 = findViewById<LinearLayout>(R.id.sixthRow3)
 
+        var firstRow1 = findViewById<LinearLayout>(R.id.firstRow1)
+        var secondRow1 = findViewById<LinearLayout>(R.id.secondRow1)
+        var thirdRow1 = findViewById<LinearLayout>(R.id.thirdRow1)
+        var fourthRow1 = findViewById<LinearLayout>(R.id.fourthRow1)
+        var fifthRow1 = findViewById<LinearLayout>(R.id.fifthRow1)
+        var sixthRow1 = findViewById<LinearLayout>(R.id.sixthRow1)
+
+        var changeTitle3 = findViewById<RelativeLayout>(R.id.changeTitle3)
+
+        var guide = findViewById<TextView>(R.id.guide)
+        var QT3 = findViewById<TextView>(R.id.three)
+        var QT6 = findViewById<TextView>(R.id.six)
+        var QT9 = findViewById<TextView>(R.id.nine)
+        var QT12 = findViewById<TextView>(R.id.twelve)
+        var Q3x = findViewById<TextView>(R.id.three3)
+        var Q6x = findViewById<TextView>(R.id.six3)
+        var Q9x = findViewById<TextView>(R.id.nine3)
+        var Q12x = findViewById<TextView>(R.id.twelve3)
+        var Q3v = findViewById<TextView>(R.id.three2)
+        var Q6v = findViewById<TextView>(R.id.six2)
+        var Q9v = findViewById<TextView>(R.id.nine2)
+        var Q12v = findViewById<TextView>(R.id.twelve2)
+        var Q3 = findViewById<TextView>(R.id.three1)
+        var Q6 = findViewById<TextView>(R.id.six1)
+        var Q9 = findViewById<TextView>(R.id.nine1)
+        var Q12 = findViewById<TextView>(R.id.twelve1)
+
+
+        froggleIs4 = false
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }
+
+
+        try{
+            recorder?.apply {
+                stop()
+                release()
+            }
+        } catch(e: Exception) {
+            e.printStackTrace()
+        }
         if (toggle == 2) {
+            //phone
             fone.animate().rotation(0F)
             // Log.d("lily", "something else")
             clean()
-            //dateTime.visibility = View.INVISIBLE
+            //dateTime.visibility = View.GONE
             var newlayout = findViewById<RelativeLayout>(R.id.somethingElse1)
             newlayout.visibility = View.VISIBLE
             newlayout.bringToFront()
@@ -8744,7 +9018,7 @@ class Main : AppCompatActivity() {
 
             guide.setOnClickListener{
 
-                showDialog(this, "Click on the phone to hang up")
+                showDialog(this, "\nClick on the phone to hang up. Visually request for lower volumes")
             }
 
         } else if (toggle == 3) {
@@ -8763,27 +9037,56 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Click on a mode to quickly create tickets and alert others of your activities")
+                showDialog(this, "\nUpdate your status to display it from the home page and on start up. Turn on a mode then click the home button you can now quickly create tickets by opening the app. Tap on the time to stop a tickets creation then turn off the mode.")
             }
 
         }
         else if (toggle == 4){
+
+            //quick tickets
+            froggleIs4 = true
             clean()
+
+
+
+            //toggler is the setting that changes so the number of buttons fits the screen
+            if(sharedPreferences.getBoolean("toggler", true) == true) {
+                QT3.visibility = View.VISIBLE
+                QT6.visibility = View.VISIBLE
+                QT9.visibility = View.VISIBLE
+                QT12.visibility = View.VISIBLE
+                firstRow.visibility = View.VISIBLE
+                secondRow.visibility = View.VISIBLE
+                thirdRow.visibility = View.VISIBLE
+
+                fourthRow.visibility = View.VISIBLE
+
+                fifthRow.visibility = View.VISIBLE
+
+                sixthRow.visibility = View.VISIBLE
+            }
+            else if (sharedPreferences.getBoolean("toggler", true) == false){
+                firstRow.visibility = View.VISIBLE
+                secondRow.visibility = View.VISIBLE
+                thirdRow.visibility = View.VISIBLE
+                fourthRow.visibility = View.VISIBLE
+                QT3.visibility = View.GONE
+                QT6.visibility = View.GONE
+                QT9.visibility = View.GONE
+                QT12.visibility = View.GONE
+                fifthRow.visibility = View.GONE
+                sixthRow.visibility = View.GONE
+            }
+
             QTS.visibility = View.VISIBLE
             QTS.bringToFront()
             ticket.visibility = View.VISIBLE
-            thirdRow.visibility = View.VISIBLE
 
-            fourthRow.visibility = View.VISIBLE
-
-            fifthRow.visibility = View.VISIBLE
-
-            sixthRow.visibility = View.VISIBLE
             inputQT.visibility = View.VISIBLE
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Long press the button to set up its title and sound, and press the ✓ to submit. Then simply press the button to create a ticket that is logged")
+                showDialog(this, "\nLong press the button to set up its title and sound, and press the ✓ to submit. Then simply reopen the app and push the button when needed.")
             }
         }
         else if (toggle == 5){
@@ -8801,7 +9104,7 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Long press an entry to edit its contents")
+                showDialog(this, "\nLong press an entry to edit its contents")
             }
 
         }
@@ -8810,6 +9113,34 @@ class Main : AppCompatActivity() {
 
             newButtons.visibility = View.VISIBLE
 
+            //toggler is the setting that changes so the number of buttons fits the screen
+            if(sharedPreferences.getBoolean("toggler", true) == true) {
+                Q3x.visibility = View.VISIBLE
+                Q6x.visibility = View.VISIBLE
+                Q9x.visibility = View.VISIBLE
+                Q12x.visibility = View.VISIBLE
+                firstRow3.visibility = View.VISIBLE
+                secondRow3.visibility = View.VISIBLE
+                thirdRow3.visibility = View.VISIBLE
+
+                fourthRow3.visibility = View.VISIBLE
+
+                fifthRow3.visibility = View.VISIBLE
+
+                sixthRow3.visibility = View.VISIBLE
+            }
+            else if (sharedPreferences.getBoolean("toggler", true) == false){
+                firstRow3.visibility = View.VISIBLE
+                secondRow3.visibility = View.VISIBLE
+                thirdRow3.visibility = View.VISIBLE
+                fourthRow3.visibility = View.VISIBLE
+                Q3x.visibility = View.GONE
+                Q6x.visibility = View.GONE
+                Q9x.visibility = View.GONE
+                Q12x.visibility = View.GONE
+                fifthRow3.visibility = View.GONE
+                sixthRow3.visibility = View.GONE
+            }
 /*
             theButtons.visibility = View.VISIBLE
             theButtons.bringToFront()
@@ -8820,7 +9151,7 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Long press the button to set up its title and sound, and press the ✓ to submit. Then simply press the button")
+                showDialog(this, "\nLong press the button to set up its title and sound, and press the ✓ to submit. Then simply reopen the app and push the button when needed")
             }
 
         }
@@ -8834,24 +9165,50 @@ class Main : AppCompatActivity() {
             ticket.visibility = View.VISIBLE
             home1.visibility = View.VISIBLE
 
+/*
             bye.visibility= View.VISIBLE
+*/
 
             if(sharedPreferences.getBoolean("toggle1", false) == true) {
                 QTS.visibility = View.VISIBLE
                 firstRow.visibility = View.VISIBLE
                 secondRow.visibility = View.VISIBLE
             }
-            else if (sharedPreferences.getBoolean("toggle1", false) == true){
-                QTS.visibility = View.INVISIBLE
-                firstRow.visibility = View.INVISIBLE
-                secondRow.visibility = View.INVISIBLE
+            else if (sharedPreferences.getBoolean("toggle1", false) == false) {
+
+                //todo test this changed to false should hide first and second row when toggled in settings
+                QTS.visibility = View.GONE
+                firstRow.visibility = View.GONE
+                secondRow.visibility = View.GONE
             }
-            thirdRow.visibility = View.INVISIBLE
-            fourthRow.visibility = View.INVISIBLE
-            fifthRow.visibility = View.INVISIBLE
-            sixthRow.visibility = View.INVISIBLE
-            inputQT.visibility = View.INVISIBLE
-            pointz.visibility = View.INVISIBLE
+
+
+            if(sharedPreferences.getBoolean("toggle2", false) == true) {
+                boxes2.visibility = View.VISIBLE
+                fifthRow2.visibility = View.VISIBLE
+                sixthRow2.visibility = View.VISIBLE
+                changeTitle3.visibility = View.GONE
+            }
+            else if (sharedPreferences.getBoolean("toggle2", false) == false) {
+
+                //todo test this changed to false should hide first and second row when toggled in settings
+                boxes2.visibility = View.GONE
+                fifthRow2.visibility = View.GONE
+                sixthRow2.visibility = View.GONE
+            }
+
+            thirdRow.visibility = View.GONE
+            fourthRow.visibility = View.GONE
+            fifthRow.visibility = View.GONE
+            sixthRow.visibility = View.GONE
+            inputQT.visibility = View.GONE
+            pointz.visibility = View.GONE
+
+            firstRow2.visibility = View.GONE
+            secondRow2.visibility = View.GONE
+            thirdRow2.visibility = View.GONE
+            fourthRow2.visibility = View.GONE
+
 
             if(!removeFromClean){
                 convotimer.visibility = View.VISIBLE
@@ -8860,7 +9217,7 @@ class Main : AppCompatActivity() {
             homePage = true
             guide.setOnClickListener{
 
-                showDialog(this, "The status can be read from here. Press bye to disconnect")
+                showDialog(this, "\nThis is the home page. The status can be read from here. Change settings by long pressing the time. Press on time an auotomatic ticket creation. Long press the home button to manually create a ticket. The Quick button has three pages that you can click through. The Buttons button has a long press page. Long press the phone button for backups. Long press BSL to see the reviews.")
             }
         }
 
@@ -8871,9 +9228,40 @@ class Main : AppCompatActivity() {
             boxes.bringToFront()
             homePage = false
 
+
+            //toggler is the setting that changes so the number of buttons fits the screen
+            if(sharedPreferences.getBoolean("toggler", true) == true) {
+                Q3.visibility = View.VISIBLE
+                Q6.visibility = View.VISIBLE
+                Q9.visibility = View.VISIBLE
+                Q12.visibility = View.VISIBLE
+                firstRow1.visibility = View.VISIBLE
+                secondRow1.visibility = View.VISIBLE
+                thirdRow1.visibility = View.VISIBLE
+
+                fourthRow1.visibility = View.VISIBLE
+
+                fifthRow1.visibility = View.VISIBLE
+
+                sixthRow1.visibility = View.VISIBLE
+            }
+            else if (sharedPreferences.getBoolean("toggler", true) == false){
+                firstRow1.visibility = View.VISIBLE
+                secondRow1.visibility = View.VISIBLE
+                thirdRow1.visibility = View.VISIBLE
+                fourthRow1.visibility = View.VISIBLE
+                Q3.visibility = View.GONE
+                Q6.visibility = View.GONE
+                Q9.visibility = View.GONE
+                Q12.visibility = View.GONE
+                fifthRow1.visibility = View.GONE
+                sixthRow1.visibility = View.GONE
+            }
+
+
             guide.setOnClickListener{
 
-                showDialog(this, "Long press the button to set up its title and sound, and press the ✓ to submit. Then simply press the button")
+                showDialog(this, "\nLong press the button to set up its title and sound, and press the ✓ to submit. Then simply reopen the app and push the button when needed.")
             }
         }
 
@@ -8884,7 +9272,7 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Quickly access and toggle the settings")
+                showDialog(this, "\n\nQuickly access and toggle the settings")
             }
         }
         else if (toggle == 10){
@@ -8894,7 +9282,7 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "This is where backup requests and reviews are created")
+                showDialog(this, "\nThis is where backup requests and reviews are created")
             }
         }
         else if (toggle == 11){
@@ -8902,9 +9290,43 @@ class Main : AppCompatActivity() {
             boxes2.visibility = View.VISIBLE
             boxes2.bringToFront()
             homePage = false
+
+            changeTitle3.visibility = View.VISIBLE
+            //toggler is the setting that changes so the number of buttons fits the screen
+            if(sharedPreferences.getBoolean("toggler", true) == true) {
+                Q3v.visibility = View.VISIBLE
+                Q6v.visibility = View.VISIBLE
+                Q9v.visibility = View.VISIBLE
+                Q12v.visibility = View.VISIBLE
+                firstRow2.visibility = View.VISIBLE
+                secondRow2.visibility = View.VISIBLE
+                thirdRow2.visibility = View.VISIBLE
+
+                fourthRow2.visibility = View.VISIBLE
+
+                fifthRow2.visibility = View.VISIBLE
+
+                sixthRow2.visibility = View.VISIBLE
+            }
+            else if (sharedPreferences.getBoolean("toggler", true) == false){
+                firstRow2.visibility = View.VISIBLE
+                secondRow2.visibility = View.VISIBLE
+                thirdRow2.visibility = View.VISIBLE
+                fourthRow2.visibility = View.VISIBLE
+                Q3v.visibility = View.GONE
+                Q6v.visibility = View.GONE
+                Q9v.visibility = View.GONE
+                Q12v.visibility = View.GONE
+                fifthRow2.visibility = View.GONE
+                sixthRow2.visibility = View.GONE
+            }
+
+
+
+
             guide.setOnClickListener{
 
-                showDialog(this, "Long press the button to set up its title and sound, and press the ✓ to submit. Then simply press the button")
+                showDialog(this, "\nLong press the button to set up its title and sound, and press the ✓ to submit. Then simply reopen the app and push the button when needed \nCreate a bye button using one of the lower two rows buttons to easily hang up a call from the home screen.")
             }
         }
         else if(toggle == 12){
@@ -8916,7 +9338,7 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Press a ping to connect with others that have heard the sound")
+                showDialog(this, "\nPress a ping to connect with others that have heard the sound")
             }
         }
         else if (toggle == 13){
@@ -8927,19 +9349,22 @@ class Main : AppCompatActivity() {
             homePage = false
             guide.setOnClickListener{
 
-                showDialog(this, "Create buttons as you go.")
+                showDialog(this, "\nSet up the title and sound, and press the ✓ to submit. Then simply reopen the app and push the button when needed. Long press to edit the contents.")
             }
         }
 
 
         sharedPreferences.edit().putInt("toggle", toggle).commit()
 
+        sharedPreferences.edit().putInt("bmlpos", -1).commit()
+
+
         if(sharedPreferences.getString("returnToHome1", "on") == "on"){
 
 
         }
         if(sharedPreferences.getBoolean("toggleGuide", false)){
-            guide.visibility = View.INVISIBLE
+            guide.visibility = View.GONE
         }
 
     }
@@ -8952,7 +9377,12 @@ class Main : AppCompatActivity() {
         unregisterReceiver(screenStateReceiver)
     }
     private fun handleScreenOff() {
+
+        var returnToHome1 = sharedPreferences.getString("returnToHome1", "on")
+
+        if (returnToHome1 == "on") {
             froggle(7)
+        }
     }
     private fun handleUserPresent(){
         Toast.makeText(this@Main, "it works", Toast.LENGTH_SHORT).show()
@@ -8961,11 +9391,18 @@ class Main : AppCompatActivity() {
     private fun handleScreenUnlocked()
     {
 
+        Toast.makeText(this@Main, "oh wow", Toast.LENGTH_SHORT).show()
     }
 
 
+    override fun onStop() {
+
+        //recorder = null
+
+        super.onStop()
 
 
+    }
 
 }
 
