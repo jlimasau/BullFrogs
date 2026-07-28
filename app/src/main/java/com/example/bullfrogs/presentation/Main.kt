@@ -6650,6 +6650,28 @@ class Main : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
+
+
+        var youLost = findViewById<TextView>(R.id.youLost)
+        youLost.setOnClickListener {
+            logIt(feedback.text.toString()+ "⌛", 0)
+
+        }
+
+        var gameOver1 = findViewById<TextView>(R.id.gameOver1)
+        gameOver1.setOnClickListener {
+            for(i in 0 .. bslist.size-1){
+
+            }
+
+                if (bslist.get(i).contains("⌛")) {
+
+                    searchList2.add(bslist.get(i))
+
+                }
+        }
+
+
         searchEnter.setOnClickListener {
             searchList2.clear()
         for(i in 0 .. bslist.size-1){
@@ -7410,7 +7432,7 @@ class Main : AppCompatActivity() {
                 // sharedPreferences.edit().putString(inputm.text.toString() + "bml", bmlsize.toString()).commit()
 
             }
-            monaLista3(0)
+            //monaLista3(0)
             //Toast.makeText(this, " input " + sharedPreferences.getString(bmlsize.toString() + "bml", " nothing") + " " + bml.toString() + buttonMachineList.toString(), Toast.LENGTH_SHORT).show()
 
             sharedPreferences.edit().putBoolean("dontOnResume", true).commit()
@@ -7578,6 +7600,48 @@ class Main : AppCompatActivity() {
         } catch(e: Exception) {
             e.printStackTrace()
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var buttonMachine2 = findViewById<RelativeLayout>(R.id.buttonMachine2)
+        var buttonMachineList2 = findViewById<ListView>(R.id.buttonMachineList2)
+        var changeTitlem2 = findViewById<RelativeLayout>(R.id.changeTitlem2)
+        var inputm2 = findViewById<EditText>(R.id.inputm2)
+        var inputEnterm2 = findViewById<TextView>(R.id.inputEnterm2)
+        var changem2 = findViewById<TextView>(R.id.changem2)
+
+
+        //todo make the option to create switches
+
+
+
+
+
+
+
+
+
 
 
         //onCreate

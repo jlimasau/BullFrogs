@@ -510,6 +510,19 @@
         >
 
 
+        <TextView
+            android:id="@+id/youlost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:textSize="8dp"
+            android:layout_marginStart="10dp"
+            android:shadowColor="#0465A9"
+            android:shadowRadius="8.0"
+            android:textColor="#0135CA"
+            android:text="Game Over" />
+
         <RatingBar
             android:id="@+id/starRating"
             style="@android:style/Widget.Material.Light.RatingBar"
@@ -989,6 +1002,10 @@
         android:visibility="visible"
         >
 
+
+
+
+
         <ListView
             android:id="@+id/searchlist1"
             android:layout_width="match_parent"
@@ -1038,6 +1055,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
             android:layout_below="@id/search"
+            />
+
+        <TextView
+            android:id="@+id/gameOver1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchEnter"
+            android:text="⌛"
+
+
             />
 
     </RelativeLayout>
@@ -2238,6 +2265,24 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+
+      <!--  <ListView
+            android:id="@+id/scoreboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="always"
+            android:stackFromBottom="true"
+            android:background="@drawable/bleh"
+
+
+            />-->
+
+
 
         <TextView
             android:id="@+id/points"
@@ -3787,6 +3832,87 @@
         </RelativeLayout>
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/buttonMachine2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        >
+
+
+        <ListView
+            android:id="@+id/buttonMachineList2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="always"
+            android:stackFromBottom="true"
+            android:background="@drawable/blah"
+
+            />
+
+        <RelativeLayout
+            android:id="@+id/changeTitlem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <EditText
+                android:id="@+id/inputm2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:hint="type here"
+                android:inputType="textMultiLine"
+                android:shadowColor="#0465A9"
+                android:shadowRadius="8.0"
+                android:textColor="#0135CA"
+                android:textColorHint="#0135CA"
+                android:textSize="7dp"
+                />
+
+
+            <TextView
+                android:id="@+id/inputEnterm2"
+                android:layout_width="34dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/inputm2"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/changem2"
+                android:clickable="true"
+                android:text="✓"
+                android:textColor="#0135CA"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:id="@+id/changem2"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/inputm2"
+                android:layout_marginStart="10dp"
+                android:clickable="true"
+                android:text="*"
+                android:textColor="#0135CA"
+                android:textSize="30dp" />
+
+
+
+        </RelativeLayout>
+    </RelativeLayout>
 
 
 
