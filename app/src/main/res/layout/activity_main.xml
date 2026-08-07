@@ -25,7 +25,6 @@
 
 
 
-
 <!--    <ImageView
         android:id="@+id/Bullfrog"
         android:layout_width="52dp"
@@ -54,14 +53,28 @@
         android:clickable="true"
 
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/QQTS"
+            android:text="\n\nQuick"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@id/ticket1"
 
+            android:textSize="10dp"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:shadowColor="#0465A9"
+            android:shadowRadius="8.0"
+            android:textColor="#0135CA"
+            />
         <TextClock
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:format12Hour="hh:mm:ssa"
+            android:format12Hour="h:mm:ssa"
             android:textSize="11dp"
       android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
@@ -102,13 +115,14 @@
             android:text="\?"
             android:textColor="#0135CA"
 
+            android:visibility="gone"
             android:layout_toLeftOf="@+id/ticket1"
-            android:layout_below="@+id/buttons"
+            android:layout_below="@+id/QQTS"
             />
 
 
 
-
+<!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="15dp"
@@ -123,23 +137,10 @@
             android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
             android:textColor="#0135CA"
-            />
+            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:id="@+id/QQTS"
-            android:text="Quick  "
-            android:layout_alignParentEnd="true"
-            android:layout_above="@id/buttons"
-            android:textSize="10dp"
-            android:layout_marginRight="15dp"
-            android:clickable="true"
-      android:shadowColor="#0465A9"
-            android:shadowRadius="8.0"
-            android:textColor="#0135CA"
-            />
 
+<!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="15dp"
@@ -188,7 +189,7 @@
            android:shadowColor="#0465A9"
             android:shadowRadius="8.0"
             android:textColor="#0135CA"
-            />
+            />-->
 
     </RelativeLayout>
 
@@ -222,7 +223,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="invisible">
+        android:visibility="gone">
 
 <!--
 
@@ -505,7 +506,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/reviews"
         >
 
@@ -590,7 +591,7 @@
         android:id="@+id/somethingElse1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="gone">
 
 
 
@@ -647,7 +648,7 @@
         android:id="@+id/backupLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -681,7 +682,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -874,7 +875,7 @@
         android:id="@+id/colorMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/yellowcard"
@@ -986,7 +987,7 @@
         android:id="@+id/theBSLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         >
 
         <ListView
@@ -1012,6 +1013,28 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="☆"
+            android:id="@+id/star2"
+
+            android:layout_marginTop="35dp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/elipsis1"
+            android:text="..."
+            android:textSize="16dp"
+            android:layout_below="@id/star2"
+            android:layout_marginStart="20dp"
+            />
+
 
         <EditText
             android:layout_width="wrap_content"
@@ -1108,7 +1131,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/blew"
         android:scaleY="100"
-        android:visibility="invisible"
+        android:visibility="gone"
 
         />
 
@@ -1118,7 +1141,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/read"
         android:scaleY="100"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
 
 
@@ -1144,7 +1167,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/QTS"
-        android:visibility="invisible"
+        android:visibility="gone"
 
 
         >
@@ -1624,7 +1647,7 @@
         android:id="@+id/theButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -2042,7 +2065,7 @@
 
         android:layout_height="25dp"
         android:src="@drawable/convotime"
-        android:visibility="invisible"
+        android:visibility="gone"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -2058,7 +2081,7 @@
         android:text="1:00"
         android:textColor="#000000"
         android:textSize="10dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/convotime" />
@@ -2113,8 +2136,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ticketPage"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="☆"
+            android:id="@+id/star1"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/elipsis"
+            android:text="..."
+
+            android:textSize="16dp"
+            android:layout_below="@id/star1"
+            android:layout_marginStart="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/resolved"
+            android:text="☑"
+
+            android:textSize="16dp"
+            android:layout_below="@id/elipsis"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            />
+
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -2234,7 +2293,7 @@
         android:id="@+id/pointz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -2326,7 +2385,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/home1"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -2383,7 +2442,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/boxes1"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -2784,125 +2843,129 @@
     </RelativeLayout>
 
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/dateTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dateTime">
 
 
+        <RelativeLayout
+            android:id="@+id/settings1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
 
+            <TextView
+                android:id="@+id/returnToHome"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bleh1"
+                android:text="return to home"
+                android:textColor="#000000"
+
+                android:textSize="10dp" />
 
 
+            <TextView
+                android:id="@+id/changeBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/bleh1"
+                android:text="Change background"
+                android:textColor="#000000"
+
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/quickPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/bleh1"
+                android:text="Quick panel"
+                android:textColor="#000000"
+
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/lowerquickPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/bleh1"
+                android:text="Lower Quick panel"
+                android:textColor="#000000"
+
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/toggleGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="160dp"
+                android:background="@drawable/bleh1"
+                android:text="Toggle guide"
+                android:textColor="#000000"
+                android:textSize="10dp"
+
+                />
+
+            <TextView
+                android:id="@+id/connectivity"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="120dp"
+                android:background="@drawable/bleh1"
+                android:text="connectivity"
+                android:textColor="#000000"
+                android:textSize="10dp"
+
+                />
+
+            <TextView
+                android:id="@+id/numberOfButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="140dp"
+                android:background="@drawable/bleh1"
+                android:text="Toggle number of buttons"
+                android:textColor="#000000"
+                android:textSize="10dp"
+
+                />
+
+            <TextView
+                android:id="@+id/buttonColor"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="180dp"
+                android:background="@drawable/bleh1"
+                android:text="Toggle color of buttons"
+                android:textColor="#000000"
+                android:textSize="10dp"
+
+                />
 
 
+        </RelativeLayout>
 
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/settings1"
-        android:visibility="invisible"
-        >
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/returnToHome"
-            android:text="return to home"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-
-            android:background="@drawable/bleh1"
-            />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/changeBackground"
-            android:text="Change background"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="60dp"
-
-            android:background="@drawable/bleh1"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/quickPanel"
-            android:text="Quick panel"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="80dp"
-
-            android:background="@drawable/bleh1"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/lowerquickPanel"
-            android:text="Lower Quick panel"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="100dp"
-
-            android:background="@drawable/bleh1"
-            />
-
-       <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/toggleGuide"
-            android:text="Toggle guide"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="160dp"
-            android:background="@drawable/bleh1"
-
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/connectivity"
-            android:text="connectivity"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="120dp"
-            android:background="@drawable/bleh1"
-
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/numberOfButtons"
-            android:text="Toggle number of buttons"
-            android:textColor="#000000"
-            android:textSize="10dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="140dp"
-            android:background="@drawable/bleh1"
-
-            />
-
-
-
-    </RelativeLayout>
-
-
-
-
-
+    </ScrollView>
 
 
 
@@ -2914,7 +2977,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/boxes2"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -3306,7 +3369,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/boxes3"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -3707,7 +3770,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible"
+        android:visibility="gone"
         >
 
 
@@ -3787,7 +3850,28 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
 
+
+        <ListView
+            android:id="@+id/menu1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginBottom="10dp"
+            android:overScrollMode="always"
+            android:stackFromBottom="true"
+            android:background="@drawable/blah"
+
+            />
+    </RelativeLayout>
 
 
 

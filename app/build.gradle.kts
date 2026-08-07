@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bullfrogs"
+    namespace = "com.marimon.bullfrogs"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.bullfrogs"
+        applicationId = "com.marimon.bullfrogs"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.wear)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
@@ -79,4 +80,5 @@ dependencies {
     // Add the Kotlin extensions (ktx) library for database functionality.
     // Note: The KTX library is still used for specific extension functions,
     // but its version is managed by the BoM.
+
 }

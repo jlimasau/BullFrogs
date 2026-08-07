@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/quickTicketButtons"
+        android:title="Quick Ticket Buttons" />
+    <item
+        android:id="@+id/quickButtons1"
+        android:title="Quick Buttons" />
+
+    <item
+        android:id="@+id/quickButtons2"
+        android:title="Quick Buttons2" />
+    <item
+        android:id="@+id/quickButtons3"
+        android:title="Quick Buttons3" />
+    <item
+        android:id="@+id/buttonMachine"
+        android:title="Button List" />
+ 
+    <item
+        android:id="@+id/extraButtons"
+        android:title="Extra Buttons" />
+    <item
+        android:id="@+id/modes"
+        android:title="Modes" />
+    <item
+        android:id="@+id/bsl"
+        android:title="Log" />
+    <item
+        android:id="@+id/backupList"
+        android:title="Backup List" />
+    <item
+        android:id="@+id/reviews"
+        android:title="Reviews" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
+
+    </menu>

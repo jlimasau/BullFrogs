@@ -4,5 +4,39 @@
         <item name="windowSplashScreenBackground">@android:color/black</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
         <item name="postSplashScreenTheme">@android:style/Theme.DeviceDefault</item>
+
+
     </style>
+
+<!--
+    <style name="MyCustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+&lt;!&ndash;        <item name="android:textColor">#FF0000</item> &lt;!&ndash; Red text &ndash;&gt;
+        <item name="android:itemBackground">#EEEEEE</item> &lt;!&ndash; Light gray item backgrounds &ndash;&gt;&ndash;&gt;
+        <item name="android:textSize">8sp</item>
+        <item name="android:listPreferredItemHeightSmall">10dp</item>
+        <item name="android:listPreferredItemPaddingEnd">40dp</item>
+
+        <item name="android:minHeight">20dp</item>
+
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+
+        >
+
+    </style>-->
+<!--
+
+    &lt;!&ndash; Style for the PopupMenu background and overall theme &ndash;&gt;
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textAppearance">@style/PopupMenuTextAppearance</item>
+    </style>
+
+    &lt;!&ndash; Style specifically for the text size and color &ndash;&gt;
+    <style name="PopupMenuTextAppearance" parent="TextAppearance.AppCompat.Widget.DropMenu.FirstItem">
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+-->
+
+
 </resources>

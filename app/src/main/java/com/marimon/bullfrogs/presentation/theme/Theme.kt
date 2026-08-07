@@ -1,4 +1,4 @@
-package com.example.bullfrogs.presentation.theme
+package com.marimon.bullfrogs.presentation.theme
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material.MaterialTheme
