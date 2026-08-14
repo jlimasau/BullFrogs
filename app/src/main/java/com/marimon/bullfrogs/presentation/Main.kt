@@ -3103,8 +3103,28 @@ class Main : AppCompatActivity() {
 
         Q1v.setOnClickListener {
 
-            Toast.makeText(this, "Activate 1", Toast.LENGTH_SHORT).show()
+            QB3 = 1
+            QB3title = Q1v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+        
 
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("1j", "1sound"))
 
 
@@ -3119,7 +3139,29 @@ class Main : AppCompatActivity() {
 
         }
         Q2v.setOnClickListener {
-            Toast.makeText(this, "Activate 2", Toast.LENGTH_SHORT).show()
+QB3 = 2
+            QB3title = Q2v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
+            
             startPlaying(sharedPreferences.getString("2j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3131,7 +3173,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q3v.setOnClickListener {
-            Toast.makeText(this, "Activate 3", Toast.LENGTH_SHORT).show()
+QB3 = 3
+            QB3title = Q3v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("3j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3143,7 +3206,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q4v.setOnClickListener {
-            Toast.makeText(this, "Activate 4", Toast.LENGTH_SHORT).show()
+QB3 = 4
+            QB3title = Q4v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("4j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3155,7 +3239,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q5v.setOnClickListener {
-            Toast.makeText(this, "Activate 5", Toast.LENGTH_SHORT).show()
+QB3 = 5
+            QB3title = Q5v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("5j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3169,7 +3274,28 @@ class Main : AppCompatActivity() {
 
 
         Q6v.setOnClickListener {
-            Toast.makeText(this, "Activate 6", Toast.LENGTH_SHORT).show()
+QB3 = 6
+            QB3title = Q6v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("6j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3181,7 +3307,30 @@ class Main : AppCompatActivity() {
             }
         }
         Q7v.setOnClickListener {
-            Toast.makeText(this, "Activate 7", Toast.LENGTH_SHORT).show()
+
+            QB3 = 7
+            QB3title = Q7v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
+            
             startPlaying(sharedPreferences.getString("7j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3193,7 +3342,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q8v.setOnClickListener {
-            Toast.makeText(this, "Activate 8", Toast.LENGTH_SHORT).show()
+QB3 = 8
+            QB3title = Q8v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("8j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3205,7 +3375,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q9v.setOnClickListener {
-            Toast.makeText(this, "Activate 9", Toast.LENGTH_SHORT).show()
+QB3 = 9
+            QB3title = Q9v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("9j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3217,7 +3408,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q10v.setOnClickListener {
-            Toast.makeText(this, "Activate 10", Toast.LENGTH_SHORT).show()
+            QB3 = 10
+            QB3title = Q10v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("10j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3229,7 +3441,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q11v.setOnClickListener {
-            Toast.makeText(this, "Activate 11", Toast.LENGTH_SHORT).show()
+            QB3 = 11
+            QB3title = Q11v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("11j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3241,7 +3474,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q12v.setOnClickListener {
-            Toast.makeText(this, "Activate 12", Toast.LENGTH_SHORT).show()
+            QB3 = 12
+            QB3title = Q12v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("12j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3254,7 +3508,29 @@ class Main : AppCompatActivity() {
         }
 
         Q13v.setOnClickListener {
-            Toast.makeText(this, "Activate 13", Toast.LENGTH_SHORT).show()
+
+            QB3 = 13
+            QB3title = Q13v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("13j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3266,7 +3542,29 @@ class Main : AppCompatActivity() {
             }
         }
         Q14v.setOnClickListener {
-            Toast.makeText(this, "Activate 14", Toast.LENGTH_SHORT).show()
+
+          QB3 = 14
+            QB3title = Q14v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("14j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3278,7 +3576,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q15v.setOnClickListener {
-            Toast.makeText(this, "Activate 15", Toast.LENGTH_SHORT).show()
+QB3 = 15
+            QB3title = Q15v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("15j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3292,7 +3611,28 @@ class Main : AppCompatActivity() {
 
 
         Q16v.setOnClickListener {
-            Toast.makeText(this, "Activate 16", Toast.LENGTH_SHORT).show()
+QB3 = 16
+            QB3title = Q16v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("16j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3304,7 +3644,28 @@ class Main : AppCompatActivity() {
             }
         }
         Q17v.setOnClickListener {
-            Toast.makeText(this, "Activate 17", Toast.LENGTH_SHORT).show()
+            QB3 = 17
+            QB3title = Q17v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("17j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -3316,7 +3677,29 @@ class Main : AppCompatActivity() {
             }
         }
         Q18v.setOnClickListener {
-            Toast.makeText(this, "Activate 18", Toast.LENGTH_SHORT).show()
+
+            QB3 = 18
+            QB3title = Q18v.text.toString()
+            if(sharedPreferences.getBoolean("QB3" + QB3 + "toggle", false) == true) {
+
+
+                if(sharedPreferences.getBoolean("QB3" + QB3 + "boolean", true) == true){
+
+
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", false).commit()
+                    Toast.makeText(this, QB3title + " ON", Toast.LENGTH_SHORT).show()
+
+                }
+
+                else{
+                    sharedPreferences.edit().putBoolean("QB3" + QB3 + "boolean", true).commit()
+                    Toast.makeText(this, QB3title + " OFF", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+            else {
+                Toast.makeText(this, QB3title, Toast.LENGTH_SHORT).show()
+            } 
             startPlaying(sharedPreferences.getString("18j", "1sound"))
 
             val v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
